@@ -16,17 +16,36 @@
 @main("Listado de usuarios", scripts) {
 
     <h2> Listado de usuarios </h2>
-
-    <ul>
-    @for(usuario <- usuarios) {
-        <li>
-          Usuario @usuario.id: @usuario.login
-          <a onmouseover="" style="cursor: pointer;" onclick="#">
-            <!--<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> --> (Borrar)</a>
-        </li>
-      }
-
-    </ul>
+    
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>EMAIL</th>
+            <th>FECHA NACIMIENTO</th>
+            <th>ACCIÓN</th>
+          </tr>
+        </thead>
+        <tbody>
+        @for(usuario <- usuarios) {
+            <tr>
+              <td>@usuario.id</td>
+              <td>@usuario.nombre</td>
+              <td>@usuario.eMail</td>
+              <td>@usuario.fechaNacimiento</td>
+              <td>@usuario.fechaNacimiento</td>
+              <td>
+                <a onmouseover="" style="cursor: pointer" onclick="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                <a onmouseover="" style="cursor: pointer"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                <a onmouseover="" style="cursor: pointer"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 
     @if(mensaje != null) {
         <div class="alert alert-success">
