@@ -18,6 +18,17 @@ public class UsuariosController extends Controller {
 
    @Inject FormFactory formFactory;
 
+   @Transactional(readOnly = true)
+    // Devuelve una página con la lista de usuarios
+    public Result listaUsuarios() {
+        // Obtenemos el mensaje flash guardado en la petición
+        // por el controller grabaUsuario
+        String mensaje = flash("grabaUsuario");
+        List<Usuario> usuarios = UsuariosService.findAllUsuarios();
+        return ok(listaUsuarios.render(usuarios, mensaje));
+    }
+
+
   // Devuelve un formulario para crear un nuevo usuario
    public Result formularioNuevoUsuario() {
        return ok(formCreacionUsuario.render(formFactory.form(Usuario.class),""));

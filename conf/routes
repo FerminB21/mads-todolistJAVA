@@ -17,3 +17,4 @@ GET     /saludo                     controllers.ApplicationController.saludo(nom
 #Rutas de usuarios
 GET     /usuarios/nuevo             controllers.UsuariosController.formularioNuevoUsuario()
 POST    /usuarios/nuevo             controllers.UsuariosController.grabaNuevoUsuario()
+GET     /usuarios                   controllers.UsuariosController.listaUsuarios()
