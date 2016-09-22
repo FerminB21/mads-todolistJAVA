@@ -47,10 +47,14 @@ public class UsuariosController extends Controller {
        Logger.debug("Usuario a grabar: " + usuario.toString());
        usuario = UsuariosService.grabaUsuario(usuario);
        flash("grabaUsuario", "El usuario se ha grabado correctamente");
-       //De momento no
-       //return redirect(controllers.routes.UsuariosController.listaUsuarios());
        Logger.debug("Usuario guardado correctamente: " + usuario.toString());
-       return redirect(controllers.routes.UsuariosController.formularioNuevoUsuario());
+       return redirect(controllers.routes.UsuariosController.listaUsuarios());
 
-}
+     }
+
+    @Transactional
+    public Result detalleUsuario(String id) {
+      Usuario usuario = UsuariosService.findUsuario(id);
+      return ok(detalleUsuario.render(usuario));
+    }
 }

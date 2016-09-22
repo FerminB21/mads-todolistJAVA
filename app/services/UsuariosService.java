@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import models.*;
 
 public class UsuariosService {
-  
+
     public static Usuario grabaUsuario(Usuario usuario) {
         return UsuarioDAO.create(usuario);
     }
@@ -21,8 +21,9 @@ public class UsuariosService {
     }
 
     public static Usuario findUsuario(String id) {
-        // ToDo
-        return null;
+      Usuario usuario = UsuarioDAO.find(id);
+      Logger.debug("Se obtiene usuario: " + usuario.id);
+      return usuario;
     }
 
     public static boolean deleteUsuario(String id) {
