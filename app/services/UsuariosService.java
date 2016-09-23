@@ -29,7 +29,8 @@ public class UsuariosService {
 
     public static boolean deleteUsuario(String id) {
         Logger.debug("Se borra usuario: " + id);
-        return false;
+        UsuarioDAO.delete(id);
+        return true;
     }
 
     public static List<Usuario> findAllUsuarios() {

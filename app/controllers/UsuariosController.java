@@ -67,7 +67,7 @@ public class UsuariosController extends Controller {
       Usuario usuario = usuarioForm.get();
       Logger.debug("Usuario a grabar: " + usuario.toString());
       usuario = UsuariosService.modificaUsuario(usuario);
-      flash("grabaUsuario", "El usuario se ha modificado correctamente");
+      flash("grabaUsuario", "El usuario se ha modificado correctamente (modificar)");
       Logger.debug("Usuario guardado correctamente (modificar): " + usuario.toString());
       return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
@@ -82,5 +82,13 @@ public class UsuariosController extends Controller {
         usuarioForm = usuarioForm.fill(usuario);
         //Retornamos a la vista los datos del usuario en el form
         return ok(formModificacionUsuario.render(usuarioForm, ""));
+    }
+
+    @Transactional
+    public Result borraUsuario(String id) {
+        if(UsuariosService.deleteUsuario(id)){
+          //Da lo mismo, siempre devuelve true
+        }
+        return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
 }

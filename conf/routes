@@ -21,3 +21,4 @@ GET     /usuarios                   controllers.UsuariosController.listaUsuarios
 GET     /usuarios/:id               controllers.UsuariosController.detalleUsuario(id: String)
 GET     /usuarios/:id/editar        controllers.UsuariosController.editaUsuario(id: String)
 POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioModificado()
+DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(id: String)
