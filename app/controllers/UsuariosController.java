@@ -57,4 +57,30 @@ public class UsuariosController extends Controller {
       Usuario usuario = UsuariosService.findUsuario(id);
       return ok(detalleUsuario.render(usuario));
     }
+
+    @Transactional
+    public Result grabaUsuarioModificado() {
+      Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+      if (usuarioForm.hasErrors()) {
+          return badRequest(formModificacionUsuario.render(usuarioForm, "Hay errores en el formulario"));
+      }
+      Usuario usuario = usuarioForm.get();
+      Logger.debug("Usuario a grabar: " + usuario.toString());
+      usuario = UsuariosService.modificaUsuario(usuario);
+      flash("grabaUsuario", "El usuario se ha modificado correctamente");
+      Logger.debug("Usuario guardado correctamente (modificar): " + usuario.toString());
+      return redirect(controllers.routes.UsuariosController.listaUsuarios());
+    }
+
+    @Transactional
+    public Result editaUsuario(String id) {
+        //Cargamos vacío el form
+        Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
+        //Obtenemos de la base de datos el usuario
+        Usuario usuario = UsuariosService.findUsuario(id);
+        //Cargamos en el form los datos del usuario
+        usuarioForm = usuarioForm.fill(usuario);
+        //Retornamos a la vista los datos del usuario en el form
+        return ok(formModificacionUsuario.render(usuarioForm, ""));
+    }
 }
