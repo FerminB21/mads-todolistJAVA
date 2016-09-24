@@ -6,6 +6,7 @@
 GET     /                           controllers.LoginController.formularioLogueoRegistro()
 POST    /login                      controllers.LoginController.logueoUsuario()
 POST    /registro                   controllers.LoginController.registroUsuario()
+
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code

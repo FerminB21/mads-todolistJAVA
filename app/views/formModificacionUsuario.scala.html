@@ -5,19 +5,23 @@
             @mensaje
         </div>
     }
-    <h1>Modificar usuario</h1>
-    @helper.form(action = routes.UsuariosController.grabaUsuarioModificado()) {
-        <fieldset>
-            <legend>Usuario @usuarioForm("id").value</legend>
-            <input type="hidden" name="id" value='@usuarioForm("id").value' >
-            @helper.inputText(usuarioForm("login"), '_label -> "Login")
-            @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
-            @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
-            @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
-            @helper.inputText(usuarioForm("fechaNacimiento"), '_label -> "Fecha nacimiento (dd-mm-aaaa)")
-        </fieldset>
-        <p>
-        <input type="submit" class="btn btn-primary" value="Guardar">
-        <a class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
-    }
+      <h1>Modificar usuario @usuarioForm("id").value</h1>
+      <div class="panel panel-primary">
+          <div class="panel-heading">
+              <h3 class="panel-title">Modificar usuario</h3>
+          </div>
+          <div class="panel-body">
+            @helper.form(action = routes.UsuariosController.grabaUsuarioModificado()) {
+              <input type="hidden" name="id" value='@usuarioForm("id").value' >
+              @helper.inputText(usuarioForm("login"), '_label -> "Login")
+              @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
+              @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
+              @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
+              @helper.inputText(usuarioForm("fechaNacimiento"), '_label -> "Fecha nacimiento (dd-mm-aaaa)")
+              <p>
+              <input type="submit" class="btn btn-primary" value="Guardar">
+              <a class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
+            }
+          </div>
+      </div>
 }
