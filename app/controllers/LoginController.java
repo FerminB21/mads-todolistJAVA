@@ -39,9 +39,15 @@ public class LoginController extends Controller {
      if(usuarios.size() > 0){
        Logger.debug("Existe usuario con ese login");
        Usuario usuarioExistente = usuarios.get(0); //solo será 1
-       if(usuarioExistente.password.equals(usuario.password)){ //Si coinciden contraseña, válido
+       //Comprobación de si el usuario tiene contraseña y nosotros también introducimos una
+       if(usuario.password != null && usuarioExistente.password != null && usuarioExistente.password.equals(usuario.password)){ //Si coinciden contraseña, válido
+         Logger.debug("Logueado correctamente");
          flash("entraUsuario", "Logueado correctamente.");
          return redirect(controllers.routes.HomeController.portada());
+       }
+       else if(usuarioExistente.password == null){ //Si es el mismo usuario pero no tiene contraseña (introducido por administrador)
+         Logger.debug("Necesario activar el usuario");
+         return badRequest(formLogueoRegistro.render(usuarioForm, "Usuario no activo. Necesario registrarse para activarlo.", "logueo"));
        }
        else{
          Logger.debug("Error de validación");
