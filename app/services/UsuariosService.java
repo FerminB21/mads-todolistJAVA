@@ -38,4 +38,10 @@ public class UsuariosService {
         Logger.debug("Numero de usuarios: " + lista.size());
         return lista;
     }
+
+    public static List<Usuario> findByUsuarios(String param, String valor){
+      List<Usuario> lista = UsuarioDAO.findBy(param, valor);
+      Logger.debug("Numero de usuarios: " + lista.size());
+      return lista;
+    }
 }
