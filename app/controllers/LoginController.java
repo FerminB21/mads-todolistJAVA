@@ -24,27 +24,40 @@ public class LoginController extends Controller {
    }
 
    @Transactional
-   // Verifica si el cliente puede loguearse y devuelve código HTTP
-   // de redirección a la página de listado de usuarios
+   // Verifica si el usuario puede loguearse y devuelve código HTTP
+   // de redirección a la página de portada
    public Result logueoUsuario() {
 
-       /*Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
-       if (usuarioForm.hasErrors()) {
-           return badRequest(formCreacionUsuario.render(usuarioForm, "Hay errores en el formulario", "logueo"));
-       }
-       Usuario usuario = usuarioForm.get();
-       Logger.debug("Usuario a grabar: " + usuario.toString());
-       usuario = UsuariosService.grabaUsuario(usuario);
-        flash("entraUsuario", "El usuario se ha registrado correctamente");
-       Logger.debug("Usuario guardado correctamente: " + usuario.toString());*/
-       return redirect(controllers.routes.HomeController.portada());
-
+     Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+     if (usuarioForm.hasErrors()) {
+         //Le paso un tercer parámetro a la vista para indicar de donde venimos
+         return badRequest(formLogueoRegistro.render(usuarioForm, "Hay errores en el formulario", "logueo"));
      }
+     Usuario usuario = usuarioForm.get();
+     //Debemos comprobar si ese usuario ya existe en la base de datos
+     List<Usuario> usuarios = UsuariosService.findByUsuarios("login", usuario.login);
+     if(usuarios.size() > 0){
+       Logger.debug("Existe usuario con ese login");
+       Usuario usuarioExistente = usuarios.get(0); //solo será 1
+       if(usuarioExistente.password.equals(usuario.password)){ //Si coinciden contraseña, válido
+         flash("entraUsuario", "Logueado correctamente.");
+         return redirect(controllers.routes.HomeController.portada());
+       }
+       else{
+         Logger.debug("Error de validación");
+         return badRequest(formLogueoRegistro.render(usuarioForm, "Datos introducidos no coinciden.", "logueo"));
+       }
+     }
+     else{
+        //No existe ningún usuario con ese login
+        Logger.debug("Error de validación");
+        return badRequest(formLogueoRegistro.render(usuarioForm, "Usuario no existe. Regístrate para acceder.", "logueo"));
+     }
+   }
 
      @Transactional
      // Registra al usuario si ha insertado bien los datos y devuelve código HTTP
-     // de redirección a la página de listado de usuarios
-
+     // de redirección a la página de portada
      public Result registroUsuario() {
 
          Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
@@ -58,7 +71,6 @@ public class LoginController extends Controller {
          if(usuarios.size() > 0){
            Logger.debug("Existe usuario con ese login");
            Usuario usuarioExistente = usuarios.get(0); //solo será 1
-            Logger.debug("NUMM"+usuarios.size() + " -->"+usuarioExistente.id);
            if(usuarioExistente.password == null ||  usuarioExistente.password.equals("")){
              Logger.debug("No tiene contraseña, se actualizan sus datos");
              usuarioExistente.copiarDatos(usuario); //al usuario existente (que tiene id) le copiamos
