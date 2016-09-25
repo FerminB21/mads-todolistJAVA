@@ -19,5 +19,10 @@ public class HomeController extends Controller {
     public Result index() {
         return ok(index.render("Empezamos a funcionar."));
     }
-    
+
+    public Result portada(){
+        String mensaje = flash("entraUsuario");
+        return ok(portada.render(mensaje));
+    }
+
 }

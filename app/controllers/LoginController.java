@@ -20,7 +20,7 @@ public class LoginController extends Controller {
 
    // Devuelve un formulario para registrar
    public Result formularioLogueoRegistro() {
-       return ok(formLogueoRegistro.render(formFactory.form(Usuario.class),""));
+       return ok(formLogueoRegistro.render(formFactory.form(Usuario.class),"", "logueo"));
    }
 
    @Transactional
@@ -30,33 +30,58 @@ public class LoginController extends Controller {
 
        /*Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
        if (usuarioForm.hasErrors()) {
-           return badRequest(formCreacionUsuario.render(usuarioForm, "Hay errores en el formulario"));
+           return badRequest(formCreacionUsuario.render(usuarioForm, "Hay errores en el formulario", "logueo"));
        }
        Usuario usuario = usuarioForm.get();
        Logger.debug("Usuario a grabar: " + usuario.toString());
        usuario = UsuariosService.grabaUsuario(usuario);
-       flash("grabaUsuario", "El usuario se ha grabado correctamente");
+        flash("entraUsuario", "El usuario se ha registrado correctamente");
        Logger.debug("Usuario guardado correctamente: " + usuario.toString());*/
-       return redirect(controllers.routes.UsuariosController.listaUsuarios());
+       return redirect(controllers.routes.HomeController.portada());
 
      }
 
      @Transactional
      // Registra al usuario si ha insertado bien los datos y devuelve código HTTP
      // de redirección a la página de listado de usuarios
+
      public Result registroUsuario() {
 
-         /*Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+         Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
          if (usuarioForm.hasErrors()) {
-             return badRequest(formCreacionUsuario.render(usuarioForm, "Hay errores en el formulario"));
+             //Le paso un tercer parámetro a la vista para indicar de donde venimos
+             return badRequest(formLogueoRegistro.render(usuarioForm, "Hay errores en el formulario", "registro"));
          }
          Usuario usuario = usuarioForm.get();
-         Logger.debug("Usuario a grabar: " + usuario.toString());
-         usuario = UsuariosService.grabaUsuario(usuario);
-         flash("grabaUsuario", "El usuario se ha grabado correctamente");
-         Logger.debug("Usuario guardado correctamente: " + usuario.toString());*/
-         return redirect(controllers.routes.UsuariosController.listaUsuarios());
+         //Debemos comprobar si ese usuario ya existe en la base de datos
+         List<Usuario> usuarios = UsuariosService.findByUsuarios("login", usuario.login);
+         if(usuarios.size() > 0){
+           Logger.debug("Existe usuario con ese login");
+           Usuario usuarioExistente = usuarios.get(0); //solo será 1
+            Logger.debug("NUMM"+usuarios.size() + " -->"+usuarioExistente.id);
+           if(usuarioExistente.password == null ||  usuarioExistente.password.equals("")){
+             Logger.debug("No tiene contraseña, se actualizan sus datos");
+             usuarioExistente.copiarDatos(usuario); //al usuario existente (que tiene id) le copiamos
+                                                      //los datos del introducido por el form
+             usuario = UsuariosService.modificaUsuario(usuarioExistente);
+             flash("entraUsuario", "Tu usuario ya existía, se han modificado tus datos además de actualizarse tu contraseña.");
+           }
+           else{
+             Logger.debug("Sí tiene contraseña, devolvemos error."+usuarioExistente.password);
+             return badRequest(formLogueoRegistro.render(usuarioForm, "Usuario ya existente", "registro"));
+           }
+         }
+         else{
+            //Doy de alta nuevo
+            usuario = UsuariosService.grabaUsuario(usuario);
+            Logger.debug("No existe ninguno con ese login, se registra");
+            flash("entraUsuario", "Te has dado de alta en TodoList. Bienvenido.");
+         }
 
+         //Si llegamos hasta aquí es que lo hemos registrado de una manera (nuevo) o de otra (modificando datos)
+         Logger.debug("Usuario a grabar (registro): " + usuario.toString());
+         Logger.debug("Usuario guardado correctamente: " + usuario.toString());
+         return redirect(controllers.routes.HomeController.portada());
       }
 
 }

@@ -31,6 +31,16 @@ public class Usuario {
         this.password = password;
     }
 
+    // El constructor copia (todos menos el id)
+    public void copiarDatos(Usuario usuario) {
+        this.login = usuario.login;
+        this.password = usuario.password;
+        this.nombre = usuario.nombre;
+        this.apellidos = usuario.apellidos;
+        this.eMail = usuario.eMail;
+        this.fechaNacimiento = usuario.fechaNacimiento;
+    }
+
     // Sustituye por null todas las cadenas vacías que pueda tener
     // un usuario en sus atributos
     public void nulificaAtributos() {
