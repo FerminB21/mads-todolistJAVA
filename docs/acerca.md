@@ -60,12 +60,16 @@
         ![GitHub Logo](/docs/Login.png)
         * Captura errores login (no hemos introducido bien algún campo)
         ![GitHub Logo](/docs/Errores login.png)
-        * Captura login ya existe 
+        * Captura login no existe (usuario que intentamos introducir no existe)
         ![GitHub Logo](/docs/Login usuario ya existe.png)
+        * Captura login incorrecto (password incorrecto) 
+        ![GitHub Logo](/docs/Login incorrecto.png)
         * Captura login con usuario sin contraseña
         ![GitHub Logo](/docs/Login con usuario sin contraseña.png)
         * Detalles implementación:
-        Si el usuario que intenta acceder ya está registrado, se comprobará su login y contraseña. Si su contraseña en el   sistema es vacía (lo dio de alta el administrador) indicará de registrarse al usuario con una contraseña. Ver captura login usuario sin contraseña.
+        Si el usuario que intenta acceder ya está registrado, se comprobará su login y contraseña. Si su contraseña en el   sistema es vacía (lo dio de alta el administrador) la misma página le indicará de registrarse al usuario con una contraseña. Ver captura login usuario sin contraseña.
+        Si el usuario que se introduce no existe, devuelve un error indicándolo. Ver captura login no existe.
+        El formulario también indica si los datos del login son incorrectos (en concreto, si el password es incorrecta).
         
   - ###Panel usuario
     * Bienvenida
