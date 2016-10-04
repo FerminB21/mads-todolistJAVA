@@ -67,39 +67,34 @@ public class LoginController extends Controller {
      public Result registroUsuario() {
 
          Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
+         String repitePassword = Form.form().bindFromRequest().get("repitePassword");
          if (usuarioForm.hasErrors()) {
              //Le paso un tercer parámetro a la vista para indicar de donde venimos
              return badRequest(formLogueoRegistro.render(usuarioForm, "Hay errores en el formulario", "registro"));
          }
+
          Usuario usuario = usuarioForm.get();
          //Debemos comprobar si ese usuario ya existe en la base de datos
          List<Usuario> usuarios = UsuariosService.findByUsuarios("login", usuario.login);
          if(usuarios.size() > 0){
-           Logger.debug("Existe usuario con ese login");
-           Usuario usuarioExistente = usuarios.get(0); //solo será 1
-           if(usuarioExistente.password == null ||  usuarioExistente.password.equals("")){
-             Logger.debug("No tiene contraseña, se actualizan sus datos");
-             usuarioExistente.copiarDatos(usuario); //al usuario existente (que tiene id) le copiamos
-                                                      //los datos del introducido por el form
-             usuario = UsuariosService.modificaUsuario(usuarioExistente);
-             flash("entraUsuario", "Tu usuario ya existía, se han modificado tus datos además de actualizarse tu contraseña.");
-           }
-           else{
-             Logger.debug("Sí tiene contraseña, devolvemos error."+usuarioExistente.password);
-             return badRequest(formLogueoRegistro.render(usuarioForm, "Usuario ya existente", "registro"));
-           }
-         }
-         else{
-            //Doy de alta nuevo
-            usuario = UsuariosService.grabaUsuario(usuario);
-            Logger.debug("No existe ninguno con ese login, se registra");
-            flash("entraUsuario", "Te has dado de alta en TodoList. Bienvenido.");
+           //Le paso un tercer parámetro a la vista para indicar de donde venimos
+           return badRequest(formLogueoRegistro.render(usuarioForm, "Ya existe ese login. Inténtalo con otro.", "registro"));
          }
 
-         //Si llegamos hasta aquí es que lo hemos registrado de una manera (nuevo) o de otra (modificando datos)
-         Logger.debug("Usuario a grabar (registro): " + usuario.toString());
-         Logger.debug("Usuario guardado correctamente: " + usuario.toString());
-         return redirect(controllers.routes.HomeController.portada());
+         //Comprobamos errores relacionados entre los campos del formulario
+         if(usuario.password.equals("") || repitePassword.equals("") || !usuario.password.equals(repitePassword)){
+           return badRequest(formLogueoRegistro.render(usuarioForm, "Ha habido un problema con las contraseñas. Asegúrate de que coincidan y no estén vacías.", "registro"));
+         }
+         else{ //Si funciona
+           //Doy de alta nuevo
+           usuario = UsuariosService.grabaUsuario(usuario);
+           flash("entraUsuario", "Te has dado de alta en TodoList. Bienvenido.");
+           //Si llegamos hasta aquí es que lo hemos registrado de una manera (nuevo) o de otra (modificando datos)
+           Logger.debug("No existe ninguno con ese login, se registra");
+           Logger.debug("Usuario a grabar (registro): " + usuario.toString());
+           Logger.debug("Usuario guardado correctamente: " + usuario.toString());
+           return redirect(controllers.routes.HomeController.portada());
+         }
       }
 
 }
