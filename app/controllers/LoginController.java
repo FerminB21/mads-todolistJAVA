@@ -35,10 +35,9 @@ public class LoginController extends Controller {
      }
      Usuario usuario = usuarioForm.get();
      //Debemos comprobar si ese usuario ya existe en la base de datos
-     List<Usuario> usuarios = UsuariosService.findByUsuarios("login", usuario.login);
-     if(usuarios.size() > 0){
+       Usuario usuarioExistente = UsuariosService.findByLogin(usuario.login);
+     if(usuarioExistente != null){
        Logger.debug("Existe usuario con ese login");
-       Usuario usuarioExistente = usuarios.get(0); //solo será 1
        //Comprobación de si el usuario tiene contraseña y nosotros también introducimos una
        if(usuario.password != null && usuarioExistente.password != null && usuarioExistente.password.equals(usuario.password)){ //Si coinciden contraseña, válido
          Logger.debug("Logueado correctamente");
@@ -75,8 +74,8 @@ public class LoginController extends Controller {
 
          Usuario usuario = usuarioForm.get();
          //Debemos comprobar si ese usuario ya existe en la base de datos
-         List<Usuario> usuarios = UsuariosService.findByUsuarios("login", usuario.login);
-         if(usuarios.size() > 0){
+         Usuario usuarioExistente = UsuariosService.findByLogin(usuario.login);
+         if(usuarioExistente != null){
            //Le paso un tercer parámetro a la vista para indicar de donde venimos
            return badRequest(formLogueoRegistro.render(usuarioForm, "Ya existe ese login. Inténtalo con otro.", "registro"));
          }
