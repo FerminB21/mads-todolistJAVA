@@ -11,6 +11,7 @@ javacOptions ++= Seq("-Xlint:deprecation", "-Xlint:unchecked")
 libraryDependencies ++= Seq(
   javaJpa,
   "org.hibernate" % "hibernate-entitymanager" % "4.3.7.Final",
+  "mysql" % "mysql-connector-java" % "5.1.18",
   cache,
   javaWs
 )
