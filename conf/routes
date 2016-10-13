@@ -19,8 +19,8 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 #Rutas de usuarios
 GET     /usuarios/nuevo             controllers.UsuariosController.formularioNuevoUsuario()
 GET     /usuarios                   controllers.UsuariosController.listaUsuarios()
-GET     /usuarios/:id               controllers.UsuariosController.detalleUsuario(id: String)
-GET     /usuarios/:id/editar        controllers.UsuariosController.editaUsuario(id: String)
+GET     /usuarios/:id               controllers.UsuariosController.detalleUsuario(id: Integer)
+GET     /usuarios/:id/editar        controllers.UsuariosController.editaUsuario(id: Integer)
 POST    /usuarios/nuevo             controllers.UsuariosController.grabaNuevoUsuario()
 POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioModificado()
-DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(id: String)
+DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(id: Integer)

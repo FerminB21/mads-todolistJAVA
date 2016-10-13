@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 public class Usuario {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    public String id;
+    public int id;
     @Constraints.Required
     public String login;
     public String password;
@@ -74,7 +74,7 @@ public class Usuario {
         if (getClass() != obj.getClass()) return false;
         Usuario other = (Usuario) obj;
         // Si tenemos los ID, comparamos por ID
-        if (id != null && other.id != null)
+        if (id != 0 && other.id != 0)
             return (id == other.id);
         // sino comparamos por campos obligatorios
         else {
@@ -87,4 +87,6 @@ public class Usuario {
         }
         return true;
     }
+
+
 }

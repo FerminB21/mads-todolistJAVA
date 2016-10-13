@@ -21,13 +21,13 @@ public class UsuariosService {
         return UsuarioDAO.update(usuario);
     }
 
-    public static Usuario findUsuario(String id) {
+    public static Usuario findUsuario(int id) {
       Usuario usuario = UsuarioDAO.find(id);
       Logger.debug("Se obtiene usuario: " + id);
       return usuario;
     }
 
-    public static boolean deleteUsuario(String id) {
+    public static boolean deleteUsuario(int id) {
         Logger.debug("Se borra usuario: " + id);
         UsuarioDAO.delete(id);
         return true;
