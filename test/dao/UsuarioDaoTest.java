@@ -107,7 +107,7 @@ public class UsuarioDaoTest {
     }
 
     /**
-     * Comprobamos los siguientes métodos para cambiar el login de un usuario:
+     * Comprobamos los siguientes métodos para borrar al usuario:
      *  - create
      *  - find
      *  - delete
@@ -137,8 +137,7 @@ public class UsuarioDaoTest {
     /**
      * Comprobamos los siguientes métodos para devolver la cantidad de usuarios creados:
      *  - create
-     *  - find
-     *  - delete
+     *  - findAll
      */
     @Test
     public void cantidadUsuarios(){
