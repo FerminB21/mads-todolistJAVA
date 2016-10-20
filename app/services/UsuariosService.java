@@ -16,9 +16,18 @@ public class UsuariosService {
         return UsuarioDAO.create(usuario);
     }
 
+    /**
+     * Mejora:
+     * TIC-17 - Se añade tratamiento de excepción (se evita modificar login igual a uno ya existente)
+     * @param usuario
+     * @return Usuario
+     */
     public static Usuario modificaUsuario(Usuario usuario) {
-        Logger.debug("Se modifica usuario: " + usuario.id);
-        return UsuarioDAO.update(usuario);
+        Usuario existente = UsuarioDAO.findByLogin(usuario.login);
+        if (existente != null && existente.id != usuario.id)
+            throw new UsuariosException("Login ya existente: " + usuario.login);
+        UsuarioDAO.update(usuario);
+        return usuario;
     }
 
     public static Usuario findUsuario(int id) {
@@ -27,10 +36,32 @@ public class UsuariosService {
       return usuario;
     }
 
+    /**
+     * Mejora:
+     * TIC-17 - Ahora comprueba si se ha borrado
+     * @param id
+     * @return boolean
+     */
     public static boolean deleteUsuario(int id) {
-        Logger.debug("Se borra usuario: " + id);
-        UsuarioDAO.delete(id);
-        return true;
+        //Comprobamos antes de borrar si el usuario existe
+        //Si no existe, es que la id la hemos pasado mal
+        //Tal vez, intento de burla?
+        Usuario existente = UsuarioDAO.find(id);
+        if(existente != null){
+            Logger.debug("Existe, intenta borrarse");
+            UsuarioDAO.delete(id); //Intentamos borrar
+            //Volvemos a comprobar
+            Usuario existente2 = UsuarioDAO.find(id);
+            if(existente2 == null){
+                Logger.debug("Borrado correcto.");
+                return true;
+            }
+            return false;
+        }
+        else{
+            Logger.debug("No existe, es un intento de burla");
+            return false;
+        }
     }
 
     public static List<Usuario> findAllUsuarios() {

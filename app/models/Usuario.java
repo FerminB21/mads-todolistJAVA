@@ -89,5 +89,21 @@ public class Usuario {
         return true;
     }
 
+    /**
+     * Se crea dicha función (TIC-17)
+     * Copia los datos de un objeto a otro
+     * @return Usuario
+     */
+    public Usuario copy() {
+        Usuario nuevo = new Usuario();
+        nuevo.id = this.id;
+        nuevo.login = this.login;
+        nuevo.password = this.password;
+        nuevo.apellidos = this.apellidos;
+        nuevo.eMail = this.eMail;
+        nuevo.fechaNacimiento = this.fechaNacimiento;
+        return nuevo;
+    }
+
 
 }

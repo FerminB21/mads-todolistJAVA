@@ -23,7 +23,7 @@ public class UsuariosController extends Controller {
     public Result listaUsuarios() {
         // Obtenemos el mensaje flash guardado en la petición
         // por el controller grabaUsuario
-        String mensaje = flash("grabaUsuario");
+        String mensaje = flash("gestionaUsuario");
         List<Usuario> usuarios = UsuariosService.findAllUsuarios();
         return ok(listaUsuarios.render(usuarios, mensaje));
     }
@@ -46,7 +46,7 @@ public class UsuariosController extends Controller {
        Usuario usuario = usuarioForm.get();
        Logger.debug("Usuario a grabar: " + usuario.toString());
        usuario = UsuariosService.grabaUsuario(usuario);
-       flash("grabaUsuario", "El usuario se ha grabado correctamente");
+       flash("gestionaUsuario", "El usuario se ha grabado correctamente");
        Logger.debug("Usuario guardado correctamente: " + usuario.toString());
        return redirect(controllers.routes.UsuariosController.listaUsuarios());
 
@@ -67,7 +67,7 @@ public class UsuariosController extends Controller {
       Usuario usuario = usuarioForm.get();
       Logger.debug("Usuario a grabar: " + usuario.toString());
       usuario = UsuariosService.modificaUsuario(usuario);
-      flash("grabaUsuario", "El usuario se ha modificado correctamente (modificar)");
+      flash("gestionaUsuario", "El usuario se ha modificado correctamente (modificar)");
       Logger.debug("Usuario guardado correctamente (modificar): " + usuario.toString());
       return redirect(controllers.routes.UsuariosController.listaUsuarios());
     }
@@ -84,11 +84,23 @@ public class UsuariosController extends Controller {
         return ok(formModificacionUsuario.render(usuarioForm, ""));
     }
 
+    /**
+     * Correción:
+     * TIC-17 - UsuariosService.deleteUsuario(id) ya devuelve TRUE o FALSE dependiendo de si se ha borrado
+     * o no. Gracias a las pruebas se ha detectado el mal funcionamiento.
+     * Devolvemos respuesta al AJAX, que a su vez, después de mostrar el mensaje, recargará la página
+     * @param id
+     * @return Result
+     */
     @Transactional
     public Result borraUsuario(int id) {
+        //Si se ha borrado recargamos página
         if(UsuariosService.deleteUsuario(id)){
-          //Da lo mismo, siempre devuelve true
+            return ok("Usuario borrado con éxito.");
         }
-        return redirect(controllers.routes.UsuariosController.listaUsuarios());
+        else{ //Si no, devolvemos error
+            return badRequest("Usuario no se ha podido eliminar.");
+        }
+
     }
 }

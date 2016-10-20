@@ -9,7 +9,12 @@
                 url: urlBorrar,
                 type: 'DELETE',
                 success: function(results) {
+                    alert(results);
                     //refresh the page
+                    location.reload();
+                },
+                error: function(results) { //TIC-17 Se añade para capturar el error
+                    alert(results.responseText);
                     location.reload();
                 }
             });

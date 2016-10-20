@@ -19,17 +19,38 @@ public class UsuarioDAO {
         return usuario;
     }
 
+    /**
+     * Mejora:
+     * TIC-17 - Se añade tratamiento de excepción
+     * @param usuario
+     * @return Usuario
+     */
     public static Usuario find(int idUsuario) {
-        return JPA.em().find(Usuario.class, idUsuario);
+        try {
+            Usuario usuario = JPA.em().find(Usuario.class, idUsuario);
+            return usuario;
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     public static Usuario update(Usuario usuario) {
         return JPA.em().merge(usuario);
     }
 
+    /**
+     * Mejora:
+     * TIC-17 - Se añade tratamiento de excepción
+     * @param usuario
+     * @return Usuario
+     */
     public static void delete(int idUsuario) {
-        Usuario usuario = JPA.em().getReference(Usuario.class, idUsuario);
-        JPA.em().remove(usuario);
+        try {
+            Usuario usuario = JPA.em().getReference(Usuario.class, idUsuario);
+            JPA.em().remove(usuario);
+        } catch (EntityNotFoundException ex) {
+            Logger.debug("Se intenta borrar un usuario no existente. Salta excepción.");
+        }
     }
 
     public static List<Usuario> findAll() {
