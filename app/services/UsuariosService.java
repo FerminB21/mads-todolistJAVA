@@ -11,6 +11,11 @@ import models.*;
 
 public class UsuariosService {
 
+    /**
+     * Guarda al usuario, invoca a UsuarioDAO.create
+     * @param usuario
+     * @return Usuario
+     */
     public static Usuario grabaUsuario(Usuario usuario) {
         Logger.debug("Se crea usuario: " + usuario.id);
         return UsuarioDAO.create(usuario);
@@ -30,6 +35,13 @@ public class UsuariosService {
         return usuario;
     }
 
+
+    /**
+     * Busca al usuario en base a su id pasada como parámetro. Invoca UsuarioDAO.find
+     * Devuelve un objeto usuario o null si éste no existe.
+     * @param id
+     * @return Usuario
+     */
     public static Usuario findUsuario(int id) {
       Usuario usuario = UsuarioDAO.find(id);
       Logger.debug("Se obtiene usuario: " + id);
@@ -64,12 +76,22 @@ public class UsuariosService {
         }
     }
 
+    /**
+     * Busca en la BBDD todos los usuarios gracias a UsuarioDAO.findAll y los devuelve.
+     * @return List<Usuario>
+     */
     public static List<Usuario> findAllUsuarios() {
         List<Usuario> lista = UsuarioDAO.findAll();
         Logger.debug("Numero de usuarios: " + lista.size());
         return lista;
     }
 
+    /**
+     * Busca al usuario dado un login pasado como parámetro. Invoca a UsuarioDAO.findByLogin
+     * Devuelve un objeto usuario, que puede ser Usuario o null si no hay ninguno.
+     * @param valor
+     * @return Usuario
+     */
     public static Usuario findByLogin(String valor){
       Usuario usuario = UsuarioDAO.findByLogin(valor);
       return usuario;
