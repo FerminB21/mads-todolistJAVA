@@ -86,4 +86,12 @@ public class ListadoTareasTest {
             assertEquals(tarea.usuario, usuario);
         });
     }
+
+    @Test
+    public void obtenerTareasDeUsuario() {
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuarioDAO.find(1);
+            assertEquals(usuario.tareas.size(), 3);
+        });
+    }
 }
