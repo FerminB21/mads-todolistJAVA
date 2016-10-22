@@ -12,6 +12,9 @@ public class Tarea {
     public Integer id;
     @Constraints.Required
     public String descripcion;
+    @ManyToOne
+    @JoinColumn(name="usuarioId")
+    public Usuario usuario;
 
     // Un constructor vacío necesario para JPA
     public Tarea() {}
