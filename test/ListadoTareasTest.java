@@ -105,8 +105,10 @@ public class ListadoTareasTest {
 
             // Comprobamos que las tareas se devuelven ordenadas por id
 
-            Tarea anterior = null;
-            for (Tarea t : tareas) {
+            //Se refactoriza la función
+            Tarea anterior = tareas.get(0);
+            for (int i=1;i<tareas.size();i++) {
+                Tarea t = tareas.get(i);
                 if (anterior != null) {
                     assertTrue(anterior.id < t.id);
                     anterior = t;
