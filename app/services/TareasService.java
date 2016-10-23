@@ -36,7 +36,7 @@ public class TareasService {
     }
 
     /**
-     *
+     * Modifica la tarea
      * @param tarea
      * @return Tarea
      */
@@ -44,8 +44,10 @@ public class TareasService {
         //Hay que comprobar su usuario, por si se ha asignado uno que no existe
 
         Usuario existente = UsuarioDAO.find(tarea.usuario.id);
-        if (existente == null)
+        if (existente == null){
+            Logger.debug("Usuario asociado a la tarea a editar no existe: "+ tarea.usuario.id);
             throw new UsuariosException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
+        }
         TareaDAO.update(tarea);
         return tarea;
     }

@@ -1,3 +1,4 @@
+import org.hibernate.HibernateException;
 import play.db.Database;
 import play.db.Databases;
 import play.db.jpa.*;
@@ -15,6 +16,9 @@ import java.util.List;
 
 import models.*;
 import services.*;
+
+import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 
 public class EditarTareaUsuarioTest {
 
@@ -96,6 +100,42 @@ public class EditarTareaUsuarioTest {
             Tarea tarea = TareaDAO.find(tareaId);
             Usuario usuario = UsuariosService.findUsuario(2);
             assertEquals(tarea.usuario, usuario);
+        });
+    }
+
+    /**
+     * Editar tarea asociada a un usuario. Se le cambia el usuario a uno NO EXISTENTE
+     * Se utilizan las clases TareasService
+     */
+    @Test
+    public void editarTareaUsuarioNoExisteServiceTest() {
+        //Comprobamos antes el usuario 1 cuántas tareas tiene asociada
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuariosService.findUsuario(1);
+            assertEquals(3, usuario.tareas.size());
+        });
+
+        jpa.withTransaction(() -> {
+            //Simulamos, fuera del entorno JPA, la tarea 1 con el usuario 20 no existente
+            Tarea tarea = new Tarea("Hola, esto es una prueba");
+            Usuario usuario = new Usuario("manuel", "prueba");
+            tarea.usuario = usuario;
+            tarea.id = 1; //la tarea creada le ponemos un id existente
+                          //para que una vez se llame al Service, JPA por dentro sepa enlazar esta tarea a la id 1.
+
+            try{
+                tarea.usuario.id = 20;
+                tarea = TareasService.modificaTareaUsuario(tarea);
+                fail("Debería haberse lanzado la excepción. No se puede cambiar la tarea a un usuario que no existe.");
+            }catch(UsuariosException ex) {
+            }
+        });
+
+        //Comprobamos que sigue teniendo las mismas tareas
+        //que no se ha creado implícitamente la tarea con usuario 20
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuariosService.findUsuario(1);
+            assertEquals(3, usuario.tareas.size());
         });
     }
 }
