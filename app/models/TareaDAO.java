@@ -19,4 +19,8 @@ public class TareaDAO {
         Logger.debug(tarea.toString());
         return tarea;
     }
+
+    public static Tarea update(Tarea tarea) {
+        return JPA.em().merge(tarea);
+    }
 }

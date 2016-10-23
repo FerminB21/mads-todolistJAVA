@@ -36,6 +36,23 @@ public class TareasService {
     }
 
     /**
+     * Modifica la tarea
+     * @param tarea
+     * @return Tarea
+     */
+    public static Tarea modificaTareaUsuario(Tarea tarea) {
+        //Hay que comprobar su usuario, por si se ha asignado uno que no existe
+
+        Usuario existente = UsuarioDAO.find(tarea.usuario.id);
+        if (existente == null){
+            Logger.debug("Usuario asociado a la tarea a editar no existe: "+ tarea.usuario.id);
+            throw new UsuariosException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
+        }
+        TareaDAO.update(tarea);
+        return tarea;
+    }
+
+    /**
      * Busca a la tarea en la base de datos por id pasada como parámetro. Invoca TareaDAO.find
      * Devuelve un objeto usuario o null si éste no existe.
      * @param id

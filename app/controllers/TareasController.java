@@ -53,7 +53,44 @@ public class TareasController extends Controller {
         Logger.debug("Tarea a grabar: " + tarea.toString());
         tarea = TareasService.crearTareaUsuario(tarea.descripcion, idUsuario);
         flash("gestionaTarea", "La tarea se ha grabado correctamente");
-        Logger.debug("Usuario guardado correctamente: " + tarea.toString());
+        Logger.debug("Tarea guardada correctamente: " + tarea.toString());
         return redirect(routes.TareasController.listaTareas(idUsuario));
+    }
+
+    @Transactional
+    public Result formularioEditaTarea(Integer idTarea, Integer idUsuario) {
+        //Cargamos vacío el form
+        Form<Tarea> tareaForm = formFactory.form(Tarea.class);
+        //Obtenemos de la base de datos la tarea
+        Tarea tarea = TareasService.findTareaUsuario(idTarea);
+        //Cargamos en el form los datos del usuario
+        tareaForm = tareaForm.fill(tarea);
+        //Retornamos a la vista los datos del usuario en el form
+        return ok(formModificacionTarea.render(tareaForm, idUsuario, ""));
+    }
+
+    @Transactional
+    public Result grabaTareaModificada(Integer idUsuario) {
+        Form<Tarea> tareaForm = formFactory.form(Tarea.class).bindFromRequest();
+        if (tareaForm.hasErrors()) {
+            return badRequest(formModificacionTarea.render(tareaForm, idUsuario, "Hay errores en el formulario"));
+        }
+        
+        //Recuperamos los datos de la tarea
+        Tarea tarea = tareaForm.get();
+        //Comprobamos que el usuario existe (evitamos problemas de referencias)
+        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        if(usuario != null){
+            tarea.usuario=usuario;
+            Logger.debug("Tarea a grabar: " + tarea.toString());
+            tarea = TareasService.modificaTareaUsuario(tarea);
+            flash("gestionaTarea", "La tarea se ha modificado correctamente (modificar)");
+            Logger.debug("Tarea guardada correctamente (modificar): " + tarea.toString());
+            return redirect(routes.TareasController.listaTareas(idUsuario));
+        }
+        else{
+            return badRequest(formModificacionTarea.render(tareaForm, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+        }
+
     }
 }
