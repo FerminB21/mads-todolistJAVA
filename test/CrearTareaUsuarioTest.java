@@ -105,4 +105,15 @@ public class CrearTareaUsuarioTest {
             assertTrue(usuario.tareas.contains(new Tarea("Resolver los ejercicios de programación")));
         });
     }
+
+    @Test
+    public void crearTareaUsuarioNoExisteErrorTest(){
+       jpa.withTransaction(() -> {
+            try{
+                Tarea tarea = TareasService.crearTareaUsuario("Resolver los ejercicios de programación", 20);
+                fail("Debería haberse lanzado la excepción. No se puede crear tarea con usuario que no existe");
+            }catch(UsuariosException ex){
+            }
+        });
+    }
 }
