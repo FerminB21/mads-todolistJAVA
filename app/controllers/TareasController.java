@@ -93,4 +93,22 @@ public class TareasController extends Controller {
         }
 
     }
+
+    /**
+     * Elimina la tarea
+     * @param idTarea,
+     * @return Result
+     */
+    @Transactional
+    public Result borraTarea(int idTarea, int idUsuario) {
+        Tarea tarea = TareasService.findTareaUsuario(idTarea);
+        //Si se ha borrado recargamos página
+        if(TareasService.deleteTarea(idTarea)){
+            return ok("Tarea borrada con éxito.");
+        }
+        else{ //Si no, devolvemos error
+            return badRequest("Tarea no se ha podido eliminar.");
+        }
+
+    }
 }
