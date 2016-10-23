@@ -26,6 +26,9 @@ POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioM
 DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(id: Integer)
 
 #Rutas de tareas
-GET     /usuarios/:idUsuario/tareas/nueva  controllers.TareasController.formularioNuevaTarea(idUsuario: Integer)
-GET     /usuarios/:idUsuario/tareas        controllers.TareasController.listaTareas(idUsuario: Integer)
-POST    /usuarios/:idUsuario/tareas/nueva  controllers.TareasController.grabaNuevaTarea(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.formularioNuevaTarea(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas                     controllers.TareasController.listaTareas(idUsuario: Integer)
+POST    /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.grabaNuevaTarea(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/:idTarea/editar     controllers.TareasController.formularioEditaTarea(idTarea: Integer, idUsuario: Integer)
+POST    /usuarios/:idUsuario/tareas/modifica            controllers.TareasController.grabaTareaModificada(idUsuario: Integer)
+
