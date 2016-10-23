@@ -79,4 +79,25 @@ public class BorrarTareaUsuarioTest {
         });
     }
 
+    /**
+     * Borrar tarea EXISTENTE asociada a un usuario
+     * Se utilizan las clases TareaDAO.
+     */
+    @Test
+    public void eliminarTareaUsuarioServiceTest() {
+
+        //Eliminamos tarea existente
+        jpa.withTransaction(() -> {
+            Boolean borrado = TareasService.deleteTarea(2);
+            //Basta con comprobar tan solo variable boolean
+            assertEquals(true, borrado);
+        });
+
+        //Comprobamos que no existe
+        jpa.withTransaction(() -> {
+            Tarea busqueda = TareasService.findTareaUsuario(2);
+            assertNull(busqueda);
+        });
+    }
+
 }
