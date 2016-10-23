@@ -15,8 +15,8 @@
             <input type="hidden" name="id" value='@tareaForm("id").value' >
             @helper.inputText(tareaForm("descripcion"), '_label -> "Descripción")
             <p>
-                <input type="submit" class="btn btn-primary" value="Guardar">
-                <a class="btn btn-primary" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>
+                <input type="submit" class="btn btn-success" value="Guardar">
+                <a class="btn btn-danger" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>
         }
     </div>
 </div>
