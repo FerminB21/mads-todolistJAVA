@@ -73,12 +73,34 @@ public class CrearTareaUsuarioTest {
         jpa.withTransaction(() -> {
             //Recuperamos la tarea
             Tarea tarea = TareaDAO.find(tareaId);
+            Usuario usuario = UsuarioDAO.find(2);
             // Comprobamos que se recupera también el usuario de la tarea
-            assertEquals(tarea.usuario.nombre, "Anabel");
+            assertEquals(tarea.usuario.nombre, usuario.nombre);
 
             // Comprobamos que se recupera la relación inversa: el usuario
             // contiene la nueva tarea
-            Usuario usuario = UsuarioDAO.find(2);
+            assertEquals(usuario.tareas.size(), 2);
+            assertTrue(usuario.tareas.contains(new Tarea("Resolver los ejercicios de programación")));
+        });
+    }
+
+    @Test
+    public void crearTareaUsuarioServiceTest(){
+        Integer tareaId = jpa.withTransaction(() -> {
+            Tarea tarea = TareasService.crearTareaUsuario("Resolver los ejercicios de programación", 2);
+            return tarea.id;
+        });
+
+        jpa.withTransaction(() -> {
+            //Recuperamos la tarea
+            Tarea tarea = TareasService.findTareaUsuario(tareaId);
+            Usuario usuario = UsuariosService.findUsuario(2);
+            // Comprobamos que se recupera también el usuario de la tarea
+            assertEquals(tarea.usuario.nombre, usuario.nombre);
+
+            // Comprobamos que se recupera la relación inversa: el usuario
+            // contiene la nueva tarea
+
             assertEquals(usuario.tareas.size(), 2);
             assertTrue(usuario.tareas.contains(new Tarea("Resolver los ejercicios de programación")));
         });
