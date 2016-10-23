@@ -2,7 +2,7 @@
 @main("Tareas del usuario "+usuario.id, null) {
 
     <h2> Listado de tareas de @usuario.login</h2>
-    <a class="btn btn-primary" href="#">Nueva Tarea</a></p>
+    <a class="btn btn-primary" href="@routes.TareasController.formularioNuevaTarea(usuario.id)">Nueva Tarea</a></p>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Listado</h3>
