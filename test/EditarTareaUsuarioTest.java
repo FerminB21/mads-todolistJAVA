@@ -76,5 +76,26 @@ public class EditarTareaUsuarioTest {
             assertEquals(tarea.descripcion, "Resolver los ejercicios de matemáticas");
         });
     }
-    
+
+    /**
+     * Editar tarea asociada a un usuario. Se le cambia el usuario a uno EXISTENTE
+     * Se utilizan las clases TareasService y UsuarioDAO.
+     */
+    @Test
+    public void editarTareaUsuarioServiceTest() {
+        Integer tareaId = jpa.withTransaction(() -> {
+
+            Tarea tarea = TareasService.findTareaUsuario(2);
+            tarea.usuario = UsuariosService.findUsuario(2); //se le cambia al usuario 2
+            tarea = TareasService.modificaTareaUsuario(tarea);
+            return tarea.id;
+        });
+
+        jpa.withTransaction(() -> {
+            //Recuperamos la tarea
+            Tarea tarea = TareaDAO.find(tareaId);
+            Usuario usuario = UsuariosService.findUsuario(2);
+            assertEquals(tarea.usuario, usuario);
+        });
+    }
 }
