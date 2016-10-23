@@ -39,7 +39,8 @@ public class ListadoTareasTest {
         databaseTester = new JndiDatabaseTester("DefaultDS");
         IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new
                 FileInputStream("test/resources/tareas_dataset.xml"));
-        databaseTester.setTearDownOperation(DatabaseOperation.DELETE);
+        databaseTester.setTearDownOperation(DatabaseOperation.DELETE_ALL);
+        databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(initialDataSet);
         databaseTester.onSetup();
     }
