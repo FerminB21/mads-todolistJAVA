@@ -81,7 +81,7 @@ public class BorrarTareaUsuarioTest {
 
     /**
      * Borrar tarea EXISTENTE asociada a un usuario
-     * Se utilizan las clases TareaDAO.
+     * Se utilizan las clases TareasService.
      */
     @Test
     public void eliminarTareaUsuarioServiceTest() {
@@ -96,6 +96,27 @@ public class BorrarTareaUsuarioTest {
         //Comprobamos que no existe
         jpa.withTransaction(() -> {
             Tarea busqueda = TareasService.findTareaUsuario(2);
+            assertNull(busqueda);
+        });
+    }
+
+    /**
+     * Borrar tarea NO EXISTENTE
+     * Se utilizan las clases TareasService.
+     */
+    @Test
+    public void eliminarTareaNoExistenteUsuarioServiceTest() {
+
+        //Eliminamos tarea NO existente
+        jpa.withTransaction(() -> {
+            Boolean borrado = TareasService.deleteTarea(10);
+            //Basta con comprobar tan solo variable boolean
+            assertEquals(false, borrado);
+        });
+
+        //Comprobamos que no existe
+        jpa.withTransaction(() -> {
+            Tarea busqueda = TareasService.findTareaUsuario(10);
             assertNull(busqueda);
         });
     }
