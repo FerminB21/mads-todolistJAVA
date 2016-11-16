@@ -38,3 +38,5 @@ GET     /usuarios/:idUsuario/proyectos                  controllers.ProyectosCon
 
 #Ruta acerca-de
 GET /acercade controllers.AcercaDeController.acercaDe()
+GET /usuarios/:idUsuario/proyecto/nuevo controllers.ProyectosController.formularioNuevoProyecto(idUsuario: Integer)
+POST /usuarios/:idUsuario/proyecto/nuevo controllers.ProyectosController.grabaNuevoProyecto(idUsuario: Integer)

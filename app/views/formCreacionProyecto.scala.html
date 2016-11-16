@@ -1,0 +1,24 @@
+@(proyectoForm: Form[Proyecto], idUsuario: Integer, mensaje: String)
+@main("Nueva Tarea") {
+@if(mensaje != "") {
+<div class="alert alert-danger">
+    @mensaje
+</div>
+}
+<h1>Crear Proyecto</h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Nuevo proyecto</h3>
+    </div>
+    <div class="panel-body">
+        @helper.form(action = routes.ProyectosController.grabaNuevoProyecto(idUsuario)) {
+            @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre")
+
+        <p>
+            <input type="submit" class="btn btn-success" value="Guardar">
+            <a class="btn btn-danger" href="@routes.ProyectosController.listaProyectos(idUsuario)">Cancelar</a></p>
+        }
+
+    </div>
+</div>
+}
