@@ -1,4 +1,9 @@
 @(usuario: Usuario)
+
+
+
+
+
 @main("Detalle de Usuario") {
   <h1>Detalles del usuario @usuario.id</h1>
   <div class="panel panel-primary">
@@ -28,7 +33,13 @@
               </li>
           </ul>
           <a class="btn btn-primary" href="@routes.UsuariosController.editaUsuario(usuario.id)">Editar</a>
-          <a class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Volver</a></p>
+
+
+          @if(session.get("usuarioSesion") != null) {
+            <a  class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Volver</a></p>
+
+           }
+
         </div>
   </div>
 }

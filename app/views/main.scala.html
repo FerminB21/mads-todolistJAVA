@@ -57,12 +57,15 @@
                     </ul>
                 </li>
             </ul>
+            @if(session.get("usuarioSesion") != null) {
             <!-- Sidebar Menu Items -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     @menu()
                 </ul>
             </div>
+             }           
+
             <!-- /.navbar-collapse -->
         </nav>
 

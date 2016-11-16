@@ -75,7 +75,7 @@ public class TareasController extends Controller {
         if (tareaForm.hasErrors()) {
             return badRequest(formModificacionTarea.render(tareaForm, idUsuario, "Hay errores en el formulario"));
         }
-        
+
         //Recuperamos los datos de la tarea
         Tarea tarea = tareaForm.get();
         //Comprobamos que el usuario existe (evitamos problemas de referencias)
