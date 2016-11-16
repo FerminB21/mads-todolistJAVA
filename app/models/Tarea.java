@@ -15,6 +15,7 @@ public class Tarea {
     @ManyToOne
     @JoinColumn(name="usuarioId")
     public Usuario usuario;
+    public Integer estimacion;
 
     // Un constructor vacío necesario para JPA
     public Tarea() {}
@@ -27,6 +28,7 @@ public class Tarea {
     public Tarea copy() {
         Tarea nueva = new Tarea(this.descripcion);
         nueva.id = this.id;
+        nueva.estimacion = this.estimacion;
         return nueva;
     }
 
@@ -55,6 +57,6 @@ public class Tarea {
     }
 
     public String toString() {
-        return String.format("Tarea id: %s descripcion: %s", id, descripcion);
+        return String.format("Tarea id: %s descripcion: %s estimacion: %s", id, descripcion, estimacion);
     }
 }
