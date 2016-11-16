@@ -35,7 +35,7 @@
           <a class="btn btn-primary" href="@routes.UsuariosController.editaUsuario(usuario.id)">Editar</a>
 
 
-          @if(session.get("usuarioSesion") != null) {
+          @if(session.get("usuarioSesion") == null) {
             <a  class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Volver</a></p>
 
            }
