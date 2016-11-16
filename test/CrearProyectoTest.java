@@ -16,7 +16,7 @@ import java.util.List;
 import models.*;
 import services.*;
 
-public class CrearTareaUsuarioTest {
+public class CrearProyectoTest {
 
     static Database db;
     static JPAApi jpa;
@@ -57,17 +57,18 @@ public class CrearTareaUsuarioTest {
     }
 
     /**
-     * Crear tarea asociada a un usuario
-     * Se utilizan las clases TareaDAO y UsuarioDAO.
+     * Crear proyecto asociado a un usuario
+     * Se utilizan las clases ProyectoDAO y UsuarioDAO.
      */
+     //<Proyecto id="3" usuarioId="1" nombre="Leer el libro de inglés" />
     @Test
-    public void crearProyectoUsuarioTest() {
+    public void Proyecto1Test() {
         Integer ProyectoId = jpa.withTransaction(() -> {
-            Proyecto proyecto = new Proyecto("Resolver los ejercicios de programación");
+            Proyecto proyecto = new Proyecto("mads");
             Usuario usuario = UsuarioDAO.find(2); //recuperamos usuario id 2 (Anabel)
             proyecto.usuario = usuario; //se modifica pero no llama al update porque se creó sin JPA
             proyecto = ProyectoDAO.create(proyecto); //se creará ya asociado con un usuario
-            return tarea.id;
+            return proyecto.id;
         });
 
         jpa.withTransaction(() -> {
@@ -80,10 +81,41 @@ public class CrearTareaUsuarioTest {
             // Comprobamos que se recupera la relación inversa: el usuario
             // contiene la nueva tarea
             assertEquals(usuario.proyectos.size(), 2);
-            assertTrue(usuario.proyectos.contains(new Proyecto("Resolver los ejercicios de programación")));
+            //assertTrue(usuario.proyectos.contains(new Proyecto("mads")));
         });
     }
 
 
+        @Test
+        public void Proyecto2Test() {
+            Integer ProyectoId = jpa.withTransaction(() -> {
+                Proyecto proyecto = new Proyecto("mads");
+                Usuario usuario = UsuarioDAO.find(1); //recuperamos usuario id 2 (Anabel)
+                proyecto.usuario = usuario; //se modifica pero no llama al update porque se creó sin JPA
+                proyecto = ProyectoDAO.create(proyecto); //se creará ya asociado con un usuario
+                return proyecto.id;
+            });
+
+            jpa.withTransaction(() -> {
+                //Recuperamos la tarea
+                Proyecto proyecto = ProyectoDAO.find(ProyectoId);
+                Usuario usuario = UsuarioDAO.find(1);
+                // Comprobamos que se recupera también el usuario de la tarea
+                assertEquals(proyecto.usuario.nombre, usuario.nombre);
+                assertTrue(usuario.proyectos.contains(new Proyecto("mads")));
+            });
+    }
+
+    @Test
+    public void proyecto3Test(){
+       jpa.withTransaction(() -> {
+            try{
+                Proyecto proyecto = new Proyecto("Resolver los ejercicios de programación");
+                ProyectosService.crearProyectoUsuario(proyecto,20);
+                fail("Debería haberse lanzado la excepción. No se puede crear proyecto con usuario que no existe");
+            }catch(UsuariosException ex){
+            }
+        });
+    }
 
 }

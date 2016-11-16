@@ -6,8 +6,8 @@ import play.db.jpa.*;
 import javax.persistence.*;
 
 public class ProyectoDAO {
-    public static Tarea find(Integer idTarea) {
-        return JPA.em().find(Tarea.class, idTarea);
+    public static Proyecto find(Integer idProyecto) {
+        return JPA.em().find(Proyecto.class, idProyecto);
     }
 
     public static Proyecto create (Proyecto proyecto) {
