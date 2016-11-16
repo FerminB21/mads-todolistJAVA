@@ -27,6 +27,8 @@ public class Usuario {
     public Date fechaNacimiento;
     @OneToMany(mappedBy="usuario")
     public List<Tarea> tareas = new ArrayList<Tarea>();
+    @OneToMany(mappedBy="usuario")
+    public List<Proyecto> proyectos = new ArrayList<Proyecto>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {}
@@ -109,6 +111,5 @@ public class Usuario {
         nuevo.fechaNacimiento = this.fechaNacimiento;
         return nuevo;
     }
-
 
 }
