@@ -6,7 +6,10 @@ import javax.inject.*;
 import play.*;
 import play.mvc.*;
 import views.html.*;
+
+
 import static play.libs.Json.*;
+
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.*;
@@ -69,7 +72,11 @@ public class UsuariosController extends Controller {
       usuario = UsuariosService.modificaUsuario(usuario);
       flash("gestionaUsuario", "El usuario se ha modificado correctamente (modificar)");
       Logger.debug("Usuario guardado correctamente (modificar): " + usuario.toString());
+      if(session("usuarioSesion") == null)
+    //  if(session.getAttribute("usuarioSesion") != null)
       return redirect(controllers.routes.UsuariosController.listaUsuarios());
+      else
+      return ok(detalleUsuario.render(usuario));
     }
 
     @Transactional
