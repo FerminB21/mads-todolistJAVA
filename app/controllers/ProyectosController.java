@@ -32,16 +32,16 @@ public class ProyectosController extends Controller {
 
 
 
-    // Devuelve un formulario para crear un nuevo usuario
+    // Devuelve un formulario para crear un nuevo proyecto
     public Result formularioNuevoProyecto(Integer idUsuario) {
         return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
     }
 
     @Transactional
-    // Añade una nueva tarea en la BD y devuelve código HTTP
+    // Añade una nuevp proyecto en la BD y devuelve código HTTP
     // de redirección a la página de listado de usuarios
     //PARA EJECUTAR ESTE MÉTODO HA SIDO NECESARIO REALIZAR: activator run
-    //Daba error como si no detectara que el campo descripcion de Tarea no existiera
+    //Daba error como si no detectara que el campo nombre del proyecto no existiera
     public Result grabaNuevoProyecto(Integer idUsuario) {
 
         Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class).bindFromRequest();
@@ -52,9 +52,9 @@ public class ProyectosController extends Controller {
 
 
         proyecto = ProyectosService.crearProyectoUsuario(proyecto, idUsuario);
-        flash("gestionaTarea", "La tarea se ha grabado correctamente");
-        Logger.debug("Tarea guardada correctamente: " + proyecto.toString());
-        //return redirect(routes.TareasController.listaTareas(idUsuario));
+        flash("gestionaProyecto", "el proyecto se ha grabado correctamente");
+        Logger.debug("Proyecto guardado correctamente: " + proyecto.toString());
+        
         return redirect(routes.ProyectosController.listaProyectos(idUsuario));
     }
 

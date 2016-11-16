@@ -17,7 +17,7 @@ public class ProyectosService {
     }
 
     /**
-     * Guarda la tarea asociada a un usuario, invoca a TareaDAO.create
+     * Guarda el proyecto asociada a un usuario, invoca a ProyectoDAO.create
      * @param descripcion, usuarioId
      * @return Tarea
      */

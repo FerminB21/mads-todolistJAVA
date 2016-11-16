@@ -72,16 +72,16 @@ public class CrearProyectoTest {
         });
 
         jpa.withTransaction(() -> {
-            //Recuperamos la tarea
+            //Recuperamos el proyecto
             Proyecto proyecto = ProyectoDAO.find(ProyectoId);
             Usuario usuario = UsuarioDAO.find(2);
-            // Comprobamos que se recupera también el usuario de la tarea
+            // Comprobamos que se recupera también el usuario del proyecto
             assertEquals(proyecto.usuario.nombre, usuario.nombre);
 
             // Comprobamos que se recupera la relación inversa: el usuario
-            // contiene la nueva tarea
+            // contiene el nuevo proyecto
             assertEquals(usuario.proyectos.size(), 2);
-            //assertTrue(usuario.proyectos.contains(new Proyecto("mads")));
+
         });
     }
 
@@ -90,17 +90,17 @@ public class CrearProyectoTest {
         public void Proyecto2Test() {
             Integer ProyectoId = jpa.withTransaction(() -> {
                 Proyecto proyecto = new Proyecto("mads");
-                Usuario usuario = UsuarioDAO.find(1); //recuperamos usuario id 2 (Anabel)
+                Usuario usuario = UsuarioDAO.find(1); //recuperamos usuario id 1 (juan)
                 proyecto.usuario = usuario; //se modifica pero no llama al update porque se creó sin JPA
                 proyecto = ProyectoDAO.create(proyecto); //se creará ya asociado con un usuario
                 return proyecto.id;
             });
 
             jpa.withTransaction(() -> {
-                //Recuperamos la tarea
+                //Recuperamos el proyecto
                 Proyecto proyecto = ProyectoDAO.find(ProyectoId);
                 Usuario usuario = UsuarioDAO.find(1);
-                // Comprobamos que se recupera también el usuario de la tarea
+                // Comprobamos que se recupera también el usuario del proyecto
                 assertEquals(proyecto.usuario.nombre, usuario.nombre);
                 assertTrue(usuario.proyectos.contains(new Proyecto("mads")));
             });
