@@ -34,4 +34,4 @@ POST    /usuarios/:idUsuario/tareas/modifica            controllers.TareasContro
 DELETE  /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.borraTarea(idTarea: Integer, idUsuario: Integer)
 
 #Ruta acerca-de
-GET     /acercade                   controllers.AcercaDeController.acercaDe()
+GET /acercade controllers.AcercaDeController.acercaDe()
