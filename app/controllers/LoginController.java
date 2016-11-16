@@ -46,7 +46,7 @@ public class LoginController extends Controller {
                 Logger.debug("Logueado correctamente");
                 //Creamos sesión (es un string)
                 session("usuarioSesion", String.valueOf(usuarioExistente.id));
-                return redirect(controllers.routes.UsuariosController.detalleUsuario(usuarioExistente.id));
+                return redirect(controllers.routes.TareasController.listaTareas(usuarioExistente.id));
             } else if (usuarioExistente.password == null) { //Si es el mismo usuario pero no tiene contraseña (introducido por administrador)
                 Logger.debug("Necesario activar el usuario");
                 return badRequest(formLogueoRegistro.render(usuarioForm, "Usuario no activo. Necesario registrarse para activarlo.", "logueo"));
