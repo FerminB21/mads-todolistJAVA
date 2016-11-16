@@ -34,7 +34,7 @@ POST    /usuarios/:idUsuario/tareas/modifica            controllers.TareasContro
 DELETE  /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.borraTarea(idTarea: Integer, idUsuario: Integer)
 
 #Rutas de proyectos
-GET     /proyectos                  controllers.ProyectosController.listaProyectos()
+GET     /usuarios/:idUsuario/proyectos                  controllers.ProyectosController.listaProyectos(idUsuario: Integer)
 
 #Ruta acerca-de
 GET /acercade controllers.AcercaDeController.acercaDe()

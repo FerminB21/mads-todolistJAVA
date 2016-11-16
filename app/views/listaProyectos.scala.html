@@ -1,7 +1,7 @@
-@(proyectos: List[Proyecto])
+@(proyectos: List[Proyecto], usuario: Usuario)
 @main("Listado de proyectos") {
 
-<h1> Listado de proyectos </h1>
+<h1> Listado de proyectos de @usuario.login </h1>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Listado</h3>
