@@ -16,6 +16,9 @@ public class Tarea {
     @JoinColumn(name="usuarioId")
     public Usuario usuario;
     public Integer estimacion;
+    @ManyToOne
+    @JoinColumn(name="proyectoId")
+    public Proyecto proyecto;
 
     // Un constructor vacío necesario para JPA
     public Tarea() {}
