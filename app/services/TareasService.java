@@ -22,10 +22,9 @@ public class TareasService {
      * @param descripcion, usuarioId
      * @return Tarea
      */
-    public static Tarea crearTareaUsuario(String descripcion, Integer usuarioId) {
+    public static Tarea crearTareaUsuario(Tarea tarea, Integer usuarioId) {
         Usuario usuario = UsuarioDAO.find(usuarioId);
-        if(usuario != null){
-            Tarea tarea = new Tarea(descripcion);
+        if(usuario != null){            
             tarea.usuario = usuario;
             Logger.debug("Se crea tarea: " + tarea + " asociada al usuario " +usuarioId);
             return TareaDAO.create(tarea); //se le pasa ya con el usuario metido

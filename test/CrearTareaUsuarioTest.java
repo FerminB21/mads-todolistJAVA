@@ -87,7 +87,8 @@ public class CrearTareaUsuarioTest {
     @Test
     public void crearTareaUsuarioServiceTest(){
         Integer tareaId = jpa.withTransaction(() -> {
-            Tarea tarea = TareasService.crearTareaUsuario("Resolver los ejercicios de programación", 2);
+            Tarea tarea = new Tarea("Resolver los ejercicios de programación");
+            TareasService.crearTareaUsuario(tarea, 2);
             return tarea.id;
         });
 
@@ -110,7 +111,8 @@ public class CrearTareaUsuarioTest {
     public void crearTareaUsuarioNoExisteErrorTest(){
        jpa.withTransaction(() -> {
             try{
-                Tarea tarea = TareasService.crearTareaUsuario("Resolver los ejercicios de programación", 20);
+                Tarea tarea = new Tarea("Resolver los ejercicios de programación");
+                TareasService.crearTareaUsuario(tarea, 20);
                 fail("Debería haberse lanzado la excepción. No se puede crear tarea con usuario que no existe");
             }catch(UsuariosException ex){
             }
