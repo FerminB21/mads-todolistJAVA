@@ -31,7 +31,7 @@
         ![GitHub Logo](/docs/EsquinaSuperiorDerecha.png)
 
     Captura Detalles de usuario
-        ![GitHub Logo](/docs/DetalesUsuario.png)
+        ![GitHub Logo](/docs/DetallesUsuario.png)
 
     * Desde los detalles, si se pincha en el botón "Editar", podremos modificar cualquier dato propio.
     Captura Modificar Usuario
