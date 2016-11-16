@@ -1,0 +1,44 @@
+@(proyectos: List[Proyecto], usuario: Usuario)
+@main("Listado de proyectos") {
+
+<h1> Listado de proyectos de @usuario.login </h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Listado</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOMBRE</th>
+                <th>Nº TAREAS</th>
+                <th>ACCIÓN</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(proyecto <- proyectos) {
+            <tr>
+                <td>@proyecto.id</td>
+                <td>@proyecto.nombre</td>
+                <td>
+                    <a style="cursor: pointer" href=""><span
+                            class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                    @{
+                        if(proyecto.tareas.size() == 0)
+                            "Sin Tareas"
+                        else
+                            proyecto.tareas.size()
+                    }
+                    </a>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+}
