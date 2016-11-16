@@ -15,4 +15,21 @@ public class ProyectosService {
             throw new UsuariosException("Usuario no encontrado");
         }
     }
+
+    /**
+     * Guarda la tarea asociada a un usuario, invoca a TareaDAO.create
+     * @param descripcion, usuarioId
+     * @return Tarea
+     */
+    public static Proyecto crearProyectoUsuario(Proyecto proyecto, Integer usuarioId) {
+        Usuario usuario = UsuarioDAO.find(usuarioId);
+        if(usuario != null){
+            proyecto.usuario = usuario;
+          //  Logger.debug("Se crea proyecto: " + proyecto + " asociada al usuario " +usuarioId);
+            return ProyectoDAO.create(proyecto); //se le pasa ya con el usuario metido
+        }
+        else{
+            throw new UsuariosException("Usuario no encontrado");
+        }
+    }
 }
