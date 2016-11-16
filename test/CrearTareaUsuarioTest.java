@@ -118,4 +118,23 @@ public class CrearTareaUsuarioTest {
             }
         });
     }
+
+    @Test
+    public void crearTareaUsuarioConEstimacionTest() {
+        Integer tareaId = jpa.withTransaction(() -> {
+            Tarea tarea = new Tarea("Resolver los ejercicios de programación");
+            Usuario usuario = UsuarioDAO.find(2);
+            tarea.usuario = usuario;
+            tarea.estimacion = 1; // se le añade una estimación
+            tarea = TareaDAO.create(tarea);
+            return tarea.id;
+        });
+
+        jpa.withTransaction(() -> {
+            Tarea tarea = TareaDAO.find(tareaId);
+            // Comprobamos que efectivamente ha guardado el valor de la estimación
+            assertTrue(tarea.estimacion == 1);
+        });
+    }
+
 }
