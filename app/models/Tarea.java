@@ -15,6 +15,7 @@ public class Tarea {
     @ManyToOne
     @JoinColumn(name="usuarioId")
     public Usuario usuario;
+    public EstimacionTareaEnum estimacion;
 
     // Un constructor vacío necesario para JPA
     public Tarea() {}
@@ -27,6 +28,7 @@ public class Tarea {
     public Tarea copy() {
         Tarea nueva = new Tarea(this.descripcion);
         nueva.id = this.id;
+        nueva.estimacion = this.estimacion;
         return nueva;
     }
 
