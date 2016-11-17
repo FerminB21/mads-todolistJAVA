@@ -1,6 +1,6 @@
 # Manual de Usuario
 
-### - Actualizado a Release v1.1 - 16-11-2016
+### - Actualizado a Release v1.1 - 17-11-2016
 
 * ##### Logueo de usuario y página principal
 
@@ -14,7 +14,7 @@
     Captura Página Principal Usuario -> Listado de sus tareas
         ![GitHub Logo](/docs/ListadoTareas.png)
 
-* ##### Gestionar sus tareas
+* ##### Gestionar tareas
 
     * El usuario puede crear una tarea o modificarla. Es básicamente, añadir una descripción y una estimación de tamaño: pequeño, mediano o grande.
     Captura Creación de una tarea
@@ -23,8 +23,24 @@
     * Para poder eliminar una tarea es necesario acceder al icono del cubo en el listado de tareas. El sistema pedirá confirmación de borrado mediante una alerta.
     Captura Eliminar tarea
         ![GitHub Logo](/docs/EliminarTarea.png)
+        
+* ##### Gestionar proyectos
+    
+    * Accediendo desde la página principal (listado de tareas), es posible ir al listado de proyectos. En él, se puede crear un nuevo proyecto (botón Nuevo proyecto) así como ver los que ha creado el usuario.
+    Captura Crear proyecto
+        ![GitHub Logo](/docs/CrearProyecto.png)
 
-* ##### Gestionar sus datos
+    Captura Listado proyectos
+        ![GitHub Logo](/docs/ListadoProyectos.png)
+
+    * Para añadir tareas a un proyecto, desde el mismo listado de proyectos, se pincha en el icono del lápiz, que no es más que un enlace a editar el proyecto elegido y donde podrá tanto modificar el nombre del proyecto como añadir/borrar tareas a ese proyecto.
+    Captura Editar proyecto
+        ![GitHub Logo](/docs/EditarProyecto.png)
+        
+    Captura Borrar proyecto
+        ![GitHub Logo](/docs/BorrarProyecto.png)
+        
+* ##### Gestionar datos privados
 
     * Desde la esquina superior derecha de la pantalla, existe un menú desplegable el cual contiene una opción llamada "Perfil" y desde donde es posible acceder a sus datos.
     Captura Esquina Superior Derecha
