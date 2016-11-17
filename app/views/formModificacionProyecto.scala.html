@@ -8,7 +8,7 @@
 <h1>Modificar proyecto @proyectoForm("id").value</h1>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title">Modificar proyecto</h3>
+        <h3 class="panel-title">Modificar datos</h3>
     </div>
     <div class="panel-body">
         @helper.form(action = routes.ProyectosController.grabaProyectoModificado(idUsuario)) {
@@ -16,7 +16,48 @@
         @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre")
         <p>
             <input type="submit" class="btn btn-success" value="Guardar">
-            <a class="btn btn-danger" href="@routes.ProyectosController.listaProyectos(idUsuario)">Cancelar</a></p>
+            <a class="btn btn-danger" href="@routes.ProyectosController.listaProyectos(idUsuario)">Cancelar</a>
+        </p>
+        }
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tareas asociadas</h3>
+    </div>
+    <div class="panel-body">
+        @helper.form(action = routes.ProyectosController.grabaProyectoModificado(idUsuario)) {
+                @**
+                Hay que mostrar un <select> de las tareas que quedan pendientes por incluir en un proyecto
+                del mismo usuario.
+
+                <select name="tareaDisponible">
+                    @for(tareaDisponible <- tareasDisponibles) {
+                        <option value="@tareaDisponible.id">@tareaDisponible.nombre.toString()</option>
+                    }
+                </select>**@
+                <input type="submit" class="btn btn-success" value="Asignar">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Descripción</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @***Comentamos para que no salte error@for(tarea <- java.util.List(proyectoForm("tareas").value)) {
+                        <tr>
+                            <td>@tarea.id</td>
+
+                            <td>@tarea.descripcion</td>
+                        </tr>
+                    }*@
+                    </tbody>
+                </table>
+                <p>
+                    <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(idUsuario)">Volver</a>
+                </p>
         }
     </div>
 </div>
