@@ -39,6 +39,7 @@ GET     /usuarios/:idUsuario/proyecto/nuevo                 controllers.Proyecto
 POST    /usuarios/:idUsuario/proyecto/nuevo                 controllers.ProyectosController.grabaNuevoProyecto(idUsuario: Integer)
 GET     /usuarios/:idUsuario/proyectos/:idProyecto/editar   controllers.ProyectosController.formularioEditaProyecto(idProyecto: Integer, idUsuario: Integer)
 POST    /usuarios/:idUsuario/proyectos/modifica             controllers.ProyectosController.grabaProyectoModificado(idUsuario: Integer)
+DELETE  /usuarios/:idUsuario/proyectos/:idProyecto          controllers.ProyectosController.borraProyecto(idProyecto: Integer, idUsuario: Integer)
 
 #Ruta acerca-de
 GET /acercade controllers.AcercaDeController.acercaDe()

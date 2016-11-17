@@ -24,4 +24,18 @@ public class ProyectoDAO {
         return JPA.em().merge(proyecto);
     }
 
+    /**
+     * Borra el proyecto de la base de datos
+     * @param idProyecto
+     * @return Proyecto
+     */
+    public static void delete(int idProyecto) {
+        try {
+            Proyecto proyecto = JPA.em().getReference(Proyecto.class, idProyecto);
+            JPA.em().remove(proyecto);
+        } catch (EntityNotFoundException ex) {
+            Logger.debug("Se intenta borrar un proyecto no existente. Salta excepción.");
+        }
+    }
+
 }

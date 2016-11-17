@@ -95,5 +95,23 @@ public class ProyectosController extends Controller {
 
     }
 
+    /**
+     * Elimina el proyecto
+     * @param idProyecto,
+     * @return Result
+     */
+    @Transactional
+    public Result borraProyecto(int idProyecto, int idUsuario) {
+        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+        //Si se ha borrado recargamos página
+        if(ProyectosService.deleteProyecto(idProyecto)){
+            return ok("Proyecto borrado con éxito.");
+        }
+        else{ //Si no, devolvemos error
+            return badRequest("Proyecto no se ha podido eliminar.");
+        }
+
+    }
+
 
 }
