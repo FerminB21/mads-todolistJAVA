@@ -9,6 +9,10 @@
     * Al loguearse un usuario registrado ahora redireccionará a su listado de tareas.
 
     * Al loguearse un usuario se creará una sesión que servirá para decidir por qué páginas navegar. El filtrado se ha realizado de momento a nivel de botones o enlaces (si tiene sesión, se mostrará una cosa y si no tiene (usuario admin), se mostrará otra cosa). No se descarta implementar filtrado por rutas en un futuro.
+    
+    * CRUD de proyectos y asignación de tareas. Se permite añadir proyectos a un usuario. Un proyecto está compuesto por su nombre y un conjunto de tareas. Dichas tareas las elige el usuario mediante un panel (editando el proyecto).
+    
+    * A un proyecto pueden asociarse tareas o eliminarse de él. La tarea que se borre NO se borra del sistema, simplemente queda libre del proyecto y podrá asignarse a otro o no asignarse a ninguno.
 
 * ##### Cambios relevantes realizados en el código
 
@@ -31,3 +35,5 @@
         * Llamada actual:
 
         `crearTareaUsuario`(Tarea tarea, Integer usuarioId)
+    
+    * El código desarrollado para el CRUD de proyectos es prácticamente igual que para tareas. El mayor toque de cambio es en las relaciones ya que se compone de una relación 0:N con tareas y 1:1 con usuario.
