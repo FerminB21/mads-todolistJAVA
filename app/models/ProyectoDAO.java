@@ -20,4 +20,8 @@ public class ProyectoDAO {
         return proyecto;
     }
 
+    public static Proyecto update(Proyecto proyecto) {
+        return JPA.em().merge(proyecto);
+    }
+
 }
