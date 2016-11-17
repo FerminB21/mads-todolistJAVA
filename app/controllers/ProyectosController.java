@@ -58,5 +58,60 @@ public class ProyectosController extends Controller {
         return redirect(routes.ProyectosController.listaProyectos(idUsuario));
     }
 
+    @Transactional
+    public Result formularioEditaProyecto(Integer idProyecto, Integer idUsuario) {
+        //Cargamos vacío el form
+        Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class);
+        //Obtenemos de la base de datos la proyecto
+        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+        //Cargamos en el form los datos del usuario
+        proyectoForm = proyectoForm.fill(proyecto);
+        //Retornamos a la vista los datos del usuario en el form
+        return ok(formModificacionProyecto.render(proyectoForm, idUsuario, ""));
+    }
+
+    @Transactional
+    public Result grabaProyectoModificado(Integer idUsuario) {
+        Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class).bindFromRequest();
+        if (proyectoForm.hasErrors()) {
+            return badRequest(formModificacionProyecto.render(proyectoForm, idUsuario, "Hay errores en el formulario"));
+        }
+
+        //Recuperamos los datos de la proyecto
+        Proyecto proyecto = proyectoForm.get();
+        //Comprobamos que el usuario existe (evitamos problemas de referencias)
+        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        if(usuario != null){
+            proyecto.usuario=usuario;
+            Logger.debug("proyecto a grabar: " + proyecto.toString());
+            proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
+            flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
+            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+            return redirect(routes.ProyectosController.listaProyectos(idUsuario));
+        }
+        else{
+            return badRequest(formModificacionProyecto.render(proyectoForm, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+        }
+
+    }
+
+    /**
+     * Elimina el proyecto
+     * @param idProyecto,
+     * @return Result
+     */
+    @Transactional
+    public Result borraProyecto(int idProyecto, int idUsuario) {
+        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+        //Si se ha borrado recargamos página
+        if(ProyectosService.deleteProyecto(idProyecto)){
+            return ok("Proyecto borrado con éxito.");
+        }
+        else{ //Si no, devolvemos error
+            return badRequest("Proyecto no se ha podido eliminar.");
+        }
+
+    }
+
 
 }

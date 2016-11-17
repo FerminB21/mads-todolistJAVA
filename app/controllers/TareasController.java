@@ -93,7 +93,6 @@ public class TareasController extends Controller {
         else{
             return badRequest(formModificacionTarea.render(tareaForm, idUsuario, "Error inesperado. Vuelva a intentarlo"));
         }
-
     }
 
     /**
