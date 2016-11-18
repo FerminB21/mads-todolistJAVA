@@ -12,7 +12,7 @@
     </div>
     <div class="panel-body">
         @helper.form(action = routes.ProyectosController.grabaNuevoProyecto(idUsuario)) {
-            @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre")
+        @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre")
 
         <p>
             <input type="submit" class="btn btn-success" value="Guardar">

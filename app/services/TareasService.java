@@ -19,23 +19,24 @@ public class TareasService {
 
     /**
      * Guarda la tarea asociada a un usuario, invoca a TareaDAO.create
+     *
      * @param descripcion, usuarioId
      * @return Tarea
      */
     public static Tarea crearTareaUsuario(Tarea tarea, Integer usuarioId) {
         Usuario usuario = UsuarioDAO.find(usuarioId);
-        if(usuario != null){            
+        if (usuario != null) {
             tarea.usuario = usuario;
-            Logger.debug("Se crea tarea: " + tarea + " asociada al usuario " +usuarioId);
+            Logger.debug("Se crea tarea: " + tarea + " asociada al usuario " + usuarioId);
             return TareaDAO.create(tarea); //se le pasa ya con el usuario metido
-        }
-        else{
+        } else {
             throw new UsuariosException("Usuario no encontrado");
         }
     }
 
     /**
      * Modifica la tarea
+     *
      * @param tarea
      * @return Tarea
      */
@@ -43,8 +44,8 @@ public class TareasService {
         //Hay que comprobar su usuario, por si se ha asignado uno que no existe
 
         Usuario existente = UsuarioDAO.find(tarea.usuario.id);
-        if (existente == null){
-            Logger.debug("Usuario asociado a la tarea a editar no existe: "+ tarea.usuario.id);
+        if (existente == null) {
+            Logger.debug("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
             throw new UsuariosException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
         }
         TareaDAO.update(tarea);
@@ -54,6 +55,7 @@ public class TareasService {
     /**
      * Busca a la tarea en la base de datos por id pasada como parámetro. Invoca TareaDAO.find
      * Devuelve un objeto usuario o null si éste no existe.
+     *
      * @param id
      * @return Tarea
      */
@@ -67,6 +69,7 @@ public class TareasService {
      * Se devuelve true si ha sido borrada o false si no.
      * Puede darse el caso de que se pase una id no válida. En ese caso, no se borrará
      * y el método devolverá false.
+     *
      * @param id
      * @return boolean
      */
@@ -75,18 +78,17 @@ public class TareasService {
         //Si no existe, es que la id la hemos pasado mal
         //Tal vez, intento de burla?
         Tarea existente = TareaDAO.find(id);
-        if(existente != null){
+        if (existente != null) {
             Logger.debug("Existe, intenta borrarse");
             TareaDAO.delete(id); //Intentamos borrar
             //Volvemos a comprobar
             Tarea existente2 = TareaDAO.find(id);
-            if(existente2 == null){
+            if (existente2 == null) {
                 Logger.debug("Borrado correcto.");
                 return true;
             }
             return false;
-        }
-        else{
+        } else {
             Logger.debug("No existe, es un intento de burla");
             return false;
         }

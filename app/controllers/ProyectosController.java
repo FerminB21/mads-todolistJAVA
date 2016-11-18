@@ -16,9 +16,11 @@ import java.util.*;
 
 public class ProyectosController extends Controller {
 
-    @Inject FormFactory formFactory,tareaFactory;
-    List<Tarea> tareas=new ArrayList<Tarea>();
-    List<Tarea> tareasProyecto=new ArrayList<Tarea>();
+    @Inject
+    FormFactory formFactory, tareaFactory;
+    List<Tarea> tareas = new ArrayList<Tarea>();
+    List<Tarea> tareasProyecto = new ArrayList<Tarea>();
+
     @Transactional(readOnly = true)
     // Devuelve una página con la lista de proyectos
     public Result listaProyectos(Integer idUsuario) {
@@ -30,7 +32,6 @@ public class ProyectosController extends Controller {
             return ok(listaProyectos.render(proyectos, usuario));
         }
     }
-
 
 
     // Devuelve un formulario para crear un nuevo proyecto
@@ -70,11 +71,11 @@ public class ProyectosController extends Controller {
 
         //lineas añadidas
 
-         tareas = ProyectosService.tareasNoAsignadas(idUsuario);
-         tareasProyecto=proyecto.tareas;
+        tareas = ProyectosService.tareasNoAsignadas(idUsuario);
+        tareasProyecto = proyecto.tareas;
         ////
         //Retornamos a la vista los datos del usuario en el form
-        return ok(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, ""));
+        return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, ""));
     }
 
     @Transactional
@@ -83,79 +84,78 @@ public class ProyectosController extends Controller {
 
 
         if (proyectoForm.hasErrors()) {
-            return badRequest(formModificacionProyecto.render(proyectoForm ,tareas,tareasProyecto,idUsuario, "Hay errores en el formulario"));
+            return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, "Hay errores en el formulario"));
         }
 
         //Recuperamos los datos de la proyecto
         Proyecto proyecto = proyectoForm.get();
-        String id=Form.form().bindFromRequest().get("tareaDisponible");
+        String id = Form.form().bindFromRequest().get("tareaDisponible");
         Logger.debug("iddddddddddddddd: " + id);
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
-        proyecto.usuario=usuario;
-      if(id!=null){
+        proyecto.usuario = usuario;
+        if (id != null) {
 
-        //Comprobamos que el usuario existe (evitamos problemas de referencias)
+            //Comprobamos que el usuario existe (evitamos problemas de referencias)
 
 
-       Tarea tarea=TareasService.findTareaUsuario(Integer.parseInt(id));
-       Logger.debug("tareaaaaaaaaa: " + tarea);
-        if(usuario != null){
+            Tarea tarea = TareasService.findTareaUsuario(Integer.parseInt(id));
+            Logger.debug("tareaaaaaaaaa: " + tarea);
+            if (usuario != null) {
 
-            proyecto.usuario=usuario;
-            tarea.proyecto=proyecto;
-            //proyectoForm.get().tareaDisponible.value;
-            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-            proyecto.tareas.add(tarea);
+                proyecto.usuario = usuario;
+                tarea.proyecto = proyecto;
+                //proyectoForm.get().tareaDisponible.value;
+                Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+                proyecto.tareas.add(tarea);
 
-            proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
-            proyecto.nombre=Form.form().bindFromRequest().get("nombre");
-            flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
-            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-            return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id,idUsuario));
+                proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
+                proyecto.nombre = Form.form().bindFromRequest().get("nombre");
+                flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
+                Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+                return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
+            } else {
+                return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+            }
         }
-        else{
-            return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-        }
-      }
-            Logger.debug("iddddddddddddddd  not null: " + id);
+        Logger.debug("iddddddddddddddd  not null: " + id);
 
-            proyecto.nombre=Form.form().bindFromRequest().get("nombre");
-            flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
-            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-            return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id,idUsuario));
-            //return ok();
-            //return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+        proyecto.nombre = Form.form().bindFromRequest().get("nombre");
+        flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
+        Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+        return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
+        //return ok();
+        //return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
 
 
     }
+
     @Transactional
-    public Result deleteTareaDeProyecto(int idUsuario,int idTarea,int idProyecto) {
+    public Result deleteTareaDeProyecto(int idUsuario, int idTarea, int idProyecto) {
         //Si se ha borrado recargamos página
-        if(ProyectosService.deleteTarea(idUsuario,idTarea,idProyecto)){
+        if (ProyectosService.deleteTarea(idUsuario, idTarea, idProyecto)) {
             return ok("Tarea borrada con éxito.");
-        }
-        else{ //Si no, devolvemos error
+        } else { //Si no, devolvemos error
             return badRequest("Tarea no se ha podido eliminar.");
         }
 
     }
-    @Transactional
-    public Result borraProyecto(int idProyecto, int idUsuario){
-            Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-            //Si se ha borrado recargamos página
-            if (ProyectosService.deleteProyecto(idProyecto)) {
-                return ok("Proyecto borrado con éxito.");
-            } else { //Si no, devolvemos error
-                return badRequest("Proyecto no se ha podido eliminar.");
-            }
-}
 
     @Transactional
- public Result detalleProyecto(int idProyecto, int idUsuario) {
-     Proyecto proyecto = ProyectosService.findProyectoUsuario( idProyecto );
-     return ok( detalleProyecto.render( proyecto ) );
-}
+    public Result borraProyecto(int idProyecto, int idUsuario) {
+        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+        //Si se ha borrado recargamos página
+        if (ProyectosService.deleteProyecto(idProyecto)) {
+            return ok("Proyecto borrado con éxito.");
+        } else { //Si no, devolvemos error
+            return badRequest("Proyecto no se ha podido eliminar.");
+        }
+    }
 
+    @Transactional
+    public Result detalleProyecto(int idProyecto, int idUsuario) {
+        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+        return ok(detalleProyecto.render(proyecto));
+    }
 
 
 }

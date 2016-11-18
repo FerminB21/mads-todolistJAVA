@@ -6,9 +6,12 @@ import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
+
 import java.io.FileInputStream;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -74,7 +77,7 @@ public class ListadoProyectosTest {
 
             //Se refactoriza la función
             Proyecto anterior = proyectos.get(0);
-            for (int i=1;i<proyectos.size();i++) {
+            for (int i = 1; i < proyectos.size(); i++) {
                 Proyecto p = proyectos.get(i);
                 if (anterior != null) {
                     assertTrue(anterior.id < p.id);

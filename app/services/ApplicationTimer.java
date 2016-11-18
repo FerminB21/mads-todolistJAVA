@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.*;
+
 import play.Logger;
 import play.inject.ApplicationLifecycle;
 
@@ -12,12 +13,12 @@ import play.inject.ApplicationLifecycle;
  * application starts and stops. It starts a timer when the
  * application starts. When the application stops it prints out how
  * long the application was running for.
- *
+ * <p>
  * This class is registered for Guice dependency injection in the
  * {@link Module} class. We want the class to start when the application
  * starts, so it is registered as an "eager singleton". See the code
  * in the {@link Module} class to see how this happens.
- *
+ * <p>
  * This class needs to run code when the server stops. It uses the
  * application's {@link ApplicationLifecycle} to register a stop hook.
  */

@@ -19,17 +19,17 @@ public class ProyectosService {
 
     /**
      * Guarda el proyecto asociada a un usuario, invoca a ProyectoDAO.create
+     *
      * @param descripcion, usuarioId
      * @return Proyecto
      */
     public static Proyecto crearProyectoUsuario(Proyecto proyecto, Integer usuarioId) {
         Usuario usuario = UsuarioDAO.find(usuarioId);
-        if(usuario != null){
+        if (usuario != null) {
             proyecto.usuario = usuario;
-          //  Logger.debug("Se crea proyecto: " + proyecto + " asociada al usuario " +usuarioId);
+            //  Logger.debug("Se crea proyecto: " + proyecto + " asociada al usuario " +usuarioId);
             return ProyectoDAO.create(proyecto); //se le pasa ya con el usuario metido
-        }
-        else{
+        } else {
             throw new UsuariosException("Usuario no encontrado");
         }
     }
@@ -37,6 +37,7 @@ public class ProyectosService {
     /**
      * Busca el proyecto en la base de datos por id pasada como parámetro. Invoca ProuectoDAO.find
      * Devuelve un objeto usuario o null si éste no existe.
+     *
      * @param id
      * @return Proyecto
      */
@@ -48,6 +49,7 @@ public class ProyectosService {
 
     /**
      * Modifica el proyecto
+     *
      * @param proyecto
      * @return Proyecto
      */
@@ -55,8 +57,8 @@ public class ProyectosService {
         //Hay que comprobar su usuario, por si se ha asignado uno que no existe
 
         Usuario existente = UsuarioDAO.find(proyecto.usuario.id);
-        if (existente == null){
-            Logger.debug("Usuario asociado al proyecto a editar no existe: "+ proyecto.usuario.id);
+        if (existente == null) {
+            Logger.debug("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
             throw new UsuariosException("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
         }
         ProyectoDAO.update(proyecto);
@@ -67,6 +69,7 @@ public class ProyectosService {
      * Se devuelve true si ha sido borrado o false si no.
      * Puede darse el caso de que se pase una id no válida. En ese caso, no se borrará
      * y el método devolverá false.
+     *
      * @param id
      * @return boolean
      */
@@ -89,24 +92,24 @@ public class ProyectosService {
         return false;
     }
 
-    public static List<Tarea> tareasNoAsignadas(int iduser){
+    public static List<Tarea> tareasNoAsignadas(int iduser) {
 
-      Usuario existente = UsuarioDAO.find(iduser);
-      if (existente == null){
-          Logger.debug("Usuario asociado al proyecto a editar no existe: "+ iduser);
-          throw new UsuariosException("Usuario asociado al proyecto a editar no existe: " + iduser);
-      }
-      List<Tarea> tareas=TareaDAO.findTareasNoAsignadas(iduser);
-      return tareas;
+        Usuario existente = UsuarioDAO.find(iduser);
+        if (existente == null) {
+            Logger.debug("Usuario asociado al proyecto a editar no existe: " + iduser);
+            throw new UsuariosException("Usuario asociado al proyecto a editar no existe: " + iduser);
+        }
+        List<Tarea> tareas = TareaDAO.findTareasNoAsignadas(iduser);
+        return tareas;
 
 
     }
 
-    public static boolean deleteTarea(int idUsuario,int idTarea,int idProyecto){
+    public static boolean deleteTarea(int idUsuario, int idTarea, int idProyecto) {
         Tarea existente = TareaDAO.find(idTarea);
-        if(existente != null){
+        if (existente != null) {
             Logger.debug("Existe, intenta borrarse");
-            ProyectoDAO.deleteTarea(idUsuario,idTarea,idProyecto); //Intentamos borrar
+            ProyectoDAO.deleteTarea(idUsuario, idTarea, idProyecto); //Intentamos borrar
             //Volvemos a comprobar
           /*  Tarea existente2 = ProyectoDAO.find(idProyecto);
             if(existente2 == null){
@@ -114,8 +117,7 @@ public class ProyectosService {
                 return true;
             }*/
             return true;
-        }
-        else{
+        } else {
             Logger.debug("No existe, es un intento de burla");
             return false;
         }

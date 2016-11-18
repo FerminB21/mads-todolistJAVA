@@ -3,12 +3,13 @@ package models;
 import play.*;
 import play.mvc.*;
 import play.db.jpa.*;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Date;
 
 public class UsuarioDAO {
-    public static Usuario create (Usuario usuario) {
+    public static Usuario create(Usuario usuario) {
         usuario.nulificaAtributos();
         JPA.em().persist(usuario);
         // Hacemos un flush y un refresh para asegurarnos de que se realiza
@@ -22,6 +23,7 @@ public class UsuarioDAO {
     /**
      * Mejora:
      * TIC-17 - Se añade tratamiento de excepción
+     *
      * @param usuario
      * @return Usuario
      */
@@ -41,6 +43,7 @@ public class UsuarioDAO {
     /**
      * Mejora:
      * TIC-17 - Se añade tratamiento de excepción
+     *
      * @param usuario
      * @return Usuario
      */
@@ -55,7 +58,7 @@ public class UsuarioDAO {
 
     public static List<Usuario> findAll() {
         TypedQuery<Usuario> query = JPA.em().createQuery(
-                  "select u from Usuario u ORDER BY id", Usuario.class);
+                "select u from Usuario u ORDER BY id", Usuario.class);
         return query.getResultList();
     }
 
