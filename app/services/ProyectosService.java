@@ -80,6 +80,11 @@ public class ProyectosService {
         Proyecto existente = ProyectoDAO.find(id);
         if (existente != null) {
             Logger.debug("Existe, intenta borrarse");
+            //Si tiene tareas asociadas, las recorremos una a una para eliminarlas del proyecto
+            if(existente.tareas.size()>0)
+                for(Tarea tarea : existente.tareas){
+                    ProyectoDAO.deleteTarea(existente.usuario.id, tarea.id, id);
+                }
             ProyectoDAO.delete(id); //Intentamos borrar
             //Volvemos a comprobar
             Proyecto existente2 = ProyectoDAO.find(id);
