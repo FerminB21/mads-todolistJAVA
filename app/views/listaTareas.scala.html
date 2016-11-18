@@ -29,7 +29,8 @@
 @main("Tareas del usuario "+usuario.id, scripts) {
 
     <h1> Listado de tareas de @usuario.login</h1>
-    <a class="btn btn-primary" href="@routes.TareasController.formularioNuevaTarea(usuario.id)">Nueva Tarea</a></p>
+    <a class="btn btn-primary" href="@routes.TareasController.formularioNuevaTarea(usuario.id)">Nueva Tarea</a>
+<a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(usuario.id)">Ver proyectos</a></p>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Listado</h3>
