@@ -4,6 +4,7 @@ import play.*;
 import play.mvc.*;
 import play.db.jpa.*;
 import javax.persistence.*;
+import java.util.List;
 
 public class TareaDAO {
     public static Tarea find(Integer idTarea) {
@@ -37,4 +38,20 @@ public class TareaDAO {
             Logger.debug("Se intenta borrar una tarea no existente. Salta excepción.");
         }
     }
+///select * from tareas where usuarioId=X and idProyecto=Y
+
+    public static List<Tarea> findTareasNoAsignadas(Integer id) {
+
+        TypedQuery<Tarea> query = JPA.em().createQuery(
+                "select u from Tarea u where  usuarioId = :usuarioId and proyectoId is null", Tarea.class);
+                try {
+                  List<Tarea> tareas = query.setParameter("usuarioId", id).getResultList();
+                    return tareas;
+                } catch (NoResultException ex) {
+                    return null;
+                }
+
+    }
+
+
 }

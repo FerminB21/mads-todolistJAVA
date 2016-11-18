@@ -63,7 +63,6 @@ public class ProyectosService {
         return proyecto;
     }
 
-
     /**
      * Se devuelve true si ha sido borrado o false si no.
      * Puede darse el caso de que se pase una id no válida. En ese caso, no se borrará
@@ -76,20 +75,50 @@ public class ProyectosService {
         //Si no existe, es que la id la hemos pasado mal
         //Tal vez, intento de burla?
         Proyecto existente = ProyectoDAO.find(id);
-        if(existente != null){
+        if (existente != null) {
             Logger.debug("Existe, intenta borrarse");
             ProyectoDAO.delete(id); //Intentamos borrar
             //Volvemos a comprobar
             Proyecto existente2 = ProyectoDAO.find(id);
-            if(existente2 == null){
+            if (existente2 == null) {
                 Logger.debug("Borrado correcto.");
                 return true;
             }
-            return false;
+
+        }
+        return false;
+    }
+
+    public static List<Tarea> tareasNoAsignadas(int iduser){
+
+      Usuario existente = UsuarioDAO.find(iduser);
+      if (existente == null){
+          Logger.debug("Usuario asociado al proyecto a editar no existe: "+ iduser);
+          throw new UsuariosException("Usuario asociado al proyecto a editar no existe: " + iduser);
+      }
+      List<Tarea> tareas=TareaDAO.findTareasNoAsignadas(iduser);
+      return tareas;
+
+
+    }
+
+    public static boolean deleteTarea(int idUsuario,int idTarea,int idProyecto){
+        Tarea existente = TareaDAO.find(idUsuario);
+        if(existente != null){
+            Logger.debug("Existe, intenta borrarse");
+            ProyectoDAO.delete(idUsuario,idTarea,idProyecto); //Intentamos borrar
+            //Volvemos a comprobar
+          /*  Tarea existente2 = ProyectoDAO.find(idProyecto);
+            if(existente2 == null){
+                Logger.debug("Borrado correcto.");
+                return true;
+            }*/
+            return true;
         }
         else{
             Logger.debug("No existe, es un intento de burla");
             return false;
         }
     }
+
 }

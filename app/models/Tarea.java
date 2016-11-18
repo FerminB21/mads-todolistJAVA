@@ -61,5 +61,6 @@ public class Tarea {
 
     public String toString() {
         return String.format("Tarea id: %s descripcion: %s estimacion: %s", id, descripcion, estimacion);
-    }
+}
+
 }

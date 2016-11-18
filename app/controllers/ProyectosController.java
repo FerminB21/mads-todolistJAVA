@@ -12,12 +12,13 @@ import services.*;
 import views.html.*;
 
 import javax.inject.*;
-import java.util.List;
+import java.util.*;
 
 public class ProyectosController extends Controller {
 
-    @Inject FormFactory formFactory;
-
+    @Inject FormFactory formFactory,tareaFactory;
+    List<Tarea> tareas=new ArrayList<Tarea>();
+    List<Tarea> tareasProyecto=new ArrayList<Tarea>();
     @Transactional(readOnly = true)
     // Devuelve una página con la lista de proyectos
     public Result listaProyectos(Integer idUsuario) {
@@ -54,7 +55,7 @@ public class ProyectosController extends Controller {
         proyecto = ProyectosService.crearProyectoUsuario(proyecto, idUsuario);
         flash("gestionaProyecto", "el proyecto se ha grabado correctamente");
         Logger.debug("Proyecto guardado correctamente: " + proyecto.toString());
-        
+
         return redirect(routes.ProyectosController.listaProyectos(idUsuario));
     }
 
@@ -66,33 +67,75 @@ public class ProyectosController extends Controller {
         Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
         //Cargamos en el form los datos del usuario
         proyectoForm = proyectoForm.fill(proyecto);
+
+        //lineas añadidas
+
+         tareas = ProyectosService.tareasNoAsignadas(idUsuario);
+         tareasProyecto=proyecto.tareas;
+        ////
         //Retornamos a la vista los datos del usuario en el form
-        return ok(formModificacionProyecto.render(proyectoForm, idUsuario, ""));
+        return ok(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, ""));
     }
 
     @Transactional
     public Result grabaProyectoModificado(Integer idUsuario) {
         Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class).bindFromRequest();
+
+
         if (proyectoForm.hasErrors()) {
-            return badRequest(formModificacionProyecto.render(proyectoForm, idUsuario, "Hay errores en el formulario"));
+            return badRequest(formModificacionProyecto.render(proyectoForm ,tareas,tareasProyecto,idUsuario, "Hay errores en el formulario"));
         }
 
         //Recuperamos los datos de la proyecto
         Proyecto proyecto = proyectoForm.get();
-        //Comprobamos que el usuario existe (evitamos problemas de referencias)
+        String id=Form.form().bindFromRequest().get("tareaDisponible");
+        Logger.debug("iddddddddddddddd: " + id);
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        proyecto.usuario=usuario;
+      if(id!=null){
+
+        //Comprobamos que el usuario existe (evitamos problemas de referencias)
+
+
+       Tarea tarea=TareasService.findTareaUsuario(Integer.parseInt(id));
+       Logger.debug("tareaaaaaaaaa: " + tarea);
         if(usuario != null){
+
             proyecto.usuario=usuario;
-            Logger.debug("proyecto a grabar: " + proyecto.toString());
+            tarea.proyecto=proyecto;
+            //proyectoForm.get().tareaDisponible.value;
+            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+            proyecto.tareas.add(tarea);
+
+
+            proyecto.nombre=Form.form().bindFromRequest().get("nombre");
+            flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
+            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+            return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id,idUsuario));
+        }
+        else{
+            return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+        }
+      }
+            Logger.debug("iddddddddddddddd  not null: " + id);
+
             proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
             flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
             Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-            return redirect(routes.ProyectosController.listaProyectos(idUsuario));
-        }
-        else{
-            return badRequest(formModificacionProyecto.render(proyectoForm, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-        }
+            return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id,idUsuario));
+            //return ok();
+            //return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
 
+
+    }
+    @Transactional
+    public Result DeleteTareaDeProyecto(int idUsuario,int idTarea,int idProyecto) {
+        //Si se ha borrado recargamos página
+        if (ProyectosService.deleteTarea(idUsuario, idTarea, idProyecto)) {
+            return ok("Tarea borrada con éxito.");
+        } else { //Si no, devolvemos error
+            return badRequest("Tarea no se ha podido eliminar.");
+        }
     }
 
     /**
@@ -101,16 +144,14 @@ public class ProyectosController extends Controller {
      * @return Result
      */
     @Transactional
-    public Result borraProyecto(int idProyecto, int idUsuario) {
-        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-        //Si se ha borrado recargamos página
-        if(ProyectosService.deleteProyecto(idProyecto)){
-            return ok("Proyecto borrado con éxito.");
-        }
-        else{ //Si no, devolvemos error
-            return badRequest("Proyecto no se ha podido eliminar.");
-        }
-
+    public Result borraProyecto(int idProyecto, int idUsuario){
+            Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+            //Si se ha borrado recargamos página
+            if (ProyectosService.deleteProyecto(idProyecto)) {
+                return ok("Proyecto borrado con éxito.");
+            } else { //Si no, devolvemos error
+                return badRequest("Proyecto no se ha podido eliminar.");
+            }
     }
 
 
