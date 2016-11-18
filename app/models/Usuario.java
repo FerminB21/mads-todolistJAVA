@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.*;
+
 import play.data.validation.Constraints;
 import play.data.format.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 public class Usuario {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
     @Constraints.Required
     public String login;
@@ -22,16 +23,17 @@ public class Usuario {
     public String nombre;
     public String apellidos;
     public String eMail;
-    @Formats.DateTime(pattern="dd-MM-yyyy")
+    @Formats.DateTime(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     public Date fechaNacimiento;
-    @OneToMany(mappedBy="usuario")
+    @OneToMany(mappedBy = "usuario")
     public List<Tarea> tareas = new ArrayList<Tarea>();
-    @OneToMany(mappedBy="usuario")
+    @OneToMany(mappedBy = "usuario")
     public List<Proyecto> proyectos = new ArrayList<Proyecto>();
 
     // Un constructor vacío necesario para JPA
-    public Usuario() {}
+    public Usuario() {
+    }
 
     // El constructor principal con los campos obligatorios
     public Usuario(String login, String password) {
@@ -64,8 +66,8 @@ public class Usuario {
             fechaStr = formateador.format(fechaNacimiento);
         }
         return String.format("Usuario id: %s login: %s passworld: %s nombre: %s " +
-                      "apellidos: %s eMail: %s fechaNacimiento: %s",
-                      id, login, password, nombre, apellidos, eMail, fechaStr);
+                        "apellidos: %s eMail: %s fechaNacimiento: %s",
+                id, login, password, nombre, apellidos, eMail, fechaStr);
     }
 
     @Override
@@ -84,7 +86,7 @@ public class Usuario {
         // Si tenemos los ID, comparamos por ID
         if (id != 0 && other.id != 0)
             return (id == other.id);
-        // sino comparamos por campos obligatorios
+            // sino comparamos por campos obligatorios
         else {
             if (login == null) {
                 if (other.login != null) return false;
@@ -99,6 +101,7 @@ public class Usuario {
     /**
      * Se crea dicha función (TIC-17)
      * Copia los datos de un objeto a otro
+     *
      * @return Usuario
      */
     public Usuario copy() {

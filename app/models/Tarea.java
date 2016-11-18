@@ -2,26 +2,28 @@ package models;
 
 import java.util.Date;
 import javax.persistence.*;
+
 import play.data.validation.Constraints;
 import play.data.format.*;
 
 @Entity
 public class Tarea {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer id;
     @Constraints.Required
     public String descripcion;
     @ManyToOne
-    @JoinColumn(name="usuarioId")
+    @JoinColumn(name = "usuarioId")
     public Usuario usuario;
     public Integer estimacion;
     @ManyToOne
-    @JoinColumn(name="proyectoId")
+    @JoinColumn(name = "proyectoId")
     public Proyecto proyecto;
 
     // Un constructor vacío necesario para JPA
-    public Tarea() {}
+    public Tarea() {
+    }
 
     // El constructor principal con los campos obligatorios
     public Tarea(String descripcion) {
@@ -61,6 +63,6 @@ public class Tarea {
 
     public String toString() {
         return String.format("Tarea id: %s descripcion: %s estimacion: %s", id, descripcion, estimacion);
-}
+    }
 
 }

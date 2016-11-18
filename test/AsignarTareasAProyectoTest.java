@@ -6,9 +6,12 @@ import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
+
 import java.io.FileInputStream;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -61,16 +64,16 @@ public class AsignarTareasAProyectoTest {
      * Crear proyecto asociado a un usuario
      * Se utilizan las clases ProyectoDAO y UsuarioDAO.
      */
-     //<Proyecto id="3" usuarioId="1" nombre="Leer el libro de inglés" />
+    //<Proyecto id="3" usuarioId="1" nombre="Leer el libro de inglés" />
     @Test
     public void Proyecto1Test() {
         Integer ProyectoId = jpa.withTransaction(() -> {
             Usuario usuario = UsuarioDAO.find(1);
             Proyecto proyecto = ProyectoDAO.find(1);
-            Tarea tarea=TareaDAO.find(1);
+            Tarea tarea = TareaDAO.find(1);
 
-            proyecto.usuario=usuario;
-            tarea.proyecto=proyecto;
+            proyecto.usuario = usuario;
+            tarea.proyecto = proyecto;
             usuario.tareas.add(tarea);
             proyecto.tareas.add(tarea);
 
@@ -93,48 +96,48 @@ public class AsignarTareasAProyectoTest {
     }
 
 
-        @Test
-        public void Proyecto2Test() {
-            Integer ProyectoId = jpa.withTransaction(() -> {
-                Proyecto proyecto = new Proyecto("mads");
-                Usuario usuario = UsuarioDAO.find(1);
-                Tarea tarea=new Tarea("algo");
+    @Test
+    public void Proyecto2Test() {
+        Integer ProyectoId = jpa.withTransaction(() -> {
+            Proyecto proyecto = new Proyecto("mads");
+            Usuario usuario = UsuarioDAO.find(1);
+            Tarea tarea = new Tarea("algo");
 
-                tarea.proyecto=proyecto;
-                tarea.usuario=usuario;
-                proyecto.usuario = usuario;
-                usuario.tareas.add(tarea);
-                proyecto.tareas.add(tarea);
-                proyecto = ProyectoDAO.create(proyecto);
-                return proyecto.id;
-            });
+            tarea.proyecto = proyecto;
+            tarea.usuario = usuario;
+            proyecto.usuario = usuario;
+            usuario.tareas.add(tarea);
+            proyecto.tareas.add(tarea);
+            proyecto = ProyectoDAO.create(proyecto);
+            return proyecto.id;
+        });
 
-            jpa.withTransaction(() -> {
-                //Recuperamos el proyecto
-                Proyecto proyecto = ProyectoDAO.find(ProyectoId);
-                Usuario usuario = UsuarioDAO.find(1);
-                // Comprobamos que se recupera también el usuario del proyecto
-                assertEquals(proyecto.usuario.nombre, usuario.nombre);
-                //assertFalse(proyectos.tareas.contains(new Tarea("loquesea")));
-            });
+        jpa.withTransaction(() -> {
+            //Recuperamos el proyecto
+            Proyecto proyecto = ProyectoDAO.find(ProyectoId);
+            Usuario usuario = UsuarioDAO.find(1);
+            // Comprobamos que se recupera también el usuario del proyecto
+            assertEquals(proyecto.usuario.nombre, usuario.nombre);
+            //assertFalse(proyectos.tareas.contains(new Tarea("loquesea")));
+        });
     }
 
     @Test
-    public void proyecto3Test(){
-       jpa.withTransaction(() -> {
-            try{
+    public void proyecto3Test() {
+        jpa.withTransaction(() -> {
+            try {
                 Proyecto proyecto = new Proyecto("Resolver los ejercicios de programación");
                 Usuario usuario = UsuarioDAO.find(1); //recuperamos usuario id 1 (juan)
-                Tarea tarea=new Tarea("algo");
+                Tarea tarea = new Tarea("algo");
 
-                tarea.proyecto=proyecto;
-                tarea.usuario=usuario;
+                tarea.proyecto = proyecto;
+                tarea.usuario = usuario;
                 proyecto.usuario = usuario; //se modifica pero no llama al update porque se creó sin JPA
                 proyecto.tareas.add(tarea);
 
-                ProyectosService.crearProyectoUsuario(proyecto,41);
+                ProyectosService.crearProyectoUsuario(proyecto, 41);
                 fail("Debería haberse lanzado la excepción. No se puede crear proyecto con usuario que no existe");
-            }catch(UsuariosException ex){
+            } catch (UsuariosException ex) {
             }
         });
     }

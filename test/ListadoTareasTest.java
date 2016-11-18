@@ -6,9 +6,12 @@ import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
+
 import java.io.FileInputStream;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -108,7 +111,7 @@ public class ListadoTareasTest {
 
             //Se refactoriza la función
             Tarea anterior = tareas.get(0);
-            for (int i=1;i<tareas.size();i++) {
+            for (int i = 1; i < tareas.size(); i++) {
                 Tarea t = tareas.get(i);
                 if (anterior != null) {
                     assertTrue(anterior.id < t.id);

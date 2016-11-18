@@ -6,9 +6,12 @@ import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
+
 import java.io.FileInputStream;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -85,7 +88,7 @@ public class CrearTareaUsuarioTest {
     }
 
     @Test
-    public void crearTareaUsuarioServiceTest(){
+    public void crearTareaUsuarioServiceTest() {
         Integer tareaId = jpa.withTransaction(() -> {
             Tarea tarea = new Tarea("Resolver los ejercicios de programación");
             TareasService.crearTareaUsuario(tarea, 2);
@@ -108,13 +111,13 @@ public class CrearTareaUsuarioTest {
     }
 
     @Test
-    public void crearTareaUsuarioNoExisteErrorTest(){
-       jpa.withTransaction(() -> {
-            try{
+    public void crearTareaUsuarioNoExisteErrorTest() {
+        jpa.withTransaction(() -> {
+            try {
                 Tarea tarea = new Tarea("Resolver los ejercicios de programación");
                 TareasService.crearTareaUsuario(tarea, 20);
                 fail("Debería haberse lanzado la excepción. No se puede crear tarea con usuario que no existe");
-            }catch(UsuariosException ex){
+            } catch (UsuariosException ex) {
             }
         });
     }

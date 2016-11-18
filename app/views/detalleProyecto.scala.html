@@ -1,27 +1,29 @@
 @(proyecto: Proyecto)
 @main("Detalle de Proyecto") {
-    <h1>Detalles del proyecto @proyecto.id</h1>
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Detalle</h3>
-        </div>
-        <div class="panel-body">
-            <ul>
-                <li><span style="font-weight: bold;">Nombre: </span>@proyecto.nombre</li>
-                <li><span style="font-weight: bold;">Nº Tareas: </span>
-                    <a style="cursor: pointer" href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">
-                        <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                        @{
-                        if(proyecto.tareas.size() == 0)
-                           "Sin Tareas"
-                        else
-                           proyecto.tareas.size()
-                        }
-                    </a>
-                </li>
-            </ul>
-            <a class="btn btn-primary" href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
-            <a  class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a></p>
-        </div>
+<h1>Detalles del proyecto @proyecto.id</h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Detalle</h3>
     </div>
+    <div class="panel-body">
+        <ul>
+            <li><span style="font-weight: bold;">Nombre: </span>@proyecto.nombre</li>
+            <li><span style="font-weight: bold;">Nº Tareas: </span>
+                <a style="cursor: pointer"
+                   href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">
+                    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                    @{
+                    if(proyecto.tareas.size() == 0)
+                    "Sin Tareas"
+                    else
+                    proyecto.tareas.size()
+                    }
+                </a>
+            </li>
+        </ul>
+        <a class="btn btn-primary"
+           href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
+        <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a></p>
+    </div>
+</div>
 }

@@ -12,15 +12,15 @@
     </div>
     <div class="panel-body">
         @helper.form(action = routes.TareasController.grabaNuevaTarea(idUsuario)) {
-            @helper.inputText(tareaForm("descripcion"), '_label -> "Descripción")
-            <div class="form-group">
-                <label class="control-label">Estimación</label>
-                <select name="estimacion">
-                    @for(estimacion <- EstimacionTareaEnum.values()) {
-                        <option value="@estimacion.id">@estimacion.toString()</option>
-                    }
-                </select>
-            </div>
+        @helper.inputText(tareaForm("descripcion"), '_label -> "Descripción")
+        <div class="form-group">
+            <label class="control-label">Estimación</label>
+            <select name="estimacion">
+                @for(estimacion <- EstimacionTareaEnum.values()) {
+                <option value="@estimacion.id">@estimacion.toString()</option>
+                }
+            </select>
+        </div>
         <p>
             <input type="submit" class="btn btn-success" value="Guardar">
             <a class="btn btn-danger" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>
