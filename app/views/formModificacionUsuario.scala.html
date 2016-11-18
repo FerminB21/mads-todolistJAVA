@@ -1,27 +1,30 @@
 @(usuarioForm: Form[Usuario], mensaje: String)
 @main("Modificar usuario") {
-    @if(mensaje != "") {
-        <div class="alert alert-danger">
-            @mensaje
-        </div>
-    }
-      <h1>Modificar usuario @usuarioForm("id").value</h1>
-      <div class="panel panel-primary">
-          <div class="panel-heading">
-              <h3 class="panel-title">Modificar usuario</h3>
-          </div>
-          <div class="panel-body">
-            @helper.form(action = routes.UsuariosController.grabaUsuarioModificado()) {
-              <input type="hidden" name="id" value='@usuarioForm("id").value' >
-              @helper.inputText(usuarioForm("login"), '_label -> "Login")
-              @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
-              @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
-              @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
-              @helper.inputText(usuarioForm("fechaNacimiento"), '_label -> "Fecha nacimiento (dd-mm-aaaa)")
-              <p>
-              <input type="submit" class="btn btn-success" value="Guardar">
-              <a class="btn btn-danger" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
-            }
-          </div>
-      </div>
+@if(mensaje != "") {
+<div class="alert alert-danger">
+    @mensaje
+</div>
+}
+<h1>Modificar usuario @usuarioForm("id").value</h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Modificar usuario</h3>
+    </div>
+    <div class="panel-body">
+
+        @helper.form(action = routes.UsuariosController.grabaUsuarioModificado()) {
+        <input type="hidden" name="id" value='@usuarioForm("id").value'>
+        @helper.inputText(usuarioForm("login"), '_label -> "Login")
+        @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
+        @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
+        @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
+        @helper.inputText(usuarioForm("fechaNacimiento"), '_label -> "Fecha nacimiento (dd-mm-aaaa)")
+        <p>
+            <input type="submit" class="btn btn-success" value="Guardar">
+            @if(session.get("usuarioSesion") == null) {
+            <a class="btn btn-danger" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
+        }
+        }
+    </div>
+</div>
 }

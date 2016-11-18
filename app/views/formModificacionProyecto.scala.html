@@ -1,0 +1,88 @@
+@(proyectoForm: Form[Proyecto],tareasDisponibles: List[Tarea],tareasProyecto: List[Tarea], idUsuario: Integer, mensaje: String)
+@scripts = {
+<script type="text/javascript">
+
+        function del(urlBorrar) {
+           //alert(urlBorrar);
+
+         //Se añade confirmación de borrado
+         if(confirm("¿Está seguro de querer borrar la tarea del proyecto?")){
+           $.ajax({
+
+               url: urlBorrar,
+               type: 'DELETE',
+               success: function(results) {
+                   alert(results);
+                   //refresh the page
+                   location.reload();
+               },
+               error: function(results) { //TIC-17 Se añade para capturar el error
+                   alert(results.responseText);
+                   location.reload();
+               }
+           });
+           return true;
+         }
+         else return false;
+        }
+
+
+</script>
+}
+@main("Modificar Proyecto",scripts) {
+@if(mensaje != "") {
+<div class="alert alert-danger">
+    @mensaje
+</div>
+}
+<h1>Modificar proyecto @proyectoForm("id").value</h1>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tareas asociadas</h3>
+    </div>
+    <div class="panel-body">
+        @helper.form(action = routes.ProyectosController.grabaProyectoModificado(idUsuario)) {
+        <input type="hidden" name="id" value='@proyectoForm("id").value'>
+
+        @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre Proyecto")
+
+        <p>Asignar tarea al proyecto</p>
+        <select name="tareaDisponible">
+            @for(tareaDisponible <- tareasDisponibles) {
+            <option value="@tareaDisponible.id">@tareaDisponible.descripcion.toString()</option>
+            }
+        </select>
+        <br><br>
+        <input type="submit" class="btn btn-success" value="Asignar">
+        <br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>ACCIÓN</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @for(tarea <- tareasProyecto) {
+            <tr>
+                <td>@tarea.id</td>
+
+                <td>@tarea.descripcion</td>
+                <td>
+                    <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.deleteTareaDeProyecto(idUsuario,tarea.id, (proyectoForm("id").value).toInt)')"><span
+                        class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+        <p>
+            <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(idUsuario)">Volver</a>
+        </p>
+        }
+    </div>
+</div>
+}

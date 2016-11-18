@@ -5,8 +5,6 @@ import play.mvc.*;
 import views.html.*;
 
 
-
-
 /**
  * Created by mads on 15/11/16.
  */

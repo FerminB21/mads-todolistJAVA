@@ -16,7 +16,8 @@ import java.util.List;
 
 public class TareasController extends Controller {
 
-    @Inject FormFactory formFactory;
+    @Inject
+    FormFactory formFactory;
 
     @Transactional(readOnly = true)
     public Result listaTareas(Integer idUsuario) {
@@ -50,8 +51,10 @@ public class TareasController extends Controller {
             return badRequest(formCreacionTarea.render(tareaForm, idUsuario, "Hay errores en el formulario"));
         }
         Tarea tarea = tareaForm.get();
+        Integer estimacion = Integer.parseInt(tareaForm.form().bindFromRequest().get("estimacion"));
+        tarea.estimacion = estimacion;
         Logger.debug("Tarea a grabar: " + tarea.toString());
-        tarea = TareasService.crearTareaUsuario(tarea.descripcion, idUsuario);
+        tarea = TareasService.crearTareaUsuario(tarea, idUsuario);
         flash("gestionaTarea", "La tarea se ha grabado correctamente");
         Logger.debug("Tarea guardada correctamente: " + tarea.toString());
         return redirect(routes.TareasController.listaTareas(idUsuario));
@@ -75,27 +78,26 @@ public class TareasController extends Controller {
         if (tareaForm.hasErrors()) {
             return badRequest(formModificacionTarea.render(tareaForm, idUsuario, "Hay errores en el formulario"));
         }
-        
+
         //Recuperamos los datos de la tarea
         Tarea tarea = tareaForm.get();
         //Comprobamos que el usuario existe (evitamos problemas de referencias)
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
-        if(usuario != null){
-            tarea.usuario=usuario;
+        if (usuario != null) {
+            tarea.usuario = usuario;
             Logger.debug("Tarea a grabar: " + tarea.toString());
             tarea = TareasService.modificaTareaUsuario(tarea);
             flash("gestionaTarea", "La tarea se ha modificado correctamente (modificar)");
             Logger.debug("Tarea guardada correctamente (modificar): " + tarea.toString());
             return redirect(routes.TareasController.listaTareas(idUsuario));
-        }
-        else{
+        } else {
             return badRequest(formModificacionTarea.render(tareaForm, idUsuario, "Error inesperado. Vuelva a intentarlo"));
         }
-
     }
 
     /**
      * Elimina la tarea
+     *
      * @param idTarea,
      * @return Result
      */
@@ -103,10 +105,9 @@ public class TareasController extends Controller {
     public Result borraTarea(int idTarea, int idUsuario) {
         Tarea tarea = TareasService.findTareaUsuario(idTarea);
         //Si se ha borrado recargamos página
-        if(TareasService.deleteTarea(idTarea)){
+        if (TareasService.deleteTarea(idTarea)) {
             return ok("Tarea borrada con éxito.");
-        }
-        else{ //Si no, devolvemos error
+        } else { //Si no, devolvemos error
             return badRequest("Tarea no se ha podido eliminar.");
         }
 

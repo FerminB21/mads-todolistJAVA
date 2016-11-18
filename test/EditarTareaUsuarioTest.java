@@ -7,9 +7,12 @@ import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
+
 import java.io.FileInputStream;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -121,13 +124,13 @@ public class EditarTareaUsuarioTest {
             Usuario usuario = new Usuario("manuel", "prueba");
             tarea.usuario = usuario;
             tarea.id = 1; //la tarea creada le ponemos un id existente
-                          //para que una vez se llame al Service, JPA por dentro sepa enlazar esta tarea a la id 1.
+            //para que una vez se llame al Service, JPA por dentro sepa enlazar esta tarea a la id 1.
 
-            try{
+            try {
                 tarea.usuario.id = 20;
                 tarea = TareasService.modificaTareaUsuario(tarea);
                 fail("Debería haberse lanzado la excepción. No se puede cambiar la tarea a un usuario que no existe.");
-            }catch(UsuariosException ex) {
+            } catch (UsuariosException ex) {
             }
         });
 

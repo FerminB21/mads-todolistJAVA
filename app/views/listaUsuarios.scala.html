@@ -23,6 +23,7 @@
           else return false;
         }
 
+
 </script>
 }
 @main("Listado de usuarios", scripts) {
@@ -55,12 +56,12 @@
                 <td>
                     <a style="cursor: pointer" href="@routes.TareasController.listaTareas(usuario.id)"><span
                             class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                    @{
+                        @{
                         if(usuario.tareas.size() == 0)
-                            "Sin Tareas"
+                        "Sin Tareas"
                         else
-                            usuario.tareas.size()
-                    }
+                        usuario.tareas.size()
+                        }
                     </a>
                 </td>
                 <td>

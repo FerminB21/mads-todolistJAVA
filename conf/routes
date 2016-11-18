@@ -33,5 +33,15 @@ GET     /usuarios/:idUsuario/tareas/:idTarea/editar     controllers.TareasContro
 POST    /usuarios/:idUsuario/tareas/modifica            controllers.TareasController.grabaTareaModificada(idUsuario: Integer)
 DELETE  /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.borraTarea(idTarea: Integer, idUsuario: Integer)
 
+#Rutas de proyectos
+GET     /usuarios/:idUsuario/proyectos                                 controllers.ProyectosController.listaProyectos(idUsuario: Integer)
+GET     /usuarios/:idUsuario/proyecto/nuevo                            controllers.ProyectosController.formularioNuevoProyecto(idUsuario: Integer)
+POST    /usuarios/:idUsuario/proyecto/nuevo                            controllers.ProyectosController.grabaNuevoProyecto(idUsuario: Integer)
+GET     /usuarios/:idUsuario/proyectos/:idProyecto/editar              controllers.ProyectosController.formularioEditaProyecto(idProyecto: Integer, idUsuario: Integer)
+POST    /usuarios/:idUsuario/proyectos/modifica                        controllers.ProyectosController.grabaProyectoModificado(idUsuario: Integer)
+DELETE  /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.borraProyecto(idProyecto: Integer, idUsuario: Integer)
+DELETE  /usuarios/:idUsuario/tarea/:idTarea/proyectos/:idProyecto      controllers.ProyectosController.deleteTareaDeProyecto(idUsuario: Integer, idTarea: Integer,idProyecto: Integer)
+GET     /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.detalleProyecto(idProyecto: Integer, idUsuario: Integer)
+
 #Ruta acerca-de
-GET     /acercade                   controllers.AcercaDeController.acercaDe()
+GET /acercade controllers.AcercaDeController.acercaDe()
