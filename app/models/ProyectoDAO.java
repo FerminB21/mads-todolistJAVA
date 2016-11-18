@@ -37,7 +37,7 @@ public class ProyectoDAO {
             Logger.debug("Se intenta borrar un proyecto no existente. Salta excepción.");
         }
     }
-    public static Tarea delete(int idUsuario, int idTarea, int idProyecto) {
+    public static Tarea deleteTarea(int idUsuario, int idTarea, int idProyecto) {
 
           Tarea tarea=JPA.em().find(Tarea.class, idTarea);
           tarea.proyecto = null;

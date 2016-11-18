@@ -103,10 +103,10 @@ public class ProyectosService {
     }
 
     public static boolean deleteTarea(int idUsuario,int idTarea,int idProyecto){
-        Tarea existente = TareaDAO.find(idUsuario);
+        Tarea existente = TareaDAO.find(idTarea);
         if(existente != null){
             Logger.debug("Existe, intenta borrarse");
-            ProyectoDAO.delete(idUsuario,idTarea,idProyecto); //Intentamos borrar
+            ProyectoDAO.deleteTarea(idUsuario,idTarea,idProyecto); //Intentamos borrar
             //Volvemos a comprobar
           /*  Tarea existente2 = ProyectoDAO.find(idProyecto);
             if(existente2 == null){

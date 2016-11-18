@@ -57,7 +57,7 @@
                     }
                 </select>
                 <br>
-                <input type="submit" class="btn btn-success" value="Guardar">
+                <input type="submit" class="btn btn-success" value="Asignar">
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -74,7 +74,7 @@
 
                             <td>@tarea.descripcion</td>
                             <td>
-<a style="cursor: pointer"  onclick="return del('@routes.ProyectosController.DeleteTareaDeProyecto(idUsuario,tarea.id,
+<a style="cursor: pointer"  onclick="return del('@routes.ProyectosController.deleteTareaDeProyecto(idUsuario,tarea.id,
 (proyectoForm("id").value).toInt)')"><span
                                       class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                             </td>

@@ -31,6 +31,8 @@ public class ProyectosController extends Controller {
         }
     }
 
+
+
     // Devuelve un formulario para crear un nuevo proyecto
     public Result formularioNuevoProyecto(Integer idUsuario) {
         return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
@@ -48,6 +50,7 @@ public class ProyectosController extends Controller {
             return badRequest(formCreacionProyecto.render(proyectoForm, idUsuario, "Hay errores en el formulario"));
         }
         Proyecto proyecto = proyectoForm.get();
+
 
         proyecto = ProyectosService.crearProyectoUsuario(proyecto, idUsuario);
         flash("gestionaProyecto", "el proyecto se ha grabado correctamente");
@@ -104,7 +107,7 @@ public class ProyectosController extends Controller {
             Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
             proyecto.tareas.add(tarea);
 
-
+            proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
             proyecto.nombre=Form.form().bindFromRequest().get("nombre");
             flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
             Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
@@ -116,7 +119,7 @@ public class ProyectosController extends Controller {
       }
             Logger.debug("iddddddddddddddd  not null: " + id);
 
-            proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
+            proyecto.nombre=Form.form().bindFromRequest().get("nombre");
             flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
             Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
             return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id,idUsuario));
@@ -126,20 +129,16 @@ public class ProyectosController extends Controller {
 
     }
     @Transactional
-    public Result DeleteTareaDeProyecto(int idUsuario,int idTarea,int idProyecto) {
+    public Result deleteTareaDeProyecto(int idUsuario,int idTarea,int idProyecto) {
         //Si se ha borrado recargamos página
-        if (ProyectosService.deleteTarea(idUsuario, idTarea, idProyecto)) {
+        if(ProyectosService.deleteTarea(idUsuario,idTarea,idProyecto)){
             return ok("Tarea borrada con éxito.");
-        } else { //Si no, devolvemos error
+        }
+        else{ //Si no, devolvemos error
             return badRequest("Tarea no se ha podido eliminar.");
         }
-    }
 
-    /**
-     * Elimina el proyecto
-     * @param idProyecto,
-     * @return Result
-     */
+    }
     @Transactional
     public Result borraProyecto(int idProyecto, int idUsuario){
             Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
@@ -149,11 +148,14 @@ public class ProyectosController extends Controller {
             } else { //Si no, devolvemos error
                 return badRequest("Proyecto no se ha podido eliminar.");
             }
-    }
+}
 
     @Transactional
-    public Result detalleProyecto(int idProyecto, int idUsuario) {
-        Proyecto proyecto = ProyectosService.findProyectoUsuario( idProyecto );
-        return ok( detalleProyecto.render( proyecto ) );
-    }
+ public Result detalleProyecto(int idProyecto, int idUsuario) {
+     Proyecto proyecto = ProyectosService.findProyectoUsuario( idProyecto );
+     return ok( detalleProyecto.render( proyecto ) );
+}
+
+
+
 }
