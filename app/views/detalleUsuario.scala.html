@@ -1,9 +1,4 @@
 @(usuario: Usuario)
-
-
-
-
-
 @main("Detalle de Usuario") {
   <h1>Detalles del usuario @usuario.id</h1>
   <div class="panel panel-primary">
@@ -21,8 +16,8 @@
               }
               <li><span style="font-weight: bold;">Nº Tareas: </span>
 
-                  <a style="cursor: pointer" href="@routes.TareasController.listaTareas(usuario.id)"><span
-                          class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                  <a style="cursor: pointer" href="@routes.TareasController.listaTareas(usuario.id)">
+                    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
                       @{
                       if(usuario.tareas.size() == 0)
                         "Sin Tareas"
@@ -31,9 +26,20 @@
                       }
                   </a>
               </li>
+              <li><span style="font-weight: bold;">Nº Proyectos: </span>
+
+                  <a style="cursor: pointer" href="@routes.ProyectosController.listaProyectos(usuario.id)">
+                    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                      @{
+                      if(usuario.proyectos.size() == 0)
+                        "Sin Proyectos"
+                      else
+                        usuario.proyectos.size()
+                      }
+                  </a>
+              </li>
           </ul>
           <a class="btn btn-primary" href="@routes.UsuariosController.editaUsuario(usuario.id)">Editar</a>
-
 
           @if(session.get("usuarioSesion") == null) {
             <a  class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Volver</a></p>
