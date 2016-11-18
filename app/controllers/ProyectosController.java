@@ -31,8 +31,6 @@ public class ProyectosController extends Controller {
         }
     }
 
-
-
     // Devuelve un formulario para crear un nuevo proyecto
     public Result formularioNuevoProyecto(Integer idUsuario) {
         return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
@@ -50,7 +48,6 @@ public class ProyectosController extends Controller {
             return badRequest(formCreacionProyecto.render(proyectoForm, idUsuario, "Hay errores en el formulario"));
         }
         Proyecto proyecto = proyectoForm.get();
-
 
         proyecto = ProyectosService.crearProyectoUsuario(proyecto, idUsuario);
         flash("gestionaProyecto", "el proyecto se ha grabado correctamente");
@@ -154,5 +151,9 @@ public class ProyectosController extends Controller {
             }
     }
 
-
+    @Transactional
+    public Result detalleProyecto(int idProyecto, int idUsuario) {
+        Proyecto proyecto = ProyectosService.findProyectoUsuario( idProyecto );
+        return ok( detalleProyecto.render( proyecto ) );
+    }
 }
