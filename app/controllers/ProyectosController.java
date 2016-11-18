@@ -111,7 +111,7 @@ public class ProyectosController extends Controller {
             proyecto.nombre=Form.form().bindFromRequest().get("nombre");
             flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
             Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-            return redirect(routes.ProyectosController.listaProyectos(idUsuario));
+            return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id,idUsuario));
         }
         else{
             return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
