@@ -10,6 +10,16 @@ public class ProyectoDAO {
         return JPA.em().find(Proyecto.class, idProyecto);
     }
 
+public static Proyecto findProyectoUsuario(Integer idUser,Integer idProyecto) {
+  TypedQuery<Proyecto> query = JPA.em().createQuery(
+          "select u from Proyecto u where  usuarioId = :usuarioId and proyectoId = :proyectoId", Proyecto.class);
+          try {
+            Proyecto proyecto = query.setParameter("usuarioId", idUser).getSingleResult();
+              return proyecto;
+          } catch (NoResultException ex) {
+              return null;
+          }
+}
     public static Proyecto create (Proyecto proyecto) {
         JPA.em().persist(proyecto);
         // Hacemos un flush y un refresh para asegurarnos de que se realiza

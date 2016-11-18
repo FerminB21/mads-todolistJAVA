@@ -63,7 +63,7 @@ public class ProyectosController extends Controller {
     public Result formularioEditaProyecto(Integer idProyecto, Integer idUsuario) {
         //Cargamos vacío el form
         Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class);
-        //Obtenemos de la base de datos la proyecto
+        //Obtenemos de la base de datos el proyecto
         Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
         //Cargamos en el form los datos del usuario
         proyectoForm = proyectoForm.fill(proyecto);
