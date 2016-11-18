@@ -89,8 +89,10 @@ public class ProyectosController extends Controller {
         //Recuperamos los datos de la proyecto
         Proyecto proyecto = proyectoForm.get();
       String id=Form.form().bindFromRequest().get("tareaDisponible");
+      Usuario usuario = UsuariosService.findUsuario(idUsuario);
+      if(id!=null){
         //Comprobamos que el usuario existe (evitamos problemas de referencias)
-        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+
 
        Tarea tarea=TareasService.findTareaUsuario(Integer.parseInt(id));
        Logger.debug("tareaaaaaaaaa: " + tarea);
@@ -111,7 +113,14 @@ public class ProyectosController extends Controller {
         else{
             return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
         }
+      }else{
 
+            proyecto = ProyectosService.modificaProyectoUsuario(proyecto);
+            flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
+            Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
+            return redirect(routes.ProyectosController.listaProyectos(idUsuario));
+
+      }
     }
     @Transactional
     public Result DeleteTareaDeProyecto(int idUsuario,int idTarea,int idProyecto) {
