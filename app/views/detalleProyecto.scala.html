@@ -21,9 +21,29 @@
                 </a>
             </li>
         </ul>
+
+        <br>
+        <h4><b>Comentarios</b></h4>
+
+        @for(comentario <- proyecto.comentarios) {
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    Comentario escrito por @comentario.usuario.login
+                    <div class="pull-right">
+                        @if(comentario.fecha != null){
+                            @comentario.fecha.format("dd-MM-yyyy")
+                        }
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @comentario.comentario
+                </div>
+            </div>
+        }
+
         <a class="btn btn-primary"
            href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
-        <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a></p>
+        <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a>
     </div>
 </div>
 }

@@ -22,9 +22,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import services.TareasService;
 import services.UsuariosService;
-import views.html.formCreacionTarea;
-import views.html.formModificacionTarea;
-import views.html.listaTareas;
+
+import views.html.*;
 
 import javax.inject.Inject;
 import java.util.List;

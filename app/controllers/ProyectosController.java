@@ -12,9 +12,8 @@ import play.mvc.Result;
 import services.ProyectosService;
 import services.TareasService;
 import services.UsuariosService;
-import views.html.formCreacionProyecto;
-import views.html.formModificacionProyecto;
-import views.html.listaProyectos;
+
+import views.html.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
