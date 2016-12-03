@@ -1,10 +1,12 @@
 package services;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import models.*;
+import models.Tarea;
+import models.TareaDAO;
+import models.Usuario;
+import models.UsuarioDAO;
 import play.Logger;
+
+import java.util.List;
 
 public class TareasService {
 

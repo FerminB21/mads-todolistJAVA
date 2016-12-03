@@ -1,18 +1,24 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import models.Proyecto;
+import models.Tarea;
+import models.Usuario;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
-import play.db.jpa.*;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.ProyectosService;
+import services.TareasService;
+import services.UsuariosService;
+import views.html.formCreacionProyecto;
+import views.html.formModificacionProyecto;
+import views.html.listaProyectos;
 
-import models.*;
-import services.*;
-
-import views.html.*;
-
-import javax.inject.*;
-import java.util.*;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProyectosController extends Controller {
 ///despues de hacer un push con --force no me dejo reflejar los cambios, ahora hago esta modificacion

@@ -1,23 +1,20 @@
 package services;
 
+import models.Usuario;
+import org.dbunit.JndiDatabaseTester;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
+import org.junit.*;
 import play.db.Database;
 import play.db.Databases;
-import play.db.jpa.*;
-import org.junit.*;
-import org.dbunit.*;
-import org.dbunit.dataset.*;
-import org.dbunit.dataset.xml.*;
-import org.dbunit.operation.*;
-import java.io.FileInputStream;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import play.db.jpa.JPA;
+import play.db.jpa.JPAApi;
 
-import models.*;
-import services.UsuariosException;
-import services.UsuariosService;
+import java.io.FileInputStream;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.*;
 
 public class UsuariosServiceTest {
 

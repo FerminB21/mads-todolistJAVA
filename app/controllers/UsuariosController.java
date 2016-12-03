@@ -1,21 +1,26 @@
 package controllers;
 
-import java.util.List;
-import javax.inject.*;
-
-import play.*;
-import play.mvc.*;
-import views.html.*;
-
-
-import static play.libs.Json.*;
-
+import models.Usuario;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
+
 import play.db.jpa.*;
 import play.mvc.Http.Session;
 import services.*;
 import models.*;
+
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.UsuariosService;
+import views.html.detalleUsuario;
+import views.html.formCreacionUsuario;
+import views.html.formModificacionUsuario;
+import views.html.listaUsuarios;
+
+import javax.inject.Inject;
+import java.util.List;
 
 public class UsuariosController extends Controller {
 

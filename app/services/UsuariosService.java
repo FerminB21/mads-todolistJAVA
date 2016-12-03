@@ -1,14 +1,10 @@
 package services;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import models.Usuario;
+import models.UsuarioDAO;
+import play.Logger;
 
 import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
-
-import models.*;
 
 public class UsuariosService {
 

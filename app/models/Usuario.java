@@ -1,15 +1,12 @@
 package models;
 
+import play.data.format.Formats;
+import play.data.validation.Constraints;
+
+import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.persistence.*;
-
-import play.data.validation.Constraints;
-import play.data.format.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import java.util.List;
 
 @Entity
@@ -30,6 +27,8 @@ public class Usuario {
     public List<Tarea> tareas = new ArrayList<Tarea>();
     @OneToMany(mappedBy = "usuario")
     public List<Proyecto> proyectos = new ArrayList<Proyecto>();
+    @OneToMany(mappedBy="usuario")
+    public List<Comentario> comentarios = new ArrayList<>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {

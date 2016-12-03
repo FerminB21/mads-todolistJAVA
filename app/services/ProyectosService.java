@@ -1,10 +1,9 @@
 package services;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import models.*;
 import play.Logger;
+
+import java.util.List;
 
 public class ProyectosService {
 

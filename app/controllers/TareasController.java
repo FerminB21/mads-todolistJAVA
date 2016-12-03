@@ -1,7 +1,8 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import models.Tarea;
+import models.Usuario;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.*;
@@ -16,6 +17,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.TareasService;
+import services.UsuariosService;
+import views.html.formCreacionTarea;
+import views.html.formModificacionTarea;
+import views.html.listaTareas;
+
+import javax.inject.Inject;
 import java.util.List;
 
 public class TareasController extends Controller {

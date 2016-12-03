@@ -1,10 +1,8 @@
 package models;
 
-import java.util.Date;
-import javax.persistence.*;
-
 import play.data.validation.Constraints;
-import play.data.format.*;
+
+import javax.persistence.*;
 
 @Entity
 public class Tarea {
