@@ -1,0 +1,29 @@
+@(tarea: Tarea)
+@main("Detalle de Tarea") {
+
+<h1>Detalles de la tarea @tarea.id - <a class="btn btn-primary"
+                                        href="#">Exportar</a></h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Detalle</h3>
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li><span style="font-weight: bold;">Descripción: </span>
+                @tarea.descripcion
+            </li>
+            <li><span style="font-weight: bold;">Estimación: </span>
+                @EstimacionTareaEnum.getById(tarea.estimacion)
+            </li>
+            @if(tarea.proyecto != null){
+                <li><span style="font-weight: bold;">Asignada a proyecto: </span>
+                    @tarea.proyecto.id - @tarea.proyecto.nombre
+                </li>
+            }
+        </ul>
+        <a class="btn btn-primary"
+           href="@routes.TareasController.formularioEditaTarea(tarea.id, tarea.usuario.id)">Editar</a>
+        <a class="btn btn-primary" href="@routes.TareasController.listaTareas(tarea.usuario.id)">Volver</a></p>
+    </div>
+</div>
+}

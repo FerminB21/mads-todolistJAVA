@@ -133,7 +133,7 @@ public class TareasController extends Controller {
     /**
      * Elimina la tarea
      *
-     * @param idTarea,
+     * @param idTarea, idUsuario
      * @return Result
      */
     @Transactional
@@ -151,5 +151,11 @@ public class TareasController extends Controller {
         }else{
           return unauthorized("hello, debes iniciar session");
         }
+    }
+
+    @Transactional
+    public Result detalleTarea(int idTarea, int idUsuario) {
+        Tarea tarea = TareasService.findTareaUsuario(idTarea);
+        return ok(detalleTarea.render(tarea));
     }
 }
