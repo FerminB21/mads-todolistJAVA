@@ -11,11 +11,13 @@ public class ProyectoDAO {
         return JPA.em().find(Proyecto.class, idProyecto);
     }
 
-    public static Proyecto findProyectoUsuario(Integer idUser, Integer idProyecto) {
+    public static Proyecto findProyectoUsuario(Integer proyectoId,Integer usuarioId) {
         TypedQuery<Proyecto> query = JPA.em().createQuery(
-                "select u from Proyecto u where  usuarioId = :usuarioId and proyectoId = :proyectoId", Proyecto.class);
+                "select u from Proyecto u where  usuarioId = :usuarioId and id = :proyectoId", Proyecto.class);
         try {
-            Proyecto proyecto = query.setParameter("usuarioId", idUser).getSingleResult();
+          query.setParameter("usuarioId", usuarioId).setParameter("proyectoId", proyectoId);
+          //query.setParameter("proyectoId", proyectoId);
+            Proyecto proyecto = query.getSingleResult();
             return proyecto;
         } catch (NoResultException ex) {
             return null;

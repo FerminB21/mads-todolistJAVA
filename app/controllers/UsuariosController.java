@@ -13,7 +13,7 @@ import static play.libs.Json.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.*;
-
+import play.mvc.Http.Session;
 import services.*;
 import models.*;
 
@@ -25,17 +25,45 @@ public class UsuariosController extends Controller {
     @Transactional(readOnly = true)
     // Devuelve una página con la lista de usuarios
     public Result listaUsuarios() {
+
         // Obtenemos el mensaje flash guardado en la petición
         // por el controller grabaUsuario
         String mensaje = flash("gestionaUsuario");
+        Logger.debug("valor de la sesion  en listar usuario"+session().get("usuario"));
+
+        String variable=session().get("usuario");
+//null
+    if (variable!=null){
+       if (variable.equals("admin")){
         List<Usuario> usuarios = UsuariosService.findAllUsuarios();
         return ok(listaUsuarios.render(usuarios, mensaje));
+      }else{
+           return unauthorized("hello, you are not admin");
+           //return notFound("Esta tarea es gestion del administrador");
+      }
+
+    }else{
+            return unauthorized("hello, debes iniciar session");
+
+    }
     }
 
 
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevoUsuario() {
+      String variable=session().get("usuario");
+      if (variable!=null){
+         if (variable.equals("admin")){
         return ok(formCreacionUsuario.render(formFactory.form(Usuario.class), ""));
+      }else{
+            return unauthorized("hello, you are not admin");
+          //return notFound("Esta tarea es gestion del usuario");
+        }
+      }else{
+
+          return unauthorized("hello, debes iniciar session");
+
+      }
     }
 
     @Transactional
@@ -58,9 +86,44 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result detalleUsuario(int id) {
-        Usuario usuario = UsuariosService.findUsuario(id);
-        return ok(detalleUsuario.render(usuario));
+      String variable=session().get("usuario");
+        if (variable!=null){
+
+
+              Usuario usuario = UsuariosService.findUsuario(id);
+              if (usuario == null) {
+                //aqui hay que poner la ruta del Dashboard
+                ////////
+                  return notFound("Usuario no encontrado");
+              } else {
+                  return ok(detalleUsuario.render(usuario));
+            }
+
+        }else{
+
+            return unauthorized("debes iniciar sesion");
+        }
     }
+
+    @Transactional
+    public Result detalleUsuarioPorLogin(String login) {
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+          Usuario usuario = UsuariosService.findUsuarioPorLogin(login);
+          if (usuario == null) {
+            //aqui hay que poner la ruta del Dashboard
+            ////////
+              return notFound("Usuario no encontrado");
+          } else {
+              return ok(detalleUsuario.render(usuario));
+            }
+      }else{
+
+          return unauthorized("debes iniciar sesion");
+      }
+    }
+
 
     @Transactional
     public Result grabaUsuarioModificado() {
@@ -73,7 +136,7 @@ public class UsuariosController extends Controller {
         usuario = UsuariosService.modificaUsuario(usuario);
         flash("gestionaUsuario", "El usuario se ha modificado correctamente (modificar)");
         Logger.debug("Usuario guardado correctamente (modificar): " + usuario.toString());
-        if (session("usuarioSesion") == null)
+        if (session().get("usuario").equals("admin"))
             //  if(session.getAttribute("usuarioSesion") != null)
             return redirect(controllers.routes.UsuariosController.listaUsuarios());
         else
@@ -82,14 +145,27 @@ public class UsuariosController extends Controller {
 
     @Transactional
     public Result editaUsuario(int id) {
-        //Cargamos vacío el form
-        Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
-        //Obtenemos de la base de datos el usuario
-        Usuario usuario = UsuariosService.findUsuario(id);
-        //Cargamos en el form los datos del usuario
-        usuarioForm = usuarioForm.fill(usuario);
-        //Retornamos a la vista los datos del usuario en el form
-        return ok(formModificacionUsuario.render(usuarioForm, ""));
+      String variable=session().get("usuario");
+        if (variable!=null){
+            //Cargamos vacío el form
+            Form<Usuario> usuarioForm = formFactory.form(Usuario.class);
+            //Obtenemos de la base de datos el usuario
+            Usuario usuario = UsuariosService.findUsuario(id);
+
+            //aqui hay que poner la ruta del Dashboard
+            //porque se hace una peticion con usuario no encontrado
+            if (usuario == null) {
+                return notFound("Usuario no encontrado");
+            } else {
+            //Cargamos en el form los datos del usuario
+            usuarioForm = usuarioForm.fill(usuario);
+            //Retornamos a la vista los datos del usuario en el form
+            return ok(formModificacionUsuario.render(usuarioForm, ""));
+          }
+        }else{
+
+          return unauthorized("debes iniciar sesion");
+        }
     }
 
     /**
@@ -103,12 +179,24 @@ public class UsuariosController extends Controller {
      */
     @Transactional
     public Result borraUsuario(int id) {
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+
         //Si se ha borrado recargamos página
         if (UsuariosService.deleteUsuario(id)) {
             return ok("Usuario borrado con éxito.");
         } else { //Si no, devolvemos error
             return badRequest("Usuario no se ha podido eliminar.");
         }
+      }else{
 
+         return unauthorized("debes iniciar sesion");
+
+      }
+
+    }
+    public static Session session() {
+        return Http.Context.current().session();
     }
 }

@@ -5,6 +5,7 @@ import javax.inject.*;
 
 import play.*;
 import play.mvc.*;
+import play.mvc.Http.Session;
 import views.html.*;
 
 import static play.libs.Json.*;
@@ -23,6 +24,8 @@ public class LoginController extends Controller {
 
     // Devuelve un formulario para registrar
     public Result formularioLogueoRegistro() {
+
+          session().clear();
         return ok(formLogueoRegistro.render(formFactory.form(Usuario.class), "", "logueo"));
     }
 
@@ -45,7 +48,9 @@ public class LoginController extends Controller {
             if (usuario.password != null && usuarioExistente.password != null && usuarioExistente.password.equals(usuario.password)) { //Si coinciden contraseña, válido
                 Logger.debug("Logueado correctamente");
                 //Creamos sesión (es un string)
-                session("usuarioSesion", String.valueOf(usuarioExistente.id));
+                session().put("usuario" , usuarioExistente.login);
+                //Logger.debug("valor de la sesion  "+session().get("usuario"));
+
                 return redirect(controllers.routes.TareasController.listaTareas(usuarioExistente.id));
             } else if (usuarioExistente.password == null) { //Si es el mismo usuario pero no tiene contraseña (introducido por administrador)
                 Logger.debug("Necesario activar el usuario");
@@ -95,5 +100,7 @@ public class LoginController extends Controller {
             return redirect(controllers.routes.HomeController.portada());
         }
     }
-
+    public static Session session() {
+        return Http.Context.current().session();
+    }
 }

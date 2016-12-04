@@ -49,6 +49,18 @@ public class UsuariosService {
     public static Usuario findUsuario(int id) {
         Usuario usuario = UsuarioDAO.find(id);
         Logger.debug("Se obtiene usuario: " + id);
+        if(usuario!=null)
+          return usuario;
+
+          throw new UsuariosException("Usuario no esta en la base de datos");
+
+    }
+
+
+
+    public static Usuario findUsuarioPorLogin(String login) {
+        Usuario usuario = UsuarioDAO.findByLogin(login);
+        Logger.debug("Se obtiene usuario: " + login);
         return usuario;
     }
 
