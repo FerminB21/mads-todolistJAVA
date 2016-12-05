@@ -61,8 +61,22 @@ public class Tarea {
         return true;
     }
 
+    /**
+     * Comprueba si la tarea está asignada a un proyecto.
+     * Si no está devuelve "Sin proyecto"
+     * Si está, devuelve: Id - NombreProyecto
+     * @return String
+     */
+    public String esAsignadaProyecto(){
+        String asignadaAProyecto="Sin proyecto";
+        if(proyecto != null){
+            asignadaAProyecto = proyecto.id+"-"+proyecto.nombre;
+        }
+        return asignadaAProyecto;
+    }
+
     public String toString() {
-        return String.format("Tarea id: %s - descripción: %s - estimación: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion));
+        return String.format("Tarea id: %s - descripción: %s - estimación: %s - proyecto: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion), esAsignadaProyecto());
     }
 
 }

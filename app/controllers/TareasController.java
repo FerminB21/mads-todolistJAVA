@@ -162,12 +162,40 @@ public class TareasController extends Controller {
         Tarea tarea = TareasService.findTareaUsuario(idTarea);
         return ok(detalleTarea.render(tarea));
     }
-    
+
+    /**
+     * Exporta una sola tarea en un fichero con extensión .txt
+     * @param idTarea, idUsuario
+     * @return File
+     */
+    @Transactional
+    public Result exportarTarea(int idTarea, int idUsuario) {
+        String nombreFichero = "tarea.txt";
+        File archivo = new File(nombreFichero);
+
+        //Si ya existe, lo borramos
+        if(archivo.exists()) {
+            archivo.delete();
+        } else { //Si no, escribimos los datos de la tarea
+            BufferedWriter bw = null;
+            try {
+                bw = new BufferedWriter(new FileWriter(archivo));
+                Tarea tarea = TareasService.findTareaUsuario(idTarea);
+                bw.write(tarea.toString()+"\n");
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        response().setContentType("application/x-download");
+        response().setHeader("Content-disposition","attachment; filename="+nombreFichero);
+        return ok(archivo);
+    }
 
     /**
      * Exporta todas las tareas del usuario pasado como parámetro en un fichero con extensión .txt
      * @param idUsuario
-     * @return
+     * @return File
      */
     @Transactional
     public Result exportarTareas(int idUsuario) {

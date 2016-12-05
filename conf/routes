@@ -28,6 +28,7 @@ DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(
 
 #Rutas de tareas
 GET     /usuarios/:idUsuario/tareas/exportar            controllers.TareasController.exportarTareas(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/:idTarea/exportar   controllers.TareasController.exportarTarea(idTarea: Integer, idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.formularioNuevaTarea(idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas                     controllers.TareasController.listaTareas(idUsuario: Integer)
 POST    /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.grabaNuevaTarea(idUsuario: Integer)
