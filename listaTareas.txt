@@ -1,0 +1,4 @@
+Tarea id: 10 - descripción: Manuel, prueba4 - estimación: Grande
+Tarea id: 13 - descripción: Manuel, prueba - estimación: Mediano
+Tarea id: 15 - descripción: aaaaaa - estimación: Pequeño
+Tarea id: 16 - descripción: Tarea 2 - estimación: Mediano

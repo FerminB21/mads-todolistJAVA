@@ -12,6 +12,10 @@ import services.*;
 import views.html.*;
 
 import javax.inject.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class TareasController extends Controller {
@@ -157,5 +161,37 @@ public class TareasController extends Controller {
     public Result detalleTarea(int idTarea, int idUsuario) {
         Tarea tarea = TareasService.findTareaUsuario(idTarea);
         return ok(detalleTarea.render(tarea));
+    }
+    
+
+    /**
+     * Exporta todas las tareas del usuario pasado como parámetro en un fichero con extensión .txt
+     * @param idUsuario
+     * @return
+     */
+    @Transactional
+    public Result exportarTareas(int idUsuario) {
+        String nombreFichero = "listaTareas.txt";
+        File archivo = new File(nombreFichero);
+
+        //Si ya existe, lo borramos
+        if(archivo.exists()) {
+            archivo.delete();
+        } else { //Si no, escribimos la lista de tareas
+            BufferedWriter bw = null;
+            try {
+                bw = new BufferedWriter(new FileWriter(archivo));
+                List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
+                for(Tarea tarea: tareas){
+                    bw.write(tarea.toString()+"\n");
+                }
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        response().setContentType("application/x-download");
+        response().setHeader("Content-disposition","attachment; filename="+nombreFichero);
+        return ok(archivo);
     }
 }

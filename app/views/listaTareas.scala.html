@@ -30,7 +30,7 @@
 @main("Tareas del usuario "+usuario.id, scripts) {
 
 <h1> Listado de tareas de @usuario.login - <a class="btn exportar"
-                                                   href="#" title="Exportar todas las tareas del usuario a un fichero .txt">Exportar tareas</a></h1>
+                                                   href="@routes.TareasController.exportarTareas(usuario.id)" title="Exportar todas las tareas del usuario a un fichero .txt">Exportar tareas</a></h1>
 
 <a class="btn btn-primary" href="@routes.TareasController.formularioNuevaTarea(usuario.id)">Nueva Tarea</a>
 <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(usuario.id)">Ver proyectos</a></p>

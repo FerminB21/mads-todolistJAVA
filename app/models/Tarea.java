@@ -62,7 +62,7 @@ public class Tarea {
     }
 
     public String toString() {
-        return String.format("Tarea id: %s descripcion: %s estimacion: %s", id, descripcion, estimacion);
+        return String.format("Tarea id: %s - descripción: %s - estimación: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion));
     }
 
 }
