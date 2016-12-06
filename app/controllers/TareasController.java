@@ -36,14 +36,11 @@ public class TareasController extends Controller {
             }else if(!usuario.login.equals(variable)){
 
                   return notFound("No autorizado a acceder a zonas de otros usuarios");
-           } else {
+            } else {
                 List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
                 return ok(listaTareas.render(tareas, usuario, aviso, error));
-
             }
-
         }else{
-
                 return unauthorized("hello, debes iniciar session");
         }
     }
@@ -62,9 +59,7 @@ public class TareasController extends Controller {
             return ok(formCreacionTarea.render(formFactory.form(Tarea.class), idUsuario, ""));
          }
         }else{
-
             return unauthorized("hello, debes iniciar session");
-
         }
     }
 
@@ -101,10 +96,6 @@ public class TareasController extends Controller {
             //parte añadida
             //obtenemos la tarea si pertenece al usuario con su id
             Tarea tarea=TareasService.findTareaPorUsuario(idTarea, idUsuario);
-
-           /* parte antigua */
-            //Obtenemos de la base de datos la tarea
-            //Tarea tarea = TareasService.findTareaUsuario(idTarea);
 
             //Cargamos en el form los datos del usuario
             tareaForm = tareaForm.fill(tarea);
@@ -158,7 +149,6 @@ public class TareasController extends Controller {
               return badRequest("Tarea no se ha podido eliminar.");
           }
         }else{
-
           return unauthorized("hello, debes iniciar session");
         }
     }

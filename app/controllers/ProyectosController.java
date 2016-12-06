@@ -58,9 +58,9 @@ public class ProyectosController extends Controller {
             }else if(!usuario.login.equals(variable)){
 
                   return notFound("No autorizado a acceder a zonas de otros usuarios");
-           } else {
+            } else {
                   return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
-          }
+            }
         }else{
 
           return unauthorized("hello, debes iniciar session");
@@ -177,7 +177,6 @@ public class ProyectosController extends Controller {
                 return badRequest("Tarea no se ha podido eliminar.");
             }
         }else{
-
           return unauthorized("hello, debes iniciar session");
         }
 
@@ -205,13 +204,9 @@ public class ProyectosController extends Controller {
     public Result detalleProyecto(int idProyecto, int idUsuario) {
       String variable=session().get("usuario");
         if (variable!=null){
-
             Proyecto proyecto = ProyectosService.findProyectoPorUsuario(idProyecto, idUsuario);
-              //ProyectosService.findProyectoUsuario(idProyecto);
               return ok(detalleProyecto.render(proyecto));
-
         }else{
-
           return unauthorized("hello, debes iniciar session");
         }
     }

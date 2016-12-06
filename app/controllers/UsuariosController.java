@@ -32,7 +32,7 @@ public class UsuariosController extends Controller {
         Logger.debug("valor de la sesion  en listar usuario"+session().get("usuario"));
 
         String variable=session().get("usuario");
-//null
+
     if (variable!=null){
        if (variable.equals("admin")){
         List<Usuario> usuarios = UsuariosService.findAllUsuarios();
@@ -41,10 +41,8 @@ public class UsuariosController extends Controller {
            return unauthorized("hello, you are not admin");
            //return notFound("Esta tarea es gestion del administrador");
       }
-
     }else{
-            return unauthorized("hello, debes iniciar session");
-
+           return unauthorized("hello, debes iniciar session");
     }
     }
 
@@ -60,9 +58,7 @@ public class UsuariosController extends Controller {
           //return notFound("Esta tarea es gestion del usuario");
         }
       }else{
-
-          return unauthorized("hello, debes iniciar session");
-
+            return unauthorized("hello, debes iniciar session");
       }
     }
 
@@ -99,7 +95,7 @@ public class UsuariosController extends Controller {
                      return notFound("No autorizado a acceder a zonas de otros usuarios");
               }else {
                   return ok(detalleUsuario.render(usuario));
-            }
+              }
 
         }else{
 
@@ -120,10 +116,9 @@ public class UsuariosController extends Controller {
           } else {
               return ok(detalleUsuario.render(usuario));
             }
-      }else{
-
+        }else{
           return unauthorized("debes iniciar sesion");
-      }
+        }
     }
 
 
@@ -187,18 +182,15 @@ public class UsuariosController extends Controller {
 
       String variable=session().get("usuario");
         if (variable!=null){
-
-        //Si se ha borrado recargamos página
-        if (UsuariosService.deleteUsuario(id)) {
-            return ok("Usuario borrado con éxito.");
-        } else { //Si no, devolvemos error
-            return badRequest("Usuario no se ha podido eliminar.");
-        }
-      }else{
-
+          //Si se ha borrado recargamos página
+          if (UsuariosService.deleteUsuario(id)) {
+              return ok("Usuario borrado con éxito.");
+          } else { //Si no, devolvemos error
+              return badRequest("Usuario no se ha podido eliminar.");
+          }
+        }else{
          return unauthorized("debes iniciar sesion");
-
-      }
+        }
 
     }
     public static Session session() {
