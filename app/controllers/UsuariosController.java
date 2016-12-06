@@ -110,7 +110,7 @@ public class UsuariosController extends Controller {
 
       String variable=session().get("usuario");
         if (variable!=null){
-          Usuario usuario = UsuariosService.findUsuarioPorLogin(login);
+          Usuario usuario = UsuariosService.findByLogin(login);
           if (usuario == null) {
             //aqui hay que poner la ruta del Dashboard
             ////////
