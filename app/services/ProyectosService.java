@@ -44,7 +44,8 @@ public class ProyectosService {
     public static Proyecto findProyectoUsuario(int id) {
         Proyecto proyecto = ProyectoDAO.find(id);
         Logger.debug("Se obtiene proyecto: " + id);
-        return proyecto;
+
+           return proyecto;
     }
     /**
      *
@@ -57,7 +58,7 @@ public class ProyectosService {
            return proyecto;
 
         }else{
-          throw new UsuariosException("Usuario no es asociado al proyecto a buscar");
+          throw new UsuariosException("Los datos no son correctos");
         }
     }    /**
      * Modifica el proyecto

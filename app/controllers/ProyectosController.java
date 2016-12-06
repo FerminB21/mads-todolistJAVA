@@ -31,7 +31,10 @@ public class ProyectosController extends Controller {
           Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            } else {
+            }else if(!usuario.login.equals(variable)){
+
+                  return notFound("No autorizado a acceder a zonas de otros usuarios");
+           } else {
                 List<Proyecto> proyectos = ProyectosService.listaProyectosUsuario(idUsuario);
                 return ok(listaProyectos.render(proyectos, usuario));
             }
@@ -50,9 +53,14 @@ public class ProyectosController extends Controller {
         if (variable!=null){
 
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
+            if (usuario == null) {
+                return notFound("Usuario no encontrado");
+            }else if(!usuario.login.equals(variable)){
 
-            return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
-
+                  return notFound("No autorizado a acceder a zonas de otros usuarios");
+           } else {
+                  return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
+          }
         }else{
 
           return unauthorized("hello, debes iniciar session");
@@ -198,8 +206,10 @@ public class ProyectosController extends Controller {
       String variable=session().get("usuario");
         if (variable!=null){
 
-            Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-            return ok(detalleProyecto.render(proyecto));
+            Proyecto proyecto = ProyectosService.findProyectoPorUsuario(idProyecto, idUsuario);
+              //ProyectosService.findProyectoUsuario(idProyecto);
+              return ok(detalleProyecto.render(proyecto));
+
         }else{
 
           return unauthorized("hello, debes iniciar session");

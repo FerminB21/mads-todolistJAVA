@@ -89,13 +89,15 @@ public class UsuariosController extends Controller {
       String variable=session().get("usuario");
         if (variable!=null){
 
-
               Usuario usuario = UsuariosService.findUsuario(id);
               if (usuario == null) {
                 //aqui hay que poner la ruta del Dashboard
                 ////////
                   return notFound("Usuario no encontrado");
-              } else {
+              } else if(!usuario.login.equals(variable)){
+
+                     return notFound("No autorizado a acceder a zonas de otros usuarios");
+              }else {
                   return ok(detalleUsuario.render(usuario));
             }
 
@@ -156,6 +158,9 @@ public class UsuariosController extends Controller {
             //porque se hace una peticion con usuario no encontrado
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
+            } else if(!usuario.login.equals(variable)){
+
+                   return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {
             //Cargamos en el form los datos del usuario
             usuarioForm = usuarioForm.fill(usuario);

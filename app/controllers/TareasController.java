@@ -33,7 +33,10 @@ public class TareasController extends Controller {
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            } else {
+            }else if(!usuario.login.equals(variable)){
+
+                  return notFound("No autorizado a acceder a zonas de otros usuarios");
+           } else {
                 List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
                 return ok(listaTareas.render(tareas, usuario, aviso, error));
 
@@ -44,12 +47,20 @@ public class TareasController extends Controller {
                 return unauthorized("hello, debes iniciar session");
         }
     }
-
+    @Transactional
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevaTarea(Integer idUsuario) {
       String variable=session().get("usuario");
         if (variable!=null){
+          Usuario usuario = UsuariosService.findUsuario(idUsuario);
+          if (usuario == null) {
+              return notFound("Usuario no encontrado");
+          }else if(!usuario.login.equals(variable)){
+
+                return notFound("No autorizado a acceder a zonas de otros usuarios");
+         }else{
             return ok(formCreacionTarea.render(formFactory.form(Tarea.class), idUsuario, ""));
+         }
         }else{
 
             return unauthorized("hello, debes iniciar session");
@@ -85,8 +96,16 @@ public class TareasController extends Controller {
         if (variable!=null){
             //Cargamos vacío el form
             Form<Tarea> tareaForm = formFactory.form(Tarea.class);
+
+
+            //parte añadida
+            //obtenemos la tarea si pertenece al usuario con su id
+            Tarea tarea=TareasService.findTareaPorUsuario(idTarea, idUsuario);
+
+           /* parte antigua */
             //Obtenemos de la base de datos la tarea
-            Tarea tarea = TareasService.findTareaUsuario(idTarea);
+            //Tarea tarea = TareasService.findTareaUsuario(idTarea);
+
             //Cargamos en el form los datos del usuario
             tareaForm = tareaForm.fill(tarea);
             //Retornamos a la vista los datos del usuario en el form
