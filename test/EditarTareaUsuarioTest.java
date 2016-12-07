@@ -23,6 +23,9 @@ import services.*;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 
+import play.*;
+import play.mvc.*;
+
 public class EditarTareaUsuarioTest {
 
     static Database db;
@@ -141,4 +144,75 @@ public class EditarTareaUsuarioTest {
             assertEquals(3, usuario.tareas.size());
         });
     }
+
+    //////////////////////////
+    /////////////////////////
+
+
+
+    @Test
+    public void editarTareaDeUsuarioTest() {
+        Integer tareaId = jpa.withTransaction(() -> {
+            Tarea tarea =TareasService.findTareaPorUsuario(4, 2);
+            Logger.debug("Se obtiene tarea Test: " + tarea);
+          //  Proyecto proyecto = ProyectoDAO.find(2);
+            tarea.descripcion = "play app";
+            //proyecto = ProyectoDAO.update(proyecto);
+            return tarea.id;
+        });
+
+        jpa.withTransaction(() -> {
+            //Recuperamos el proyecto
+            Tarea tarea = TareaDAO.find(tareaId);
+            assertEquals(tarea.descripcion, "play app");
+        });
+    }
+
+
+    @Test
+    public void editarTareaDeUsuarioLanzaExcepcionTest() {
+         jpa.withTransaction(() -> {
+           try {
+                 Tarea tarea =TareasService.findTareaPorUsuario(3, 100);
+               fail("No se ha lanzado excepción Tarea no pertenece a usuario"); //esperamos error
+           } catch (UsuariosException ex) {
+           }
+
+
+        });
+
+    }
+
+
+    @Test
+    public void editarTareaDAODeUsuarioNullTest() {
+        Integer tareaId = jpa.withTransaction(() -> {
+            Tarea tarea = TareaDAO.findTareaUsuario(4, 2);
+            Logger.debug("Se obtiene tarea Test: " + tarea);
+          //  Proyecto proyecto = ProyectoDAO.find(2);
+            tarea.descripcion = "play app";
+            //proyecto = ProyectoDAO.update(proyecto);
+            return tarea.id;
+        });
+
+        jpa.withTransaction(() -> {
+            //Recuperamos el proyecto
+            Tarea tarea = TareaDAO.find(tareaId);
+            assertEquals(tarea.descripcion, "play app");
+        });
+    }
+
+
+    @Test
+    public void editarTareaDAODeUsuarioTest() {
+         jpa.withTransaction(() -> {
+
+                 Tarea tarea=TareaDAO.findTareaUsuario(2, 100);
+                 assertNull(tarea);
+
+
+        });
+
+    }
+
 }

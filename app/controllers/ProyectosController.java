@@ -15,7 +15,8 @@ import javax.inject.*;
 import java.util.*;
 
 public class ProyectosController extends Controller {
-
+///despues de hacer un push con --force no me dejo reflejar los cambios, ahora hago esta modificacion
+//para ver si se reflejan los cambios sin --force
     @Inject
     FormFactory formFactory, tareaFactory;
     List<Tarea> tareas = new ArrayList<Tarea>();
