@@ -1,9 +1,6 @@
 package services;
 
-import models.Tarea;
-import models.TareaDAO;
-import models.Usuario;
-import models.UsuarioDAO;
+import models.*;
 import play.Logger;
 
 import java.util.List;

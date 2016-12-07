@@ -40,7 +40,8 @@
                 </div>
             </div>
         }
-
+        <div><a class="btn btn-link" href="@routes.ComentariosController.formularioNuevoComentario(proyecto.usuario.id, proyecto.id)">+ Nuevo comentario</a></div>
+        <br>
         <a class="btn btn-primary"
            href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
         <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a>
