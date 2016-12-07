@@ -93,4 +93,15 @@ public class TareasService {
             return false;
         }
     }
+//metodo añadido
+    public static Tarea findTareaPorUsuario(Integer idTarea, Integer idUsuario) {
+        Tarea tarea = TareaDAO.findTareaUsuario(idTarea, idUsuario);
+        Logger.debug("Se obtiene Tarea: " + idTarea);
+        if(tarea!=null){
+           return tarea;
+
+        }else{
+          throw new UsuariosException("Los datos no son correctos");
+        }
+    }
 }

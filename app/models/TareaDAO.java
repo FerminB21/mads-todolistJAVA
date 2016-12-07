@@ -8,6 +8,21 @@ import javax.persistence.*;
 import java.util.List;
 
 public class TareaDAO {
+
+  public static Tarea findTareaUsuario(Integer tareaId,Integer usuarioId) {
+  //  Logger.debug("Se obtiene proyecto Test: hhhhhhhhhhhh " + proyectoId+" "+usuarioId);
+      TypedQuery<Tarea> query = JPA.em().createQuery(
+              "select u from Tarea u where  usuarioId = :usuarioId and id = :tareaId", Tarea.class);
+      try {
+        query.setParameter("usuarioId", usuarioId).setParameter("tareaId", tareaId);
+        //query.setParameter("proyectoId", proyectoId);
+          Tarea tarea = query.getSingleResult();
+          return tarea;
+      } catch (NoResultException ex) {
+          return null;
+      }
+  }
+
     public static Tarea find(Integer idTarea) {
         return JPA.em().find(Tarea.class, idTarea);
     }

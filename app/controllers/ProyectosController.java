@@ -15,7 +15,8 @@ import javax.inject.*;
 import java.util.*;
 
 public class ProyectosController extends Controller {
-
+///despues de hacer un push con --force no me dejo reflejar los cambios, ahora hago esta modificacion
+//para ver si se reflejan los cambios sin --force
     @Inject
     FormFactory formFactory, tareaFactory;
     List<Tarea> tareas = new ArrayList<Tarea>();
@@ -31,7 +32,10 @@ public class ProyectosController extends Controller {
           Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            } else {
+            }else if(!usuario.login.equals(variable)){
+
+                  return notFound("No autorizado a acceder a zonas de otros usuarios");
+           } else {
                 List<Proyecto> proyectos = ProyectosService.listaProyectosUsuario(idUsuario);
                 return ok(listaProyectos.render(proyectos, usuario));
             }
@@ -50,9 +54,14 @@ public class ProyectosController extends Controller {
         if (variable!=null){
 
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
+            if (usuario == null) {
+                return notFound("Usuario no encontrado");
+            }else if(!usuario.login.equals(variable)){
 
-            return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
-
+                  return notFound("No autorizado a acceder a zonas de otros usuarios");
+            } else {
+                  return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
+            }
         }else{
 
           return unauthorized("hello, debes iniciar session");
@@ -169,7 +178,6 @@ public class ProyectosController extends Controller {
                 return badRequest("Tarea no se ha podido eliminar.");
             }
         }else{
-
           return unauthorized("hello, debes iniciar session");
         }
 
@@ -197,11 +205,9 @@ public class ProyectosController extends Controller {
     public Result detalleProyecto(int idProyecto, int idUsuario) {
       String variable=session().get("usuario");
         if (variable!=null){
-
-            Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-            return ok(detalleProyecto.render(proyecto));
+            Proyecto proyecto = ProyectosService.findProyectoPorUsuario(idProyecto, idUsuario);
+              return ok(detalleProyecto.render(proyecto));
         }else{
-
           return unauthorized("hello, debes iniciar session");
         }
     }
