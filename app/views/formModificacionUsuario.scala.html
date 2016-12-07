@@ -21,9 +21,13 @@
         @helper.inputText(usuarioForm("fechaNacimiento"), '_label -> "Fecha nacimiento (dd-mm-aaaa)")
         <p>
             <input type="submit" class="btn btn-success" value="Guardar">
-            @if(session.get("usuarioSesion") == null) {
-            <a class="btn btn-danger" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
-        }
+            @if(session().get("usuario").equals("admin")) {
+                <a class="btn btn-danger" href="@routes.UsuariosController.listaUsuarios()">Cancelar</a></p>
+            }else{
+
+                  <a class="btn btn-danger" href="@routes.UsuariosController.detalleUsuario(usuarioForm("id").value.toInt)">Cancelar</a></p>
+
+            }
         }
     </div>
 </div>

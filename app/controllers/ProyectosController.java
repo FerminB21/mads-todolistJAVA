@@ -24,19 +24,39 @@ public class ProyectosController extends Controller {
     @Transactional(readOnly = true)
     // Devuelve una página con la lista de proyectos
     public Result listaProyectos(Integer idUsuario) {
-        Usuario usuario = UsuariosService.findUsuario(idUsuario);
-        if (usuario == null) {
-            return notFound("Usuario no encontrado");
-        } else {
-            List<Proyecto> proyectos = ProyectosService.listaProyectosUsuario(idUsuario);
-            return ok(listaProyectos.render(proyectos, usuario));
+
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+          Usuario usuario = UsuariosService.findUsuario(idUsuario);
+            if (usuario == null) {
+                return notFound("Usuario no encontrado");
+            } else {
+                List<Proyecto> proyectos = ProyectosService.listaProyectosUsuario(idUsuario);
+                return ok(listaProyectos.render(proyectos, usuario));
+            }
+        }else{
+
+          return unauthorized("hello, debes iniciar session");
         }
     }
 
 
     // Devuelve un formulario para crear un nuevo proyecto
+    @Transactional
     public Result formularioNuevoProyecto(Integer idUsuario) {
-        return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
+      Logger.debug("idddddd usuario: " + idUsuario);
+      String variable=session().get("usuario");
+        if (variable!=null){
+
+            Usuario usuario = UsuariosService.findUsuario(idUsuario);
+
+            return ok(formCreacionProyecto.render(formFactory.form(Proyecto.class), idUsuario, ""));
+
+        }else{
+
+          return unauthorized("hello, debes iniciar session");
+        }
     }
 
     @Transactional
@@ -62,20 +82,28 @@ public class ProyectosController extends Controller {
 
     @Transactional
     public Result formularioEditaProyecto(Integer idProyecto, Integer idUsuario) {
-        //Cargamos vacío el form
-        Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class);
-        //Obtenemos de la base de datos el proyecto
-        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-        //Cargamos en el form los datos del usuario
-        proyectoForm = proyectoForm.fill(proyecto);
+      String variable=session().get("usuario");
+        if (variable!=null){
+            //Cargamos vacío el form
+            Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class);
+            //Obtenemos de la base de datos el proyecto
+            //Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);  metodo original
+            Proyecto proyecto = ProyectosService.findProyectoPorUsuario(idProyecto, idUsuario);
+            //Cargamos en el form los datos del usuario
+            proyectoForm = proyectoForm.fill(proyecto);
 
-        //lineas añadidas
+            //lineas añadidas
 
-        tareas = ProyectosService.tareasNoAsignadas(idUsuario);
-        tareasProyecto = proyecto.tareas;
-        ////
-        //Retornamos a la vista los datos del usuario en el form
-        return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, ""));
+            tareas = ProyectosService.tareasNoAsignadas(idUsuario);
+            tareasProyecto = proyecto.tareas;
+            ////
+            //Retornamos a la vista los datos del usuario en el form
+            return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, ""));
+        }else{
+           return unauthorized("hello, debes iniciar session");
+
+        }
+
     }
 
     @Transactional
@@ -131,30 +159,51 @@ public class ProyectosController extends Controller {
 
     @Transactional
     public Result deleteTareaDeProyecto(int idUsuario, int idTarea, int idProyecto) {
-        //Si se ha borrado recargamos página
-        if (ProyectosService.deleteTarea(idUsuario, idTarea, idProyecto)) {
-            return ok("Tarea borrada con éxito.");
-        } else { //Si no, devolvemos error
-            return badRequest("Tarea no se ha podido eliminar.");
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+            //Si se ha borrado recargamos página
+            if (ProyectosService.deleteTarea(idUsuario, idTarea, idProyecto)) {
+                return ok("Tarea borrada con éxito.");
+            } else { //Si no, devolvemos error
+                return badRequest("Tarea no se ha podido eliminar.");
+            }
+        }else{
+
+          return unauthorized("hello, debes iniciar session");
         }
 
     }
 
     @Transactional
     public Result borraProyecto(int idProyecto, int idUsuario) {
-        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-        //Si se ha borrado recargamos página
-        if (ProyectosService.deleteProyecto(idProyecto)) {
-            return ok("Proyecto borrado con éxito.");
-        } else { //Si no, devolvemos error
-            return badRequest("Proyecto no se ha podido eliminar.");
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+            Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+            //Si se ha borrado recargamos página
+            if (ProyectosService.deleteProyecto(idProyecto)) {
+                return ok("Proyecto borrado con éxito.");
+            } else { //Si no, devolvemos error
+                return badRequest("Proyecto no se ha podido eliminar.");
+            }
+        }else{
+
+            return unauthorized("hello, debes iniciar session");
         }
     }
 
     @Transactional
     public Result detalleProyecto(int idProyecto, int idUsuario) {
-        Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
-        return ok(detalleProyecto.render(proyecto));
+      String variable=session().get("usuario");
+        if (variable!=null){
+
+            Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+            return ok(detalleProyecto.render(proyecto));
+        }else{
+
+          return unauthorized("hello, debes iniciar session");
+        }
     }
 
 

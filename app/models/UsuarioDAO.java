@@ -61,7 +61,13 @@ public class UsuarioDAO {
                 "select u from Usuario u ORDER BY id", Usuario.class);
         return query.getResultList();
     }
-
+    /**
+     *
+     * se busca un usuario por login
+     *
+     * @param login
+     * @return Usuario
+     */
     public static Usuario findByLogin(String login) {
         TypedQuery<Usuario> query = JPA.em().createQuery(
                 "select u from Usuario u where u.login = :login", Usuario.class);

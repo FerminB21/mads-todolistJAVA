@@ -46,8 +46,20 @@ public class ProyectosService {
         Logger.debug("Se obtiene proyecto: " + id);
         return proyecto;
     }
-
     /**
+     *
+     *se busca un proyecto de un usuario
+     */
+    public static Proyecto findProyectoPorUsuario(Integer idProyecto, Integer idUsuario) {
+        Proyecto proyecto = ProyectoDAO.findProyectoUsuario(idProyecto, idUsuario);
+        Logger.debug("Se obtiene proyecto: " + idProyecto);
+        if(proyecto!=null){
+           return proyecto;
+
+        }else{
+          throw new UsuariosException("Usuario no es asociado al proyecto a buscar");
+        }
+    }    /**
      * Modifica el proyecto
      *
      * @param proyecto

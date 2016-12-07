@@ -20,6 +20,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /usuarios/nuevo             controllers.UsuariosController.formularioNuevoUsuario()
 GET     /usuarios                   controllers.UsuariosController.listaUsuarios()
 GET     /usuarios/:id               controllers.UsuariosController.detalleUsuario(id: Integer)
+GET     /usuarios/login/:login      controllers.UsuariosController.detalleUsuarioPorLogin(login: String)
 GET     /usuarios/:id/editar        controllers.UsuariosController.editaUsuario(id: Integer)
 POST    /usuarios/nuevo             controllers.UsuariosController.grabaNuevoUsuario()
 POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioModificado()

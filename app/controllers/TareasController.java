@@ -25,18 +25,36 @@ public class TareasController extends Controller {
         String error = flash("error");
         Logger.debug("Mensaje de aviso: " + aviso);
         Logger.debug("Mensaje de error: " + error);
-        Usuario usuario = UsuariosService.findUsuario(idUsuario);
-        if (usuario == null) {
-            return notFound("Usuario no encontrado");
-        } else {
-            List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
-            return ok(listaTareas.render(tareas, usuario, aviso, error));
+
+        String variable=session().get("usuario");
+//null
+    if (variable!=null){
+
+            Usuario usuario = UsuariosService.findUsuario(idUsuario);
+            if (usuario == null) {
+                return notFound("Usuario no encontrado");
+            } else {
+                List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
+                return ok(listaTareas.render(tareas, usuario, aviso, error));
+
+            }
+
+        }else{
+
+                return unauthorized("hello, debes iniciar session");
         }
     }
 
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevaTarea(Integer idUsuario) {
-        return ok(formCreacionTarea.render(formFactory.form(Tarea.class), idUsuario, ""));
+      String variable=session().get("usuario");
+        if (variable!=null){
+            return ok(formCreacionTarea.render(formFactory.form(Tarea.class), idUsuario, ""));
+        }else{
+
+            return unauthorized("hello, debes iniciar session");
+
+        }
     }
 
     @Transactional
@@ -62,14 +80,21 @@ public class TareasController extends Controller {
 
     @Transactional
     public Result formularioEditaTarea(Integer idTarea, Integer idUsuario) {
-        //Cargamos vacío el form
-        Form<Tarea> tareaForm = formFactory.form(Tarea.class);
-        //Obtenemos de la base de datos la tarea
-        Tarea tarea = TareasService.findTareaUsuario(idTarea);
-        //Cargamos en el form los datos del usuario
-        tareaForm = tareaForm.fill(tarea);
-        //Retornamos a la vista los datos del usuario en el form
-        return ok(formModificacionTarea.render(tareaForm, idUsuario, ""));
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+            //Cargamos vacío el form
+            Form<Tarea> tareaForm = formFactory.form(Tarea.class);
+            //Obtenemos de la base de datos la tarea
+            Tarea tarea = TareasService.findTareaUsuario(idTarea);
+            //Cargamos en el form los datos del usuario
+            tareaForm = tareaForm.fill(tarea);
+            //Retornamos a la vista los datos del usuario en el form
+            return ok(formModificacionTarea.render(tareaForm, idUsuario, ""));
+        }else{
+
+          return unauthorized("hello, debes iniciar session");
+        }
     }
 
     @Transactional
@@ -103,13 +128,19 @@ public class TareasController extends Controller {
      */
     @Transactional
     public Result borraTarea(int idTarea, int idUsuario) {
-        Tarea tarea = TareasService.findTareaUsuario(idTarea);
-        //Si se ha borrado recargamos página
-        if (TareasService.deleteTarea(idTarea)) {
-            return ok("Tarea borrada con éxito.");
-        } else { //Si no, devolvemos error
-            return badRequest("Tarea no se ha podido eliminar.");
-        }
 
+      String variable=session().get("usuario");
+        if (variable!=null){
+          Tarea tarea = TareasService.findTareaUsuario(idTarea);
+          //Si se ha borrado recargamos página
+          if (TareasService.deleteTarea(idTarea)) {
+              return ok("Tarea borrada con éxito.");
+          } else { //Si no, devolvemos error
+              return badRequest("Tarea no se ha podido eliminar.");
+          }
+        }else{
+
+          return unauthorized("hello, debes iniciar session");
+        }
     }
 }
