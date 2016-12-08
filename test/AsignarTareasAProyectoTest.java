@@ -10,7 +10,7 @@ import play.db.Databases;
 import play.db.jpa.JPA;
 import play.db.jpa.JPAApi;
 import services.ProyectosService;
-import services.UsuariosException;
+import services.ServiceException;
 
 import java.io.FileInputStream;
 
@@ -135,7 +135,7 @@ public class AsignarTareasAProyectoTest {
 
                 ProyectosService.crearProyectoUsuario(proyecto, 41);
                 fail("Debería haberse lanzado la excepción. No se puede crear proyecto con usuario que no existe");
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
     }

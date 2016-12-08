@@ -12,7 +12,7 @@ import play.db.Databases;
 import play.db.jpa.JPA;
 import play.db.jpa.JPAApi;
 import services.TareasService;
-import services.UsuariosException;
+import services.ServiceException;
 import services.UsuariosService;
 
 import java.io.FileInputStream;
@@ -117,7 +117,7 @@ public class CrearTareaUsuarioTest {
                 Tarea tarea = new Tarea("Resolver los ejercicios de programación");
                 TareasService.crearTareaUsuario(tarea, 20);
                 fail("Debería haberse lanzado la excepción. No se puede crear tarea con usuario que no existe");
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
     }

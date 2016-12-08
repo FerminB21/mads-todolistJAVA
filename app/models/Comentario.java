@@ -37,6 +37,16 @@ public class Comentario {
         return usuario.id == idUsuario;
     }
 
+    public Comentario copy() {
+        Comentario nuevo = new Comentario();
+        nuevo.id = this.id;
+        nuevo.comentario = this.comentario;
+        nuevo.usuario = this.usuario;
+        nuevo.proyecto = this.proyecto;
+        nuevo.fecha = this.fecha;
+        return nuevo;
+    }
+
     @Override
     public String toString() {
         return "Comentario{" +

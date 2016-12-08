@@ -1,14 +1,11 @@
-import models.Proyecto;
-import models.ProyectoDAO;
-import org.dbunit.JndiDatabaseTester;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
-import org.junit.*;
 import play.db.Database;
 import play.db.Databases;
-import play.db.jpa.JPA;
-import play.db.jpa.JPAApi;
+import play.db.jpa.*;
+import org.junit.*;
+import org.dbunit.*;
+import org.dbunit.dataset.*;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
 
 import play.*;
 import play.mvc.*;
@@ -17,7 +14,15 @@ import play.mvc.*;
 import javax.persistence.*;
 import java.io.FileInputStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import models.*;
+import services.*;
 
 /**
  * Created by mads on 17/11/16.
@@ -108,7 +113,7 @@ public class EditarProyectoTest {
            try {
                  Proyecto proyecto =ProyectosService.findProyectoPorUsuario(3, 100);
                fail("No se ha lanzado excepción proyecto no pertenece a usuario"); //esperamos error
-           } catch (UsuariosException ex) {
+           } catch (ServiceException ex) {
            }
 
 

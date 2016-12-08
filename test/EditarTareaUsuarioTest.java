@@ -1,23 +1,27 @@
-import models.Tarea;
-import models.TareaDAO;
-import models.Usuario;
-import org.dbunit.JndiDatabaseTester;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
-import org.junit.*;
+import org.hibernate.HibernateException;
 import play.db.Database;
 import play.db.Databases;
-import play.db.jpa.JPA;
-import play.db.jpa.JPAApi;
-import services.TareasService;
-import services.UsuariosException;
-import services.UsuariosService;
+import play.db.jpa.*;
+import org.junit.*;
+import org.dbunit.*;
+import org.dbunit.dataset.*;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
 
 import java.io.FileInputStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import models.*;
+import services.*;
+
+import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 
 import play.*;
 import play.mvc.*;
@@ -129,7 +133,7 @@ public class EditarTareaUsuarioTest {
                 tarea.usuario.id = 20;
                 tarea = TareasService.modificaTareaUsuario(tarea);
                 fail("Debería haberse lanzado la excepción. No se puede cambiar la tarea a un usuario que no existe.");
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
 
@@ -171,7 +175,7 @@ public class EditarTareaUsuarioTest {
            try {
                  Tarea tarea =TareasService.findTareaPorUsuario(3, 100);
                fail("No se ha lanzado excepción Tarea no pertenece a usuario"); //esperamos error
-           } catch (UsuariosException ex) {
+           } catch (ServiceException ex) {
            }
 
 

@@ -93,7 +93,7 @@ public class UsuariosServiceTest {
             try {
                 UsuariosService.modificaUsuario(desconectado);
                 fail("No se ha lanzado excepción login ya existe"); //esperamos error
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
     }
