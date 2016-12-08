@@ -18,4 +18,11 @@ public enum EstimacionTareaEnum {
     public String toString() {
         return descripcion;
     }
+
+    public static EstimacionTareaEnum getById(Integer id) {
+        for(EstimacionTareaEnum e : values()) {
+            if(e.id.equals(id)) return e;
+        }
+        return null;
+    }
 }

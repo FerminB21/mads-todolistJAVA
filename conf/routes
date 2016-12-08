@@ -27,12 +27,16 @@ POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioM
 DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(id: Integer)
 
 #Rutas de tareas
+GET     /usuarios/:idUsuario/tareas/exportar            controllers.TareasController.exportarTareas(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/:idTarea/exportar   controllers.TareasController.exportarTarea(idTarea: Integer, idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.formularioNuevaTarea(idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas                     controllers.TareasController.listaTareas(idUsuario: Integer)
 POST    /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.grabaNuevaTarea(idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas/:idTarea/editar     controllers.TareasController.formularioEditaTarea(idTarea: Integer, idUsuario: Integer)
 POST    /usuarios/:idUsuario/tareas/modifica            controllers.TareasController.grabaTareaModificada(idUsuario: Integer)
 DELETE  /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.borraTarea(idTarea: Integer, idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.detalleTarea(idTarea: Integer, idUsuario: Integer)
+
 
 #Rutas de proyectos
 GET     /usuarios/:idUsuario/proyectos                                 controllers.ProyectosController.listaProyectos(idUsuario: Integer)

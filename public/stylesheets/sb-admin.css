@@ -224,3 +224,15 @@ ul.alert-dropdown {
 .panel-yellow > a:hover {
     color: #df8a13;
 }
+
+.exportar{
+    color: white;
+    background-color: rgb(247, 129, 129);
+    border-color: #F78181;
+}
+
+.exportar:hover, .exportar:focus, .exportar:active{
+    color: white;
+    background-color: #ed5353;
+    border-color: #ed5353;
+}
