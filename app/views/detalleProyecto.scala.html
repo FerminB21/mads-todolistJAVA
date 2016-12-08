@@ -1,50 +1,80 @@
-@(proyecto: Proyecto)
-@main("Detalle de Proyecto") {
-<h1>Detalles del proyecto @proyecto.id</h1>
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">Detalle</h3>
-    </div>
-    <div class="panel-body">
-        <ul>
-            <li><span style="font-weight: bold;">Nombre: </span>@proyecto.nombre</li>
-            <li><span style="font-weight: bold;">Nº Tareas: </span>
-                <a style="cursor: pointer"
-                   href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">
-                    <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-                    @{
-                    if(proyecto.tareas.size() == 0)
-                    "Sin Tareas"
-                    else
-                    proyecto.tareas.size()
+@(proyecto: Proyecto, idUsuario: Integer)
+@scripts = {
+    <script type="text/javascript">
+        function del( urlBorrar ) {
+            if( confirm( "¿Está seguro de querer borrar la tarea?" ) ) {
+                $.ajax({
+                    url: urlBorrar,
+                    type: 'DELETE',
+                    success: function( results ) {
+                        alert( results );
+                        location.reload();
+                    },
+                    error: function( results ) {
+                        alert( results.responseText );
+                        location.reload();
                     }
-                </a>
-            </li>
-        </ul>
+                });
+                return true;
+            }
+            else return false;
+        }
+    </script>
+}
+@main("Detalle de Proyecto", scripts) {
+    <h1>Detalles del proyecto @proyecto.id</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Detalle</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li><span style="font-weight: bold;">Nombre: </span>@proyecto.nombre</li>
+                <li><span style="font-weight: bold;">Nº Tareas: </span>
+                    <a style="cursor: pointer"
+                        href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">
+                        <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                        @{
+                        if(proyecto.tareas.size() == 0)
+                        "Sin Tareas"
+                        else
+                        proyecto.tareas.size()
+                        }
+                    </a>
+                </li>
+            </ul>
 
-        <br>
-        <h4><b>Comentarios</b></h4>
+            <br>
+            <h4><b>Comentarios</b></h4>
 
-        @for(comentario <- proyecto.comentarios) {
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    Comentario escrito por @comentario.usuario.login
-                    <div class="pull-right">
+            @for(comentario <- proyecto.comentarios) {
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        Comentario escrito por @comentario.usuario.login
                         @if(comentario.fecha != null){
-                            @comentario.fecha.format("dd-MM-yyyy")
+                             el @comentario.fecha.format("dd-MM-yyyy")
+                        }
+                        @if(comentario.propietario(idUsuario) || proyecto.propietario(idUsuario)){
+                            <div class="pull-right">
+                                <a style="cursor: pointer" href="@routes.ComentariosController.formularioEditaComentario(idUsuario, proyecto.id, comentario.id)">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" />
+                                </a>
+                                <a style="cursor: pointer" onclick="return del('@routes.ComentariosController.borraComentario(idUsuario, proyecto.id, comentario.id)')">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true" />
+                                </a>
+                            </div>
                         }
                     </div>
+                    <div class="panel-body">
+                        @comentario.comentario
+                    </div>
                 </div>
-                <div class="panel-body">
-                    @comentario.comentario
-                </div>
-            </div>
-        }
-        <div><a class="btn btn-link" href="@routes.ComentariosController.formularioNuevoComentario(proyecto.usuario.id, proyecto.id)">+ Nuevo comentario</a></div>
-        <br>
-        <a class="btn btn-primary"
-           href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
-        <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a>
+            }
+            <div><a class="btn btn-link" href="@routes.ComentariosController.formularioNuevoComentario(proyecto.usuario.id, proyecto.id)">+ Nuevo comentario</a></div>
+            <br>
+            <a class="btn btn-primary"
+               href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
+            <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a>
+        </div>
     </div>
-</div>
 }

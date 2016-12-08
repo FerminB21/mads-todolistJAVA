@@ -1,23 +1,18 @@
 package controllers;
 
-import models.Proyecto;
-import models.Tarea;
-import models.Usuario;
-import play.Logger;
+import play.*;
+import play.mvc.*;
 import play.data.Form;
 import play.data.FormFactory;
-import play.db.jpa.Transactional;
-import play.mvc.Controller;
-import play.mvc.Result;
-import services.ProyectosService;
-import services.TareasService;
-import services.UsuariosService;
+import play.db.jpa.*;
+
+import models.*;
+import services.*;
 
 import views.html.*;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.*;
+import java.util.*;
 
 public class ProyectosController extends Controller {
 ///despues de hacer un push con --force no me dejo reflejar los cambios, ahora hago esta modificacion
@@ -208,14 +203,13 @@ public class ProyectosController extends Controller {
 
     @Transactional
     public Result detalleProyecto(int idProyecto, int idUsuario) {
-      String variable=session().get("usuario");
-        if (variable!=null){
-            Proyecto proyecto = ProyectosService.findProyectoPorUsuario(idProyecto, idUsuario);
-              return ok(detalleProyecto.render(proyecto));
-        }else{
+        String variable=session().get("usuario");
+        if( variable != null ) {
+            Proyecto proyecto = ProyectosService.findProyectoPorUsuario( idProyecto, idUsuario );
+            return ok( detalleProyecto.render( proyecto, idUsuario ) );
+        } else {
           return unauthorized("hello, debes iniciar session");
         }
     }
-
 
 }

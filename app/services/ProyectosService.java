@@ -12,7 +12,7 @@ public class ProyectosService {
         if (usuario != null) {
             return usuario.proyectos;
         } else {
-            throw new UsuariosException("Usuario no encontrado");
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 
@@ -29,7 +29,7 @@ public class ProyectosService {
             //  Logger.debug("Se crea proyecto: " + proyecto + " asociada al usuario " +usuarioId);
             return ProyectoDAO.create(proyecto); //se le pasa ya con el usuario metido
         } else {
-            throw new UsuariosException("Usuario no encontrado");
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 
@@ -57,7 +57,7 @@ public class ProyectosService {
            return proyecto;
 
         }else{
-          throw new UsuariosException("Los datos no son correctos");
+          throw new ServiceException("Los datos no son correctos");
         }
     }    /**
      * Modifica el proyecto
@@ -71,7 +71,7 @@ public class ProyectosService {
         Usuario existente = UsuarioDAO.find(proyecto.usuario.id);
         if (existente == null) {
             Logger.debug("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
-            throw new UsuariosException("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
+            throw new ServiceException("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
         }
         ProyectoDAO.update(proyecto);
         return proyecto;
@@ -114,7 +114,7 @@ public class ProyectosService {
         Usuario existente = UsuarioDAO.find(iduser);
         if (existente == null) {
             Logger.debug("Usuario asociado al proyecto a editar no existe: " + iduser);
-            throw new UsuariosException("Usuario asociado al proyecto a editar no existe: " + iduser);
+            throw new ServiceException("Usuario asociado al proyecto a editar no existe: " + iduser);
         }
         List<Tarea> tareas = TareaDAO.findTareasNoAsignadas(iduser);
         return tareas;

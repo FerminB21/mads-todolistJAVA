@@ -29,8 +29,12 @@ public class Comentario {
     public Comentario() {
     }
 
-    public Comentario(String comentario) {
+    public Comentario( String comentario ) {
         this.comentario = comentario;
+    }
+
+    public Boolean propietario( Integer idUsuario ) {
+        return usuario.id == idUsuario;
     }
 
     @Override

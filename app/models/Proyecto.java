@@ -26,8 +26,12 @@ public class Proyecto {
     }
 
     // Un constructor a partir del nombre
-    public Proyecto(String nombre) {
+    public Proyecto( String nombre ) {
         this.nombre = nombre;
+    }
+
+    public Boolean propietario( Integer idUsuario ) {
+        return usuario.id == idUsuario;
     }
 
     public Proyecto copy() {

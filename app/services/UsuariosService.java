@@ -29,7 +29,7 @@ public class UsuariosService {
     public static Usuario modificaUsuario(Usuario usuario) {
         Usuario existente = UsuarioDAO.findByLogin(usuario.login);
         if (existente != null && existente.id != usuario.id)
-            throw new UsuariosException("Login ya existente: " + usuario.login);
+            throw new ServiceException("Login ya existente: " + usuario.login);
         UsuarioDAO.update(usuario);
         return usuario;
     }

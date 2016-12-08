@@ -1,26 +1,20 @@
 package controllers;
 
-import models.Usuario;
-import play.Logger;
+import java.util.List;
+import javax.inject.*;
+
+import play.*;
+import play.mvc.*;
+
 import play.data.Form;
 import play.data.FormFactory;
-
 import play.db.jpa.*;
 import play.mvc.Http.Session;
+
+import views.html.*;
+
 import services.*;
 import models.*;
-
-import play.db.jpa.Transactional;
-import play.mvc.Controller;
-import play.mvc.Result;
-import services.UsuariosService;
-import views.html.detalleUsuario;
-import views.html.formCreacionUsuario;
-import views.html.formModificacionUsuario;
-import views.html.listaUsuarios;
-
-import javax.inject.Inject;
-import java.util.List;
 
 public class UsuariosController extends Controller {
 
@@ -38,19 +32,18 @@ public class UsuariosController extends Controller {
 
         String variable=session().get("usuario");
 
-    if (variable!=null){
-       if (variable.equals("admin")){
-        List<Usuario> usuarios = UsuariosService.findAllUsuarios();
-        return ok(listaUsuarios.render(usuarios, mensaje));
-      }else{
-           return unauthorized("hello, you are not admin");
-           //return notFound("Esta tarea es gestion del administrador");
-      }
-    }else{
-           return unauthorized("hello, debes iniciar session");
+        if (variable!=null){
+           if (variable.equals("admin")){
+            List<Usuario> usuarios = UsuariosService.findAllUsuarios();
+            return ok(listaUsuarios.render(usuarios, mensaje));
+          }else{
+               return unauthorized("hello, you are not admin");
+               //return notFound("Esta tarea es gestion del administrador");
+          }
+        }else{
+               return unauthorized("hello, debes iniciar session");
+        }
     }
-    }
-
 
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevoUsuario() {
@@ -126,7 +119,6 @@ public class UsuariosController extends Controller {
         }
     }
 
-
     @Transactional
     public Result grabaUsuarioModificado() {
         Form<Usuario> usuarioForm = formFactory.form(Usuario.class).bindFromRequest();
@@ -198,6 +190,7 @@ public class UsuariosController extends Controller {
         }
 
     }
+
     public static Session session() {
         return Http.Context.current().session();
     }
