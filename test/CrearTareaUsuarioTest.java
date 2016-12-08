@@ -1,23 +1,23 @@
+import models.Tarea;
+import models.TareaDAO;
+import models.Usuario;
+import models.UsuarioDAO;
+import org.dbunit.JndiDatabaseTester;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
+import org.junit.*;
 import play.db.Database;
 import play.db.Databases;
-import play.db.jpa.*;
-import org.junit.*;
-import org.dbunit.*;
-import org.dbunit.dataset.*;
-import org.dbunit.dataset.xml.*;
-import org.dbunit.operation.*;
+import play.db.jpa.JPA;
+import play.db.jpa.JPAApi;
+import services.TareasService;
+import services.ServiceException;
+import services.UsuariosService;
 
 import java.io.FileInputStream;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import models.*;
-import services.*;
 
 public class CrearTareaUsuarioTest {
 
@@ -117,7 +117,7 @@ public class CrearTareaUsuarioTest {
                 Tarea tarea = new Tarea("Resolver los ejercicios de programación");
                 TareasService.crearTareaUsuario(tarea, 20);
                 fail("Debería haberse lanzado la excepción. No se puede crear tarea con usuario que no existe");
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
     }

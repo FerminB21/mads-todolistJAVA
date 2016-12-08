@@ -1,10 +1,9 @@
 package services;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import models.*;
 import play.Logger;
+
+import java.util.List;
 
 public class TareasService {
 
@@ -13,7 +12,7 @@ public class TareasService {
         if (usuario != null) {
             return usuario.tareas;
         } else {
-            throw new UsuariosException("Usuario no encontrado");
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 
@@ -30,7 +29,7 @@ public class TareasService {
             Logger.debug("Se crea tarea: " + tarea + " asociada al usuario " + usuarioId);
             return TareaDAO.create(tarea); //se le pasa ya con el usuario metido
         } else {
-            throw new UsuariosException("Usuario no encontrado");
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 
@@ -46,7 +45,7 @@ public class TareasService {
         Usuario existente = UsuarioDAO.find(tarea.usuario.id);
         if (existente == null) {
             Logger.debug("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
-            throw new UsuariosException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
+            throw new ServiceException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
         }
         TareaDAO.update(tarea);
         return tarea;
@@ -101,7 +100,7 @@ public class TareasService {
            return tarea;
 
         }else{
-          throw new UsuariosException("Los datos no son correctos");
+          throw new ServiceException("Los datos no son correctos");
         }
     }
 }

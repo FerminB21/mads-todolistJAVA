@@ -1,11 +1,10 @@
 package models;
 
-import javax.persistence.*;
-
 import play.data.validation.Constraints;
 
-import java.util.List;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Proyecto {
@@ -19,14 +18,20 @@ public class Proyecto {
     public Usuario usuario;
     @OneToMany(mappedBy = "proyecto")
     public List<Tarea> tareas = new ArrayList<Tarea>();
+    @OneToMany(mappedBy="proyecto")
+    public List<Comentario> comentarios = new ArrayList<Comentario>();
 
     // Un constructor vacío necesario para JPA
     public Proyecto() {
     }
 
     // Un constructor a partir del nombre
-    public Proyecto(String nombre) {
+    public Proyecto( String nombre ) {
         this.nombre = nombre;
+    }
+
+    public Boolean propietario( Integer idUsuario ) {
+        return usuario.id == idUsuario;
     }
 
     public Proyecto copy() {

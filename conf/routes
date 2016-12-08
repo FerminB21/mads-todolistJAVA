@@ -48,5 +48,12 @@ DELETE  /usuarios/:idUsuario/proyectos/:idProyecto                     controlle
 DELETE  /usuarios/:idUsuario/tarea/:idTarea/proyectos/:idProyecto      controllers.ProyectosController.deleteTareaDeProyecto(idUsuario: Integer, idTarea: Integer,idProyecto: Integer)
 GET     /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.detalleProyecto(idProyecto: Integer, idUsuario: Integer)
 
+#Rutas de comentarios
+GET     /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/nuevo                  controllers.ComentariosController.formularioNuevoComentario(idUsuario: Integer, idProyecto: Integer)
+POST    /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/nuevo                  controllers.ComentariosController.grabaNuevoComentario(idUsuario: Integer, idProyecto: Integer)
+GET     /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/:idComentario/editar   controllers.ComentariosController.formularioEditaComentario(idUsuario: Integer, idProyecto: Integer, idComentario: Integer)
+POST    /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/modifica               controllers.ComentariosController.grabaComentarioModificado(idUsuario: Integer, idProyecto: Integer)
+DELETE  /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/:idComentario          controllers.ComentariosController.borraComentario(idUsuario: Integer, idProyecto: Integer, idComentario: Integer)
+
 #Ruta acerca-de
 GET /acercade controllers.AcercaDeController.acercaDe()

@@ -1,10 +1,11 @@
 package models;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import play.Logger;
+import play.db.jpa.JPA;
 
-import javax.persistence.*;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 public class ProyectoDAO {
     public static Proyecto find(Integer idProyecto) {

@@ -10,12 +10,18 @@ import views.html.*;
 
 import static play.libs.Json.*;
 
+import models.Usuario;
+import play.Logger;
+
 import play.data.Form;
 import play.data.FormFactory;
-import play.db.jpa.*;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.UsuariosService;
+import views.html.formLogueoRegistro;
 
-import services.*;
-import models.*;
+import javax.inject.Inject;
 
 public class LoginController extends Controller {
 

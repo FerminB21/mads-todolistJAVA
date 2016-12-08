@@ -203,14 +203,13 @@ public class ProyectosController extends Controller {
 
     @Transactional
     public Result detalleProyecto(int idProyecto, int idUsuario) {
-      String variable=session().get("usuario");
-        if (variable!=null){
-            Proyecto proyecto = ProyectosService.findProyectoPorUsuario(idProyecto, idUsuario);
-              return ok(detalleProyecto.render(proyecto));
-        }else{
+        String variable=session().get("usuario");
+        if( variable != null ) {
+            Proyecto proyecto = ProyectosService.findProyectoPorUsuario( idProyecto, idUsuario );
+            return ok( detalleProyecto.render( proyecto, idUsuario ) );
+        } else {
           return unauthorized("hello, debes iniciar session");
         }
     }
-
 
 }

@@ -1,16 +1,19 @@
 package dao;
 
-import play.Logger;
+import models.Usuario;
+import models.UsuarioDAO;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import play.db.Database;
 import play.db.Databases;
-import play.db.jpa.*;
-import org.junit.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
-import models.*;
+import play.db.jpa.JPA;
+import play.db.jpa.JPAApi;
 
 import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.*;
 
 public class UsuarioDaoTest {
 

@@ -113,7 +113,7 @@ public class EditarProyectoTest {
            try {
                  Proyecto proyecto =ProyectosService.findProyectoPorUsuario(3, 100);
                fail("No se ha lanzado excepción proyecto no pertenece a usuario"); //esperamos error
-           } catch (UsuariosException ex) {
+           } catch (ServiceException ex) {
            }
 
 

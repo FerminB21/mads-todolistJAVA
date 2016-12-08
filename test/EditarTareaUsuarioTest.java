@@ -133,7 +133,7 @@ public class EditarTareaUsuarioTest {
                 tarea.usuario.id = 20;
                 tarea = TareasService.modificaTareaUsuario(tarea);
                 fail("Debería haberse lanzado la excepción. No se puede cambiar la tarea a un usuario que no existe.");
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
 
@@ -175,7 +175,7 @@ public class EditarTareaUsuarioTest {
            try {
                  Tarea tarea =TareasService.findTareaPorUsuario(3, 100);
                fail("No se ha lanzado excepción Tarea no pertenece a usuario"); //esperamos error
-           } catch (UsuariosException ex) {
+           } catch (ServiceException ex) {
            }
 
 

@@ -1,7 +1,8 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import models.Tarea;
+import models.Usuario;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.*;
@@ -16,6 +17,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import services.TareasService;
+import services.UsuariosService;
+
+import views.html.*;
+
+import javax.inject.Inject;
 import java.util.List;
 
 public class TareasController extends Controller {
@@ -31,23 +41,24 @@ public class TareasController extends Controller {
         Logger.debug("Mensaje de error: " + error);
 
         String variable=session().get("usuario");
-//null
-    if (variable!=null){
+
+        if (variable!=null){
 
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            }else if(!usuario.login.equals(variable)){
+            } else if(!usuario.login.equals(variable)){
 
                   return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {
                 List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
                 return ok(listaTareas.render(tareas, usuario, aviso, error));
             }
-        }else{
-                return unauthorized("hello, debes iniciar session");
+        } else {
+            return unauthorized("hello, debes iniciar session");
         }
     }
+
     @Transactional
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevaTarea(Integer idUsuario) {
@@ -91,11 +102,10 @@ public class TareasController extends Controller {
     @Transactional
     public Result formularioEditaTarea(Integer idTarea, Integer idUsuario) {
 
-      String variable=session().get("usuario");
+        String variable=session().get("usuario");
         if (variable!=null){
             //Cargamos vacío el form
             Form<Tarea> tareaForm = formFactory.form(Tarea.class);
-
 
             //parte añadida
             //obtenemos la tarea si pertenece al usuario con su id
@@ -105,7 +115,7 @@ public class TareasController extends Controller {
             tareaForm = tareaForm.fill(tarea);
             //Retornamos a la vista los datos del usuario en el form
             return ok(formModificacionTarea.render(tareaForm, idUsuario, ""));
-        }else{
+        } else {
 
           return unauthorized("hello, debes iniciar session");
         }
@@ -143,7 +153,7 @@ public class TareasController extends Controller {
     @Transactional
     public Result borraTarea(int idTarea, int idUsuario) {
 
-      String variable=session().get("usuario");
+        String variable=session().get("usuario");
         if (variable!=null){
           Tarea tarea = TareasService.findTareaUsuario(idTarea);
           //Si se ha borrado recargamos página
