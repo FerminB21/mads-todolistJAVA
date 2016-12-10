@@ -68,6 +68,11 @@ return true;
 
 @helper.inputText(tareaForm("fechaFinTarea"), 'id -> "fechaTarea", '_label -> "Fecha Fin Tarea (dd-mm-aaaa)")
 <i id="demo" style="color:red"></i>
+
+        <div class="form-group">
+            <input class="jscolor" name="color" />
+        </div>
+
         <p>
             <input type="submit" class="btn btn-success" value="Guardar" onclick="return validateForm()">
             <a class="btn btn-danger" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>
