@@ -6,6 +6,7 @@ import java.text.*;
 import javax.persistence.*;
 import java.util.Date;
 import play.data.format.Formats;
+
 @Entity
 public class Tarea {
     @Id
@@ -22,12 +23,11 @@ public class Tarea {
     @Formats.DateTime(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     public Date fechaFinTarea;
-
-
     ///
     @ManyToOne
     @JoinColumn(name = "proyectoId")
     public Proyecto proyecto;
+    public String color;
 
     // Un constructor vacío necesario para JPA
     public Tarea() {
@@ -43,6 +43,7 @@ public class Tarea {
         nueva.id = this.id;
         nueva.estimacion = this.estimacion;
         nueva.estado=this.estado;
+        nueva.color = this.color;
         return nueva;
     }
 
@@ -93,7 +94,6 @@ public class Tarea {
         return tieneFecha;
     }
 
-
     public String tareaTieneEstado(){
         String tareaEstado="Sin Empezar";
         if(estado != 0){
@@ -101,8 +101,9 @@ public class Tarea {
         }
         return tareaEstado;
     }
+
     public String toString() {
-        return String.format("Tarea id: %s - descripción: %s - estimación: %s - estado: %s - fechFinalizacion: %s -proyecto: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion),EstadoTareaEnum.getById(estado),fechaFinTarea, esAsignadaProyecto());
+        return String.format("Tarea id: %s - descripción: %s - estimación: %s - estado: %s - fechFinalizacion: %s -proyecto: %s - color: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion),EstadoTareaEnum.getById(estado),fechaFinTarea, esAsignadaProyecto(), color);
     }
 
 }
