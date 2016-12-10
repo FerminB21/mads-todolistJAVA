@@ -23,6 +23,9 @@
             <li><span style="font-weight: bold;">Asignada a proyecto: </span>
                 @tarea.esAsignadaProyecto()
             </li>
+            <li><span style="font-weight: bold;">Color: </span>
+                <label style="color: #@tarea.color">@tarea.color</label>
+            </li>
         </ul>
         <a class="btn btn-primary"
            href="@routes.TareasController.formularioEditaTarea(tarea.id, tarea.usuario.id)">Editar</a>
