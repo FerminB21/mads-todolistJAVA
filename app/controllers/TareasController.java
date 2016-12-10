@@ -170,6 +170,7 @@ public class TareasController extends Controller {
     @Transactional
     public Result detalleTarea(int idTarea, int idUsuario) {
         Tarea tarea = TareasService.findTareaUsuario(idTarea);
+        //Logger.debug("Estado tarea: " + tarea.estado.toString());
         return ok(detalleTarea.render(tarea));
     }
 

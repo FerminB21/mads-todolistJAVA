@@ -2,6 +2,7 @@ import models.Tarea;
 import models.TareaDAO;
 import models.Usuario;
 import models.UsuarioDAO;
+import models.EstadoTareaEnum;
 import org.dbunit.JndiDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -139,5 +140,141 @@ public class CrearTareaUsuarioTest {
             assertTrue(tarea.estimacion == 1);
         });
     }
+
+
+
+
+    //////////////////////////////
+    /**
+     * crear una tarea y asignarle un estado y asignarla a un usuario
+     *
+     */
+    @Test
+    public void crearTareaConEstadoTest() {
+        //Comprobamos antes el usuario 1 cuántas tareas tiene asociada
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuariosService.findUsuario(1);
+            assertEquals(3, usuario.tareas.size());
+
+        });
+
+        Integer tareaId =jpa.withTransaction(() -> {
+            //se crea una tarea nueva
+            Tarea tarea = new Tarea("Hola, esto es una prueba");
+            tarea.estado=1;//se asigna un estado a esta tarea
+            tarea.estimacion=1;
+
+            TareasService.crearTareaUsuario(tarea, 1);//se crea la tarea y se asigna al usuario
+            return tarea.id;
+        });
+
+
+        jpa.withTransaction(() -> {
+            Tarea tarea = TareasService.findTareaUsuario(tareaId);
+            //se comprueba si la tarea tiene el estado asignado
+            assertEquals(EstadoTareaEnum.getById(tarea.estado).toString(), "Sin Empezar");
+        });
+
+        //Comprobamos si se ha sumado una tarea mas el usuario con id 1
+
+        jpa.withTransaction(() -> {
+            Usuario usuario = UsuariosService.findUsuario(1);
+            assertEquals(4, usuario.tareas.size());
+        });
+    }
+
+
+
+
+////////////////////modificar estado de tarea
+
+@Test
+public void crearModificarTareaConEstadoTest() {
+    //Comprobamos antes el usuario 1 cuántas tareas tiene asociada
+    jpa.withTransaction(() -> {
+        Usuario usuario = UsuariosService.findUsuario(2);
+        assertEquals(1, usuario.tareas.size());
+    });
+
+    Integer tareaId =jpa.withTransaction(() -> {
+        //se crea una tarea nueva
+        Tarea tarea = new Tarea("Hola, esto es una prueba");
+        tarea.estado=1;//se asigna el estado sin empezar a la tarea creada
+        tarea.estimacion=1;
+
+
+        TareasService.crearTareaUsuario(tarea, 2);//asignar la tarea al usuario con id igual a dos
+        return tarea.id;
+    });
+
+
+    jpa.withTransaction(() -> {
+        Tarea tarea = TareasService.findTareaUsuario(tareaId);
+        tarea.estado=2;//aqui modifico el estado a iniciado
+        Tarea tarea2=TareasService.modificaTareaUsuario(tarea);
+        //se comprueba si se ha modificado el estado
+        assertEquals(EstadoTareaEnum.getById(tarea2.estado).toString(), "Iniciada");
+    });
+
+    //se comprueba si el usuario tiene otra tarea mas
+    jpa.withTransaction(() -> {
+        Usuario usuario = UsuariosService.findUsuario(2);
+        assertEquals(2, usuario.tareas.size());
+    });
+}
+
+///tests sobre la capa Tarea DatabaseOperation
+
+@Test
+public void crearTareaUsuarioDAOTest() {
+    Integer tareaId = jpa.withTransaction(() -> {
+      //se crea una tarea nueva
+        Tarea tarea = new Tarea("Resolver los ejercicios de programación");
+        Usuario usuario = UsuarioDAO.find(2); //recuperamos usuario id 2 (Anabel)
+        tarea.usuario = usuario; //se modifica pero no llama al update porque se creó sin JPA
+        tarea.estado=1;
+        tarea = TareaDAO.create(tarea); //se creará ya asociado con un usuario
+        return tarea.id;
+    });
+
+    jpa.withTransaction(() -> {
+        //Recuperamos la tarea
+        Tarea tarea = TareaDAO.find(tareaId);
+        Usuario usuario = UsuarioDAO.find(2);
+        // Comprobamos que se recupera también el usuario de la tarea
+        assertEquals(tarea.usuario.nombre, usuario.nombre);
+        //se comprueba si se ha cambiado el estado de la tarea
+        assertEquals(EstadoTareaEnum.getById(tarea.estado).toString(), "Sin Empezar");
+        // Comprobamos que se recupera la relación inversa: el usuario
+        // contiene la nueva tarea
+        assertEquals(usuario.tareas.size(), 2);
+        
+    });
+}
+
+
+
+
+@Test
+public void crearModificarTareaUsuarioDAOTest() {
+    Integer tareaId = jpa.withTransaction(() -> {
+        Tarea tarea = new Tarea("Resolver los ejercicios de programación");
+        Usuario usuario = UsuarioDAO.find(2); //recuperamos usuario id 2 (Anabel)
+        tarea.usuario = usuario; //se modifica pero no llama al update porque se creó sin JPA
+        tarea.estado=1;
+        tarea = TareaDAO.create(tarea); //se creará ya asociado con un usuario
+        return tarea.id;
+    });
+
+    jpa.withTransaction(() -> {
+        //Recuperamos la tarea
+        Tarea tarea = TareaDAO.find(tareaId);
+        assertEquals(EstadoTareaEnum.getById(tarea.estado).toString(), "Sin Empezar");
+        tarea.estado=2;//aqui modifico el estado a iniciado y se comprueba si se ha modificado el estado
+        Tarea tarea2=TareaDAO.update(tarea);
+        assertEquals(EstadoTareaEnum.getById(tarea2.estado).toString(), "Iniciada");
+
+    });
+}
 
 }

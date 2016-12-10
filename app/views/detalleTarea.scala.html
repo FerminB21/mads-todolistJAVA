@@ -15,6 +15,12 @@
             <li><span style="font-weight: bold;">Estimación: </span>
                 @EstimacionTareaEnum.getById(tarea.estimacion)
             </li>
+
+            <li><span style="font-weight: bold;">Estado: </span>
+                @EstadoTareaEnum.getById(tarea.estado)
+            </li>
+
+
             <li><span style="font-weight: bold;">Asignada a proyecto: </span>
                 @tarea.esAsignadaProyecto()
             </li>

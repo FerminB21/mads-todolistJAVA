@@ -15,6 +15,7 @@ public class Tarea {
     @JoinColumn(name = "usuarioId")
     public Usuario usuario;
     public Integer estimacion;
+    public Integer estado;
     @ManyToOne
     @JoinColumn(name = "proyectoId")
     public Proyecto proyecto;
@@ -32,6 +33,7 @@ public class Tarea {
         Tarea nueva = new Tarea(this.descripcion);
         nueva.id = this.id;
         nueva.estimacion = this.estimacion;
+        nueva.estado=this.estado;
         return nueva;
     }
 
@@ -74,7 +76,7 @@ public class Tarea {
     }
 
     public String toString() {
-        return String.format("Tarea id: %s - descripción: %s - estimación: %s - proyecto: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion), esAsignadaProyecto());
+        return String.format("Tarea id: %s - descripción: %s - estimación: %s - estado: %s -proyecto: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion),EstadoTareaEnum.getById(estado), esAsignadaProyecto());
     }
 
 }
