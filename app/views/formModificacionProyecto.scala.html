@@ -26,7 +26,6 @@
          else return false;
         }
 
-
 </script>
 }
 @main("Modificar Proyecto",scripts) {
@@ -59,6 +58,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th width="1%" />
                 <th>ID</th>
                 <th>Descripción</th>
                 <th>ACCIÓN</th>
@@ -68,8 +68,8 @@
 
             @for(tarea <- tareasProyecto) {
             <tr>
+                <td style="background-color: #@tarea.color;">
                 <td>@tarea.id</td>
-
                 <td>@tarea.descripcion</td>
                 <td>
                     <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.deleteTareaDeProyecto(idUsuario,tarea.id, (proyectoForm("id").value).toInt)')"><span
