@@ -92,7 +92,7 @@ public class TareasService {
             return false;
         }
     }
-//metodo añadido
+    //metodo añadido
     public static Tarea findTareaPorUsuario(Integer idTarea, Integer idUsuario) {
         Tarea tarea = TareaDAO.findTareaUsuario(idTarea, idUsuario);
         Logger.debug("Se obtiene Tarea: " + idTarea);
@@ -101,6 +101,20 @@ public class TareasService {
 
         }else{
           throw new ServiceException("Los datos no son correctos");
+        }
+    }
+
+    //metodo añadido
+    public static List<Tarea> busquedaTareasUsuario(Integer idUsuario, String filtro, String sortBy, String order, Integer inicio, Integer tamanoPagina) {
+        Usuario usuario = UsuarioDAO.find(idUsuario);
+        if (usuario != null) {
+
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(idUsuario, filtro, sortBy, order, inicio, tamanoPagina);
+
+            return tareas;
+
+        } else {
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 }
