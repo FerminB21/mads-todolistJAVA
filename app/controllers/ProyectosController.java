@@ -15,8 +15,6 @@ import javax.inject.*;
 import java.util.*;
 
 public class ProyectosController extends Controller {
-///despues de hacer un push con --force no me dejo reflejar los cambios, ahora hago esta modificacion
-//para ver si se reflejan los cambios sin --force
     @Inject
     FormFactory formFactory, tareaFactory;
     List<Tarea> tareas = new ArrayList<Tarea>();
@@ -25,7 +23,6 @@ public class ProyectosController extends Controller {
     @Transactional(readOnly = true)
     // Devuelve una página con la lista de proyectos
     public Result listaProyectos(Integer idUsuario) {
-
 
       String variable=session().get("usuario");
         if (variable!=null){
@@ -44,7 +41,6 @@ public class ProyectosController extends Controller {
           return unauthorized("hello, debes iniciar session");
         }
     }
-
 
     // Devuelve un formulario para crear un nuevo proyecto
     @Transactional
@@ -81,7 +77,6 @@ public class ProyectosController extends Controller {
         }
         Proyecto proyecto = proyectoForm.get();
 
-
         proyecto = ProyectosService.crearProyectoUsuario(proyecto, idUsuario);
         flash("gestionaProyecto", "el proyecto se ha grabado correctamente");
         Logger.debug("Proyecto guardado correctamente: " + proyecto.toString());
@@ -108,7 +103,7 @@ public class ProyectosController extends Controller {
             ////
             //Retornamos a la vista los datos del usuario en el form
             return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, ""));
-        }else{
+        } else {
            return unauthorized("hello, debes iniciar session");
 
         }
@@ -119,7 +114,6 @@ public class ProyectosController extends Controller {
     public Result grabaProyectoModificado(Integer idUsuario) {
         Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class).bindFromRequest();
 
-
         if (proyectoForm.hasErrors()) {
             return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, "Hay errores en el formulario"));
         }
@@ -127,13 +121,11 @@ public class ProyectosController extends Controller {
         //Recuperamos los datos de la proyecto
         Proyecto proyecto = proyectoForm.get();
         String id = Form.form().bindFromRequest().get("tareaDisponible");
-        Logger.debug("iddddddddddddddd: " + id);
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
         proyecto.usuario = usuario;
         if (id != null) {
 
             //Comprobamos que el usuario existe (evitamos problemas de referencias)
-
 
             Tarea tarea = TareasService.findTareaUsuario(Integer.parseInt(id));
             Logger.debug("tareaaaaaaaaa: " + tarea);
@@ -154,7 +146,6 @@ public class ProyectosController extends Controller {
                 return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
             }
         }
-        Logger.debug("iddddddddddddddd  not null: " + id);
 
         proyecto.nombre = Form.form().bindFromRequest().get("nombre");
         flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
@@ -162,7 +153,6 @@ public class ProyectosController extends Controller {
         return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
         //return ok();
         //return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-
 
     }
 
@@ -195,7 +185,7 @@ public class ProyectosController extends Controller {
             } else { //Si no, devolvemos error
                 return badRequest("Proyecto no se ha podido eliminar.");
             }
-        }else{
+        } else {
 
             return unauthorized("hello, debes iniciar session");
         }

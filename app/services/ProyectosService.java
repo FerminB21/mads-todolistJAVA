@@ -119,7 +119,6 @@ public class ProyectosService {
         List<Tarea> tareas = TareaDAO.findTareasNoAsignadas(iduser);
         return tareas;
 
-
     }
 
     public static boolean deleteTarea(int idUsuario, int idTarea, int idProyecto) {

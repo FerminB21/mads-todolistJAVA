@@ -21,7 +21,7 @@ public class Proyecto {
     @OneToMany(mappedBy="proyecto")
     public List<Comentario> comentarios = new ArrayList<Comentario>();
     @ManyToMany(mappedBy="colaboraciones")
-    public List<Usuario> colaboradores = new ArrayList<Proyecto>();
+    public List<Usuario> colaboradores = new ArrayList<Usuario>();
 
     // Un constructor vacío necesario para JPA
     public Proyecto() {
@@ -34,6 +34,15 @@ public class Proyecto {
 
     public Boolean propietario( Integer idUsuario ) {
         return usuario.id == idUsuario;
+    }
+
+    public Boolean colaborador( Integer idUsuario ) {
+        for( Usuario colaborador: colaboradores ) {
+            if( colaborador.id == idUsuario ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Proyecto copy() {
