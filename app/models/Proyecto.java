@@ -20,6 +20,8 @@ public class Proyecto {
     public List<Tarea> tareas = new ArrayList<Tarea>();
     @OneToMany(mappedBy="proyecto")
     public List<Comentario> comentarios = new ArrayList<Comentario>();
+    @ManyToMany(mappedBy="colaboraciones")
+    public List<Usuario> colaboradores = new ArrayList<Proyecto>();
 
     // Un constructor vacío necesario para JPA
     public Proyecto() {
