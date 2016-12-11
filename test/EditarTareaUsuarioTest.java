@@ -26,6 +26,11 @@ import javax.persistence.RollbackException;
 import play.*;
 import play.mvc.*;
 
+import java.util.Date;
+import java.text.*;
+import play.data.format.Formats;
+import play.Logger;
+
 public class EditarTareaUsuarioTest {
 
     static Database db;
@@ -215,6 +220,88 @@ public class EditarTareaUsuarioTest {
 
     }
 
+
+///Editar Tarea de usuario
+
+@Test
+public void crearTareaUsuarioConFechaFinalizacionTest() throws ParseException{
+    Integer tareaId = jpa.withTransaction(() -> {
+
+        Tarea tarea = new Tarea("Tarea con fecha de finalizacion");//creacion de la tarea
+        tarea.estimacion = 1; // se le añade una estimación
+        tarea.estado=1;//se le añade un estado
+          SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+          //Date a=null;
+          try{
+             tarea.fechaFinTarea=formatter.parse("22-10-2017");//se le añade una fecha de finalizacion a la tarea
+          }catch(ParseException e){
+          }
+             tarea = TareasService.crearTareaUsuario(tarea,2);//se crea la tarea
+             return tarea.id;
+    });
+
+    jpa.withTransaction(() -> {
+      SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+      Tarea tarea = TareasService.findTareaUsuario(tareaId);
+      try{
+         tarea.fechaFinTarea=formatter.parse("22-10-2019");//se le añade una fecha de finalizacion a la tarea
+      }catch(ParseException e){
+      }
+        TareasService.modificaTareaUsuario(tarea);
+
+        String myDate=new SimpleDateFormat("dd-MM-yyyy").format(tarea.fechaFinTarea);
+        //se crea una fecha con formato string
+        String myotherDate="22-10-2019";
+
+        assertEquals(myDate ,myotherDate);//se comprueba el valor deseado con el valor real
+
+    });
+}
+
+//test sobre la capa DAO para cmprobar si se ha hecho la creacion de la tarea con la fecha de finalizacion
+@Test
+public void crearTareaUsuarioConFechaFinalizacionDAOTest() throws ParseException{
+    Integer tareaId = jpa.withTransaction(() -> {
+        //se crea la tarea
+        Tarea tarea = new Tarea("Tarea con fecha de finalizacion");
+        //se le asocia un usuario
+        Usuario usuario = UsuarioDAO.find(2);
+        tarea.usuario = usuario;
+        //se le asigna una estimacion
+        tarea.estimacion = 1;
+        // se le añade un estado
+        tarea.estado=1;
+
+
+          SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+          //Date a=null;
+          try{
+            //se le añade una fecha de finalizacion
+             tarea.fechaFinTarea=formatter.parse("22-10-2016");
+          }catch(ParseException e){
+          }
+             tarea = TareaDAO.create(tarea);
+             return tarea.id;
+    });
+
+    jpa.withTransaction(() -> {
+      SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Tarea tarea = TareaDAO.find(tareaId);
+      try{
+         tarea.fechaFinTarea=formatter.parse("22-10-2019");//se le añade una fecha de finalizacion a la tarea
+      }catch(ParseException e){
+      }
+        TareaDAO.update(tarea);
+
+        //conseguir la fecha de finalizacion de la tarea que acabamos de crear
+        String myDate=new SimpleDateFormat("dd-MM-yyyy").format(tarea.fechaFinTarea);
+        //se crea una fecha de tipo string, porque la fecha devuelta por la base de datos, se convierte a string
+        String myotherDate="22-10-2019";
+        //se comprueba si el valor deseado coincide con el valor real
+        assertEquals(myDate ,myotherDate);
+
+    });
+}
 
 
 }
