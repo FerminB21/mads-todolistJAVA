@@ -96,7 +96,7 @@ public class Tarea {
 
     public String tareaTieneEstado(){
         String tareaEstado="Sin Empezar";
-        if(estado != 0){
+        if( estado != null && estado != 0){
             return  EstadoTareaEnum.getById(estado).toString();
         }
         return tareaEstado;
