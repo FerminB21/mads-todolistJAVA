@@ -1,9 +1,11 @@
 package models;
 
 import play.data.validation.Constraints;
-
+import java.util.*;
+import java.text.*;
 import javax.persistence.*;
-
+import java.util.Date;
+import play.data.format.Formats;
 @Entity
 public class Tarea {
     @Id
@@ -16,6 +18,13 @@ public class Tarea {
     public Usuario usuario;
     public Integer estimacion;
     public Integer estado;
+    ////añadir fecha de finalizacion
+    @Formats.DateTime(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
+    public Date fechaFinTarea;
+
+
+    ///
     @ManyToOne
     @JoinColumn(name = "proyectoId")
     public Proyecto proyecto;
@@ -75,8 +84,25 @@ public class Tarea {
         return asignadaAProyecto;
     }
 
+    public String tieneFechaFinalizacion(){
+        String tieneFecha="Sin fecha de finalizacion";
+        if(fechaFinTarea != null){
+            String myDate=new SimpleDateFormat("MM-dd-yyyy").format(fechaFinTarea);
+            tieneFecha = myDate.toString();
+        }
+        return tieneFecha;
+    }
+
+
+    public String tareaTieneEstado(){
+        String tareaEstado="Sin Empezar";
+        if(estado != 0){
+            return  EstadoTareaEnum.getById(estado).toString();
+        }
+        return tareaEstado;
+    }
     public String toString() {
-        return String.format("Tarea id: %s - descripción: %s - estimación: %s - estado: %s -proyecto: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion),EstadoTareaEnum.getById(estado), esAsignadaProyecto());
+        return String.format("Tarea id: %s - descripción: %s - estimación: %s - estado: %s - fechFinalizacion: %s -proyecto: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion),EstadoTareaEnum.getById(estado),fechaFinTarea, esAsignadaProyecto());
     }
 
 }
