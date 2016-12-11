@@ -27,6 +27,23 @@
                 }
             </select>
         </div>
+
+        <div class="form-group">
+            <label class="control-label">Estado</label>
+            <select name="estado">
+                @for(estado <- EstadoTareaEnum.values()) {
+                @if( tareaForm("estado").value != null
+                && tareaForm("estado").value.equals( estado.id.toString())) {
+                <option selected value="@estado.id">@estado.toString()</option>
+                } else {
+                <option value="@estado.id">@estado.toString()</option>
+                }
+                }
+            </select>
+        </div>
+
+
+
         <p>
             <input type="submit" class="btn btn-success" value="Guardar">
             <a class="btn btn-danger" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>
