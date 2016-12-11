@@ -21,7 +21,7 @@
     if(x!=''){
       if((mydate.getTime() < d.getTime()) || !x.match(re)){
       //alert("Invalid date: " + x);
-      document.getElementById("demo").innerHTML = "fecha valida";
+      document.getElementById("demo").innerHTML = "La fecha tiene que ser posterior al día de hoy";
       return false;
     }
   }
@@ -68,6 +68,12 @@ return true;
 
 @helper.inputText(tareaForm("fechaFinTarea"), 'id -> "fechaTarea", '_label -> "Fecha Fin Tarea (dd-mm-aaaa)")
 <i id="demo" style="color:red"></i>
+
+        <div class="form-group">
+            <label class="control-label">Color</label>
+            <input class="jscolor" name="color" />
+        </div>
+
         <p>
             <input type="submit" class="btn btn-success" value="Guardar" onclick="return validateForm()">
             <a class="btn btn-danger" href="@routes.TareasController.listaTareas(idUsuario)">Cancelar</a></p>

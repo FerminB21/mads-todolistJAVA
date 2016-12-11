@@ -90,8 +90,8 @@ public class TareasController extends Controller {
             return badRequest(formCreacionTarea.render(tareaForm, idUsuario, "Hay errores en el formulario"));
         }
         Tarea tarea = tareaForm.get();
-        Integer estimacion = Integer.parseInt(tareaForm.form().bindFromRequest().get("estimacion"));
-        tarea.estimacion = estimacion;
+        tarea.estimacion = Integer.parseInt(tareaForm.form().bindFromRequest().get("estimacion"));
+        tarea.color = tareaForm.form().bindFromRequest().get("color");
         Logger.debug("Tarea a grabar: " + tarea.toString());
         tarea = TareasService.crearTareaUsuario(tarea, idUsuario);
         flash("gestionaTarea", "La tarea se ha grabado correctamente");

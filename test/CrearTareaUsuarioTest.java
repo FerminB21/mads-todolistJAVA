@@ -145,7 +145,23 @@ public class CrearTareaUsuarioTest {
         });
     }
 
+    @Test
+    public void crearTareaUsuarioConColorTest() {
+        Integer tareaId = jpa.withTransaction(() -> {
+            Tarea tarea = new Tarea("Resolver los ejercicios de programación");
+            Usuario usuario = UsuarioDAO.find(2);
+            tarea.usuario = usuario;
+            tarea.color = "FF0000"; // se le añade un color
+            tarea = TareaDAO.create(tarea);
+            return tarea.id;
+        });
 
+        jpa.withTransaction(() -> {
+            Tarea tarea = TareaDAO.find(tareaId);
+            // Comprobamos que efectivamente ha guardado el valor del color
+            assertTrue(tarea.color == "FF0000");
+        });
+    }
 
 
     //////////////////////////////
