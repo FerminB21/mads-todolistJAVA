@@ -17,9 +17,8 @@
             </li>
 
             <li><span style="font-weight: bold;">Estado: </span>
-                @EstadoTareaEnum.getById(tarea.estado)
+              @tarea.tareaTieneEstado()
             </li>
-
 
             <li><span style="font-weight: bold;">Asignada a proyecto: </span>
                 @tarea.esAsignadaProyecto()

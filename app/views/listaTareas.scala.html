@@ -44,6 +44,7 @@
             <tr>
                 <th>ID</th>
                 <th>DESCRIPCIÓN</th>
+                <th>ESTADO</th>
                 <th>ACCIÓN</th>
             </tr>
             </thead>
@@ -52,6 +53,8 @@
             <tr>
                 <td>@tarea.id</td>
                 <td>@tarea.descripcion</td>
+                <td>@tarea.tareaTieneEstado()</td>
+
                 <td>
                     <a style="cursor: pointer"
                        href="@routes.TareasController.detalleTarea(tarea.id, usuario.id)"><span
