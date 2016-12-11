@@ -88,7 +88,7 @@ public class UsuariosController extends Controller {
                 //aqui hay que poner la ruta del Dashboard
                 ////////
                   return notFound("Usuario no encontrado");
-              } else if(!usuario.login.equals(variable)){
+              } else if(!variable.equals("admin") && !usuario.login.equals(variable)){
 
                      return notFound("No autorizado a acceder a zonas de otros usuarios");
               }else {
@@ -150,7 +150,7 @@ public class UsuariosController extends Controller {
             //porque se hace una peticion con usuario no encontrado
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            } else if(!usuario.login.equals(variable)){
+            } else if( !variable.equals("admin") && !usuario.login.equals(variable)){
 
                    return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {

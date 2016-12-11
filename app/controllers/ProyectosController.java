@@ -32,7 +32,7 @@ public class ProyectosController extends Controller {
           Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            }else if(!usuario.login.equals(variable)){
+            }else if(!variable.equals("admin") && !usuario.login.equals(variable)){
 
                   return notFound("No autorizado a acceder a zonas de otros usuarios");
            } else {
@@ -56,7 +56,7 @@ public class ProyectosController extends Controller {
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            }else if(!usuario.login.equals(variable)){
+            }else if(!variable.equals("admin") && !usuario.login.equals(variable)){
 
                   return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {
