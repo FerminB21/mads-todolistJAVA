@@ -2,7 +2,6 @@
 @scripts = {
 <script type="text/javascript">
 
-
         function del(urlBorrar) {
           //Se añade confirmación de borrado
           if(confirm("¿Está seguro de querer borrar la tarea?")){
@@ -42,6 +41,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
+                <th width="1%" />
                 <th>ID</th>
                 <th>DESCRIPCIÓN</th>
                 <th>ESTADO</th>
@@ -51,6 +51,7 @@
             <tbody>
             @for(tarea <- tareas) {
             <tr>
+                <td style="background-color: #@tarea.color;">
                 <td>@tarea.id</td>
                 <td>@tarea.descripcion</td>
                 <td>@tarea.tareaTieneEstado()</td>
