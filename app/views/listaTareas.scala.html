@@ -5,11 +5,11 @@
     //Al cargar la página se crea el datatable
 	$(document).ready(function() {
 		var table = $('#listadoTareas').DataTable({
+		    "columnDefs": [
+                    {"className": "dt-center", "targets": "_all"}
+            ],
 			"processing" : true,
 			"serverSide" : true,
-			language: {
-			    url: '//cdn.datatables.net/plug-ins/1.10.13/i18n/Spanish.json'
-			},
 			"ajax" : "@routes.TareasController.busquedaTareas(usuario.id)",
 			select : {
 			        style: 'single',
@@ -28,7 +28,31 @@
                     text: 'Eliminar',
                     className: 'botonEliminarListado'
                 }
-            ]
+            ],
+            language: {
+			    	"sProcessing":     "Procesando...",
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                    "sZeroRecords":    "No se encontraron resultados",
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Buscar:",
+                    "sUrl":            "",
+                    "sInfoThousands":  ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst":    "Primero",
+                        "sLast":     "Último",
+                        "sNext":     "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+			}
 		});
 
         //Obtengo los botones
@@ -94,12 +118,15 @@
       else return false;
     }
 
+
 </script>
 }
 @main("Tareas del usuario "+usuario.id, scripts) {
 
 <h1> Listado de tareas de @usuario.login - <a class="btn exportar"
-                                                   href="@routes.TareasController.exportarTareas(usuario.id)" title="Exportar todas las tareas del usuario a un fichero .txt">Exportar tareas</a></h1>
+                                              href="@routes.TareasController.exportarTareas(usuario.id)"
+                                              title="Exportar todas las tareas del usuario a un fichero .txt">Exportar
+    tareas</a></h1>
 
 <a class="btn btn-primary" href="@routes.TareasController.formularioNuevaTarea(usuario.id)">Nueva Tarea</a>
 <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(usuario.id)">Ver proyectos</a></p>
@@ -111,11 +138,11 @@
         <table class="table table-striped" id="listadoTareas">
             <thead>
             <tr>
-                <th width="1%" />
                 <th>ID</th>
+                <th>COLOR</th>
                 <th>DESCRIPCIÓN</th>
                 <th>ESTADO</th>
-                <th>ACCIÓN</th>
+                <th>FECHA FIN</th>
             </tr>
             </thead>
             <tbody>
