@@ -7,6 +7,7 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.*;
+import play.Logger;
 import play.db.Database;
 import play.db.Databases;
 import play.db.jpa.JPA;
@@ -153,6 +154,58 @@ public class ListadoTareasTest {
             for (int i = 1; i < tareas.size(); i++) {
                 Tarea t = tareas.get(i);
                 assertTrue(t.descripcion.contains("tema"));
+            }
+        });
+    }
+
+    @Test
+    public void filtradoTareasDAO() {
+
+        //En esta transacción comprobamos que se obtienen tres tareas si se busca
+        //por la palabra "2016". (debe dar true la comprobación de fecha de finalización)
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(1, "2016", "id", "asc", 0, 10);
+            assertEquals(tareas.size(), 3);
+
+            // Comprobamos que las tareas contienen el valor buscado
+
+            for (int i = 0; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                assertTrue(t.fechaFinTarea.toString().contains("2016"));
+            }
+        });
+
+        //En esta transacción comprobamos que se obtiene una tarea si se busca
+        //por la palabra "Iniciada". (dará true el estado)
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(2, "Iniciada", "id", "asc", 0, 10);
+            assertEquals(tareas.size(), 1);
+
+
+            // Comprobamos que las tareas contienen el valor buscado
+            for (int i = 0; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                assertTrue(t.estado == 2); //Estado 'Iniciada'
+            }
+        });
+
+        //En esta transacción comprobamos que se obtiene una tarea si se busca
+        //por la palabra "55". (dará true el color)
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(1, "55", "id", "asc", 0, 10);
+            assertEquals(tareas.size(), 1);
+
+            // Comprobamos que las tareas contienen el valor buscado (actualmente solo por descripción es posible buscar)
+
+            for (int i = 0; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                assertTrue(t.color.contains("55"));
             }
         });
     }

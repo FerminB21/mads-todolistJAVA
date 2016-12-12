@@ -10,19 +10,19 @@ import java.util.List;
 
 public class TareaDAO {
 
-  public static Tarea findTareaUsuario(Integer tareaId,Integer usuarioId) {
-  //  Logger.debug("Se obtiene proyecto Test: hhhhhhhhhhhh " + proyectoId+" "+usuarioId);
-      TypedQuery<Tarea> query = JPA.em().createQuery(
-              "select u from Tarea u where  usuarioId = :usuarioId and id = :tareaId", Tarea.class);
-      try {
-        query.setParameter("usuarioId", usuarioId).setParameter("tareaId", tareaId);
-        //query.setParameter("proyectoId", proyectoId);
-          Tarea tarea = query.getSingleResult();
-          return tarea;
-      } catch (NoResultException ex) {
-          return null;
-      }
-  }
+    public static Tarea findTareaUsuario(Integer tareaId, Integer usuarioId) {
+        //  Logger.debug("Se obtiene proyecto Test: hhhhhhhhhhhh " + proyectoId+" "+usuarioId);
+        TypedQuery<Tarea> query = JPA.em().createQuery(
+                "select u from Tarea u where  usuarioId = :usuarioId and id = :tareaId", Tarea.class);
+        try {
+            query.setParameter("usuarioId", usuarioId).setParameter("tareaId", tareaId);
+            //query.setParameter("proyectoId", proyectoId);
+            Tarea tarea = query.getSingleResult();
+            return tarea;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
 
     public static Tarea find(Integer idTarea) {
         return JPA.em().find(Tarea.class, idTarea);
@@ -71,7 +71,6 @@ public class TareaDAO {
     }
 
     /**
-     *
      * @param idUsuario
      * @param filtro
      * @param sortBy
@@ -87,12 +86,13 @@ public class TareaDAO {
 
         //Where
         sql += " where usuarioId = :usuarioId ";
-        if(!filtro.equals("")){
-            sql += " and (id like '%"+filtro+"%' or descripcion like '%"+filtro+"%')";
+        if (!filtro.equals("")) {
+            sql += " and (id like '%" + filtro + "%' or descripcion like '%" + filtro + "%' or estado = " + EstadoTareaEnum.getIdByDescripcion(filtro) + " or color like '%" + filtro.substring(1) + "%' or fechaFinTarea like '%" + filtro + "%')";
         }
+
         //Order
-        if(!sortBy.equals("")){
-            sql += " order by "+sortBy+" "+order;
+        if (!sortBy.equals("")) {
+            sql += " order by " + sortBy + " " + order;
         }
 
         TypedQuery<Tarea> query = JPA.em().createQuery(sql, Tarea.class).setFirstResult(inicio).setMaxResults(tamanoPagina);
@@ -104,7 +104,6 @@ public class TareaDAO {
             return null;
         }
     }
-
 
 
 }

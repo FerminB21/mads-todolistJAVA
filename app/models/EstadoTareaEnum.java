@@ -27,4 +27,12 @@ public enum EstadoTareaEnum {
         }
         return null;
     }
+
+    public static int getIdByDescripcion(String descripcion){
+        for(EstadoTareaEnum e : values()) {
+            if(e.descripcion.equals(descripcion)) return e.id;
+        }
+        return -1; //Si devolvemos 0 estamos devolviendo un estado, así que se devuelve -1 para indicar
+                   //que no es correcto
+    }
 }

@@ -22,6 +22,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -46,16 +47,16 @@ public class TareasController extends Controller {
         Logger.debug("Mensaje de aviso: " + aviso);
         Logger.debug("Mensaje de error: " + error);
 
-        String variable=session().get("usuario");
+        String variable = session().get("usuario");
 
-        if (variable!=null){
+        if (variable != null) {
 
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            } else if(!usuario.login.equals(variable)){
+            } else if (!usuario.login.equals(variable)) {
 
-                  return notFound("No autorizado a acceder a zonas de otros usuarios");
+                return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {
                 List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
                 return ok(listaTareas.render(tareas, usuario, aviso, error));
@@ -68,18 +69,18 @@ public class TareasController extends Controller {
     @Transactional
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevaTarea(Integer idUsuario) {
-      String variable=session().get("usuario");
-        if (variable!=null){
-          Usuario usuario = UsuariosService.findUsuario(idUsuario);
-          if (usuario == null) {
-              return notFound("Usuario no encontrado");
-          }else if(!usuario.login.equals(variable)){
+        String variable = session().get("usuario");
+        if (variable != null) {
+            Usuario usuario = UsuariosService.findUsuario(idUsuario);
+            if (usuario == null) {
+                return notFound("Usuario no encontrado");
+            } else if (!usuario.login.equals(variable)) {
 
                 return notFound("No autorizado a acceder a zonas de otros usuarios");
-         }else{
-            return ok(formCreacionTarea.render(formFactory.form(Tarea.class), idUsuario, ""));
-         }
-        }else{
+            } else {
+                return ok(formCreacionTarea.render(formFactory.form(Tarea.class), idUsuario, ""));
+            }
+        } else {
             return unauthorized("hello, debes iniciar session");
         }
     }
@@ -108,14 +109,14 @@ public class TareasController extends Controller {
     @Transactional
     public Result formularioEditaTarea(Integer idTarea, Integer idUsuario) {
 
-        String variable=session().get("usuario");
-        if (variable!=null){
+        String variable = session().get("usuario");
+        if (variable != null) {
             //Cargamos vacío el form
             Form<Tarea> tareaForm = formFactory.form(Tarea.class);
 
             //parte añadida
             //obtenemos la tarea si pertenece al usuario con su id
-            Tarea tarea=TareasService.findTareaPorUsuario(idTarea, idUsuario);
+            Tarea tarea = TareasService.findTareaPorUsuario(idTarea, idUsuario);
 
             //Cargamos en el form los datos del usuario
             tareaForm = tareaForm.fill(tarea);
@@ -123,7 +124,7 @@ public class TareasController extends Controller {
             return ok(formModificacionTarea.render(tareaForm, idUsuario, ""));
         } else {
 
-          return unauthorized("hello, debes iniciar session");
+            return unauthorized("hello, debes iniciar session");
         }
     }
 
@@ -159,17 +160,17 @@ public class TareasController extends Controller {
     @Transactional
     public Result borraTarea(int idTarea, int idUsuario) {
 
-        String variable=session().get("usuario");
-        if (variable!=null){
-          Tarea tarea = TareasService.findTareaUsuario(idTarea);
-          //Si se ha borrado recargamos página
-          if (TareasService.deleteTarea(idTarea)) {
-              return ok("Tarea borrada con éxito.");
-          } else { //Si no, devolvemos error
-              return badRequest("Tarea no se ha podido eliminar.");
-          }
-        }else{
-          return unauthorized("hello, debes iniciar session");
+        String variable = session().get("usuario");
+        if (variable != null) {
+            Tarea tarea = TareasService.findTareaUsuario(idTarea);
+            //Si se ha borrado recargamos página
+            if (TareasService.deleteTarea(idTarea)) {
+                return ok("Tarea borrada con éxito.");
+            } else { //Si no, devolvemos error
+                return badRequest("Tarea no se ha podido eliminar.");
+            }
+        } else {
+            return unauthorized("hello, debes iniciar session");
         }
     }
 
@@ -182,6 +183,7 @@ public class TareasController extends Controller {
 
     /**
      * Exporta una sola tarea en un fichero con extensión .txt
+     *
      * @param idTarea, idUsuario
      * @return File
      */
@@ -191,26 +193,27 @@ public class TareasController extends Controller {
         File archivo = new File(nombreFichero);
 
         //Si ya existe, lo borramos
-        if(archivo.exists()) {
+        if (archivo.exists()) {
             archivo.delete();
         } else { //Si no, escribimos los datos de la tarea
             BufferedWriter bw = null;
             try {
                 bw = new BufferedWriter(new FileWriter(archivo));
                 Tarea tarea = TareasService.findTareaUsuario(idTarea);
-                bw.write(tarea.toString()+"\n");
+                bw.write(tarea.toString() + "\n");
                 bw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         response().setContentType("application/x-download");
-        response().setHeader("Content-disposition","attachment; filename="+nombreFichero);
+        response().setHeader("Content-disposition", "attachment; filename=" + nombreFichero);
         return ok(archivo);
     }
 
     /**
      * Exporta todas las tareas del usuario pasado como parámetro en un fichero con extensión .txt
+     *
      * @param idUsuario
      * @return File
      */
@@ -220,15 +223,15 @@ public class TareasController extends Controller {
         File archivo = new File(nombreFichero);
 
         //Si ya existe, lo borramos
-        if(archivo.exists()) {
+        if (archivo.exists()) {
             archivo.delete();
         } else { //Si no, escribimos la lista de tareas
             BufferedWriter bw = null;
             try {
                 bw = new BufferedWriter(new FileWriter(archivo));
                 List<Tarea> tareas = TareasService.listaTareasUsuario(idUsuario);
-                for(Tarea tarea: tareas){
-                    bw.write(tarea.toString()+"\n");
+                for (Tarea tarea : tareas) {
+                    bw.write(tarea.toString() + "\n");
                 }
                 bw.close();
             } catch (IOException e) {
@@ -236,12 +239,13 @@ public class TareasController extends Controller {
             }
         }
         response().setContentType("application/x-download");
-        response().setHeader("Content-disposition","attachment; filename="+nombreFichero);
+        response().setHeader("Content-disposition", "attachment; filename=" + nombreFichero);
         return ok(archivo);
     }
 
     /**
      * Busca tareas por algún parámetro
+     *
      * @param idUsuario
      * @return Page
      */
@@ -262,12 +266,23 @@ public class TareasController extends Controller {
 
         String order = params.get("order[0][dir]")[0];
 
+        //Los valores deben coincidir con el nombre de los campos de la clase Tarea
         switch (Integer.valueOf(params.get("order[0][column]")[0])) {
-            case 0 :  sortBy = "id"; break;
-            case 1 :  sortBy = "color"; break;
-            case 2 :  sortBy = "descripcion"; break;
-            case 3 :  sortBy = "estado"; break;
-            case 4 :  sortBy = "fecha finalización"; break;
+            case 0:
+                sortBy = "id";
+                break;
+            case 1:
+                sortBy = "color";
+                break;
+            case 2:
+                sortBy = "descripcion";
+                break;
+            case 3:
+                sortBy = "estado";
+                break;
+            case 4:
+                sortBy = "fechaFinTarea";
+                break;
         }
 
         //Lanzamos la búsqueda completa (se busca por todos los campos
@@ -275,7 +290,7 @@ public class TareasController extends Controller {
 
         //Si hay filtro, mostramos el total de la consulta del filtro
         Integer totalRegistrosMostrados;
-        if(!filter.equals(""))
+        if (!filter.equals(""))
             totalRegistrosMostrados = tareasPage.size();
         else //Si no, mostramos el total completo
             totalRegistrosMostrados = totalRegistros;
@@ -295,7 +310,7 @@ public class TareasController extends Controller {
         for (Tarea tarea : tareasPage) {
             ObjectNode row = Json.newObject();
             row.put("0", tarea.id);
-            row.put("1", "<div style='width: 100%; background-color: #"+tarea.color+"'>#"+tarea.color+"</div>");
+            row.put("1", "<div style='width: 100%; background-color: #" + tarea.color + "'>#" + tarea.color + "</div>");
             row.put("2", tarea.descripcion);
             row.put("3", tarea.tareaTieneEstado());
             row.put("4", tarea.tieneFechaFinalizacion());
