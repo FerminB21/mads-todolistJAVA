@@ -1,4 +1,6 @@
-@(proyectoForm: Form[Proyecto],tareasDisponibles: List[Tarea],tareasProyecto: List[Tarea], idUsuario: Integer, mensaje: String)
+@(proyectoForm: Form[Proyecto],
+tareasDisponibles: List[Tarea],tareasProyecto: List[Tarea],
+usuariosDisponibles: List[Usuario], idUsuario: Integer, mensaje: String)
 @scripts = {
 <script type="text/javascript">
 
@@ -46,6 +48,17 @@
 
         @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre Proyecto")
 
+        <p>Asignar colaborador</p>
+        <select name="usuarioDisponible">
+            @for(usuarioDisponible <- usuariosDisponibles) {
+            <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
+            }
+        </select>
+        <br><br>
+        <input type="submit" class="btn btn-success" value="Asignar">
+
+        <!-- El asignar tarea y la tabla de tareas se pasaran a la vista de detalles -->
+        <br><br>
         <p>Asignar tarea al proyecto</p>
         <select name="tareaDisponible">
             @for(tareaDisponible <- tareasDisponibles) {
