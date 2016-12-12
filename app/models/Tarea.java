@@ -88,7 +88,7 @@ public class Tarea {
     public String tieneFechaFinalizacion(){
         String tieneFecha="Sin fecha de finalizacion";
         if(fechaFinTarea != null){
-            String myDate=new SimpleDateFormat("MM-dd-yyyy").format(fechaFinTarea);
+            String myDate=new SimpleDateFormat("dd-MM-yyyy").format(fechaFinTarea);
             tieneFecha = myDate.toString();
         }
         return tieneFecha;
