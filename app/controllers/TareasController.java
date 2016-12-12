@@ -262,12 +262,13 @@ public class TareasController extends Controller {
 
         String order = params.get("order[0][dir]")[0];
 
+        //Los valores deben coincidir con el nombre de los campos de la clase Tarea
         switch (Integer.valueOf(params.get("order[0][column]")[0])) {
             case 0 :  sortBy = "id"; break;
             case 1 :  sortBy = "color"; break;
             case 2 :  sortBy = "descripcion"; break;
             case 3 :  sortBy = "estado"; break;
-            case 4 :  sortBy = "fecha finalización"; break;
+            case 4 :  sortBy = "fechaFinTarea"; break;
         }
 
         //Lanzamos la búsqueda completa (se busca por todos los campos

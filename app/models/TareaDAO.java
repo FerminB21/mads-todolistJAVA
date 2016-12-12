@@ -88,7 +88,7 @@ public class TareaDAO {
         //Where
         sql += " where usuarioId = :usuarioId ";
         if(!filtro.equals("")){
-            sql += " and (id like '%"+filtro+"%' or descripcion like '%"+filtro+"%')";
+            sql += " and (id like '%"+filtro+"%' or descripcion like '%"+filtro+"%' or estado = "+EstadoTareaEnum.getIdByDescripcion(filtro)+" or color like '%"+filtro+"%' or fechaFinTarea like '%"+filtro+"%')";
         }
         //Order
         if(!sortBy.equals("")){
