@@ -121,6 +121,88 @@ public class ListadoTareasTest {
         });
     }
 
+    @Test
+    public void busquedaTareasDAO() {
+
+        //En esta transacción comprobamos que se obtienen tres tareas si se busca
+        //por la palabra "el".
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(1, "el", "id", "asc", 0, 10);
+            assertEquals(tareas.size(), 3);
+
+            // Comprobamos que las tareas contienen el valor buscado (actualmente solo por descripción es posible buscar)
+
+            for (int i = 1; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                assertTrue(t.descripcion.contains("el"));
+            }
+        });
+
+        //En esta transacción comprobamos que se obtienen una tarea si se busca
+        //por la palabra "tema".
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(1, "tema", "id", "asc", 0, 10);
+            assertEquals(tareas.size(), 1);
+
+            // Comprobamos que las tareas contienen el valor buscado (actualmente solo por descripción es posible buscar)
+
+            for (int i = 1; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                assertTrue(t.descripcion.contains("tema"));
+            }
+        });
+    }
+
+    @Test
+    public void busquedaTareasService() {
+
+        //En esta transacción comprobamos que se obtienen tres tareas si se busca
+        //por la palabra "el". Los registros se devuelven ordenadas por id ascendentemente
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareasService.busquedaTareasUsuario(1, "el", "id", "asc", 0, 10);
+            assertEquals(tareas.size(), 3);
+
+            // Comprobamos que las tareas se devuelven ordenadas por id
+
+            //Se refactoriza la función
+            Tarea anterior = tareas.get(0);
+            for (int i = 1; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                if (anterior != null) {
+                    assertTrue(anterior.id < t.id);
+                    anterior = t;
+                }
+            }
+        });
+
+        //En esta transacción comprobamos que se obtienen tres tareas si se busca
+        //por la palabra "el". Los registros se devuelven ordenadas por id descendentemente
+        jpa.withTransaction(() -> {
+
+            //IdUsuario, Palabra búsqueda, Campo orden, ordenación, inicio, fin
+            List<Tarea> tareas = TareasService.busquedaTareasUsuario(1, "el", "id", "desc", 0, 10);
+            assertEquals(tareas.size(), 3);
+
+            // Comprobamos que las tareas se devuelven ordenadas descendetemente por id
+
+            //Se refactoriza la función
+            Tarea anterior = tareas.get(0);
+            for (int i = 1; i < tareas.size(); i++) {
+                Tarea t = tareas.get(i);
+                if (anterior != null) {
+                    assertTrue(anterior.id > t.id);
+                    anterior = t;
+                }
+            }
+        });
+    }
+
 
 
 }

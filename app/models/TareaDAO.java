@@ -56,8 +56,8 @@ public class TareaDAO {
             Logger.debug("Se intenta borrar una tarea no existente. Salta excepción.");
         }
     }
-///select * from tareas where usuarioId=X and idProyecto=Y
 
+    ///select * from tareas where usuarioId=X and idProyecto=Y
     public static List<Tarea> findTareasNoAsignadas(Integer id) {
 
         TypedQuery<Tarea> query = JPA.em().createQuery(
@@ -68,8 +68,43 @@ public class TareaDAO {
         } catch (NoResultException ex) {
             return null;
         }
-
     }
+
+    /**
+     *
+     * @param idUsuario
+     * @param filtro
+     * @param sortBy
+     * @param order
+     * @param inicio
+     * @param tamanoPagina
+     * @return List<Tarea>
+     */
+    public static List<Tarea> busquedaTareasUsuario(Integer idUsuario, String filtro, String sortBy, String order, Integer inicio, Integer tamanoPagina) {
+        //Se monta la cadena de consulta
+
+        String sql = "select u from Tarea u";
+
+        //Where
+        sql += " where usuarioId = :usuarioId ";
+        if(!filtro.equals("")){
+            sql += " and (id like '%"+filtro+"%' or descripcion like '%"+filtro+"%')";
+        }
+        //Order
+        if(!sortBy.equals("")){
+            sql += " order by "+sortBy+" "+order;
+        }
+
+        TypedQuery<Tarea> query = JPA.em().createQuery(sql, Tarea.class).setFirstResult(inicio).setMaxResults(tamanoPagina);
+
+        try {
+            List<Tarea> tareas = query.setParameter("usuarioId", idUsuario).getResultList();
+            return tareas;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
 
 
 }

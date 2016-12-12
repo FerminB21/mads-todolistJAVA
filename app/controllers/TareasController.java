@@ -1,5 +1,9 @@
 package controllers;
 
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Page;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Tarea;
 import models.Usuario;
 import play.Logger;
@@ -8,6 +12,7 @@ import play.data.FormFactory;
 import play.db.jpa.*;
 
 import models.*;
+import play.libs.Json;
 import services.*;
 
 import views.html.*;
@@ -27,6 +32,7 @@ import views.html.*;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 
 public class TareasController extends Controller {
 
@@ -232,5 +238,72 @@ public class TareasController extends Controller {
         response().setContentType("application/x-download");
         response().setHeader("Content-disposition","attachment; filename="+nombreFichero);
         return ok(archivo);
+    }
+
+    /**
+     * Busca tareas por algún parámetro
+     * @param idUsuario
+     * @return Page
+     */
+    @Transactional
+    public Result busquedaTareas(int idUsuario) {
+
+        Map<String, String[]> params = request().queryString();
+
+        //El total registros será el total de las tareas del usuario
+        Integer totalRegistros = TareasService.listaTareasUsuario(idUsuario).size();
+        String filter = params.get("search[value]")[0];
+
+        Integer tamanoPagina = Integer.valueOf(params.get("length")[0]);
+        Integer inicio = Integer.valueOf(params.get("start")[0]);
+
+        //Parámetros de ordenación (por defecto por id)
+        String sortBy = "id";
+
+        String order = params.get("order[0][dir]")[0];
+
+        switch (Integer.valueOf(params.get("order[0][column]")[0])) {
+            case 0 :  sortBy = "id"; break;
+            case 1 :  sortBy = "color"; break;
+            case 2 :  sortBy = "descripcion"; break;
+            case 3 :  sortBy = "estado"; break;
+            case 4 :  sortBy = "fecha finalización"; break;
+        }
+
+        //Lanzamos la búsqueda completa (se busca por todos los campos
+        List<Tarea> tareasPage = TareasService.busquedaTareasUsuario(idUsuario, filter, sortBy, order, inicio, tamanoPagina);
+
+        //Si hay filtro, mostramos el total de la consulta del filtro
+        Integer totalRegistrosMostrados;
+        if(!filter.equals(""))
+            totalRegistrosMostrados = tareasPage.size();
+        else //Si no, mostramos el total completo
+            totalRegistrosMostrados = totalRegistros;
+
+        /**
+         * Construct the JSON to return
+         */
+        ObjectNode result = Json.newObject();
+
+        result.put("draw", Integer.valueOf(params.get("draw")[0]));
+        result.put("recordsTotal", totalRegistros);
+        result.put("recordsFiltered", totalRegistrosMostrados);
+
+        ArrayNode an = result.putArray("data");
+
+        //Recorremos los objetos para rellenarlos en el Datatable
+        for (Tarea tarea : tareasPage) {
+            ObjectNode row = Json.newObject();
+            row.put("0", tarea.id);
+            row.put("1", "<div style='width: 100%; background-color: #"+tarea.color+"'>#"+tarea.color+"</div>");
+            row.put("2", tarea.descripcion);
+            row.put("3", tarea.tareaTieneEstado());
+            row.put("4", tarea.tieneFechaFinalizacion());
+            row.put("5", routes.TareasController.detalleTarea(tarea.id, idUsuario).absoluteURL(request()));
+            row.put("6", routes.TareasController.formularioEditaTarea(tarea.id, idUsuario).absoluteURL(request()));
+            row.put("7", routes.TareasController.borraTarea(tarea.id, idUsuario).absoluteURL(request()));
+            an.add(row);
+        }
+        return ok(result);
     }
 }
