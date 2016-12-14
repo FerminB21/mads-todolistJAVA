@@ -54,7 +54,7 @@ public class TareasController extends Controller {
             Usuario usuario = UsuariosService.findUsuario(idUsuario);
             if (usuario == null) {
                 return notFound("Usuario no encontrado");
-            } else if (!usuario.login.equals(variable)) {
+            } else if( !variable.equals("admin") && !usuario.login.equals(variable)){
 
                 return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {
@@ -69,12 +69,13 @@ public class TareasController extends Controller {
     @Transactional
     // Devuelve un formulario para crear un nuevo usuario
     public Result formularioNuevaTarea(Integer idUsuario) {
-        String variable = session().get("usuario");
-        if (variable != null) {
-            Usuario usuario = UsuariosService.findUsuario(idUsuario);
-            if (usuario == null) {
-                return notFound("Usuario no encontrado");
-            } else if (!usuario.login.equals(variable)) {
+
+      String variable=session().get("usuario");
+        if (variable!=null){
+          Usuario usuario = UsuariosService.findUsuario(idUsuario);
+          if (usuario == null) {
+              return notFound("Usuario no encontrado");
+          }else if(!variable.equals("admin") && !usuario.login.equals(variable)){
 
                 return notFound("No autorizado a acceder a zonas de otros usuarios");
             } else {
@@ -177,7 +178,7 @@ public class TareasController extends Controller {
     @Transactional
     public Result detalleTarea(int idTarea, int idUsuario) {
         Tarea tarea = TareasService.findTareaUsuario(idTarea);
-        //Logger.debug("Estado tarea: " + tarea.estado.toString());
+        Logger.debug("Tarea guardada correctamente (modificar): " + tarea.toString());
         return ok(detalleTarea.render(tarea));
     }
 
