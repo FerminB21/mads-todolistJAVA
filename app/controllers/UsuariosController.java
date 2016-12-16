@@ -108,14 +108,21 @@ public class UsuariosController extends Controller {
 
             Usuario usuario = UsuariosService.findUsuario(id);
             if (usuario == null) {
-                //aqui hay que poner la ruta del Dashboard
-                ////////
+
                 return notFound("Usuario no encontrado");
             } else if(!usuario.login.equals(variable)){
 
                 return notFound("No autorizado a acceder a zonas de otros usuarios");
             }else {
-                return ok(dashboard.render(usuario));
+                //Aquí "fabricamos" todos los datos para pasarle a la vista
+
+                //tic-9.2 - Avance de tareas últimas finalizadas (3)
+                List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "", "fechaFinTarea", "desc", 0, 3);
+
+                Logger.debug(""+tareasUltimasFinalizadas.size());
+                //tic-9.3 - Avance de proyectos con más tareas (3)
+
+                return ok(dashboard.render(usuario, tareasUltimasFinalizadas));
             }
 
         }else{
