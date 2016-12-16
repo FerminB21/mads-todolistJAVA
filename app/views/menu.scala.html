@@ -1,6 +1,5 @@
 <li id="XX">
-    <a href='@routes.UsuariosController.dashboard(Integer.parseInt(session().get("idUsuario")))'><i class="fa fa-fw fa-home"></i> Inicio
-        <i class="fa fa-fw fa-caret-down"></i></a>
+    <a href='@routes.UsuariosController.dashboard(Integer.parseInt(session().get("idUsuario")))'><i class="fa fa-fw fa-home"></i> Inicio</a>
     @* Solo puede acceder el admin *@
     @if(session().get("usuario").equals("admin")) {
     <a href="javascript:;" data-toggle="collapse" data-target="#menu-usuarios"><i class="fa fa-fw fa-user"></i> Usuarios
