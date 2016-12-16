@@ -1,12 +1,37 @@
 <li id="XX">
+    <a href='@routes.UsuariosController.dashboard(Integer.parseInt(session().get("idUsuario")))'><i class="fa fa-fw fa-home"></i> Inicio
+        <i class="fa fa-fw fa-caret-down"></i></a>
+    @* Solo puede acceder el admin *@
+    @if(session().get("usuario").equals("admin")) {
     <a href="javascript:;" data-toggle="collapse" data-target="#menu-usuarios"><i class="fa fa-fw fa-user"></i> Usuarios
         <i class="fa fa-fw fa-caret-down"></i></a>
     <ul id="menu-usuarios" class="collapse">
         <li>
-            <a href="@routes.UsuariosController.formularioNuevoUsuario()">Nuevo</a>
+            <a href="@routes.UsuariosController.formularioNuevoUsuario()">session().get("usuario")</a>
         </li>
         <li>
             <a href="@routes.UsuariosController.listaUsuarios()">Listado</a>
+        </li>
+    </ul>
+    }
+    <a href="javascript:;" data-toggle="collapse" data-target="#menu-tareas"><i class="fa fa-fw fa-thumb-tack"></i> Tareas
+        <i class="fa fa-fw fa-caret-down"></i></a>
+    <ul id="menu-tareas" class="collapse">
+        <li>
+            <a href='@routes.TareasController.formularioNuevaTarea(Integer.parseInt(session().get("idUsuario")))'>Nueva</a>
+        </li>
+        <li>
+            <a href='@routes.TareasController.listaTareas(Integer.parseInt(session().get("idUsuario")))'>Listado</a>
+        </li>
+    </ul>
+    <a href="javascript:;" data-toggle="collapse" data-target="#menu-proyectos"><i class="fa fa-fw fa-th-list"></i> Proyectos
+        <i class="fa fa-fw fa-caret-down"></i></a>
+    <ul id="menu-proyectos" class="collapse">
+        <li>
+            <a href='@routes.ProyectosController.formularioNuevoProyecto(Integer.parseInt(session().get("idUsuario")))'>Nuevo</a>
+        </li>
+        <li>
+            <a href='@routes.ProyectosController.listaProyectos(Integer.parseInt(session().get("idUsuario")))'>Listado</a>
         </li>
     </ul>
     <a href="@routes.AcercaDeController.acercaDe()"><i class="fa fa-fw fa-users"></i> Acerca De</a>
