@@ -120,9 +120,17 @@ public class ProyectosService {
             Logger.debug("Existe, intenta borrarse");
             //Si tiene tareas asociadas, las recorremos una a una para eliminarlas del proyecto
             if(existente.tareas.size()>0)
-                for(Tarea tarea : existente.tareas){
-                    ProyectoDAO.deleteTarea(existente.usuario.id, tarea.id, id);
-                }
+            for(Tarea tarea : existente.tareas){
+                ProyectoDAO.deleteTarea(existente.usuario.id, tarea.id, id);
+            }
+            //Si tiene colaboradores, las recorremos uno a uno para eliminarlas del proyecto
+            for(Usuario colaborador : existente.colaboradores){
+                eliminarColaboradorProyecto( colaborador.id, existente.id );
+            }
+            //Si tiene comentarios también hay que borrarlos
+            for(Comentario comentario: existente.comentarios){
+                ComentarioDAO.delete( comentario.id );
+            }
             ProyectoDAO.delete(id); //Intentamos borrar
             //Volvemos a comprobar
             Proyecto existente2 = ProyectoDAO.find(id);
