@@ -140,4 +140,12 @@ public class ProyectosService {
         }
     }
 
+    public static List<Proyecto> findProyectosConMasTareas(Integer idUsuario) {
+        List<Proyecto> proyectos = ProyectoDAO.findProyectosConMasTareas(idUsuario);
+        if(proyectos == null){
+            throw new ServiceException("No se devuelve ningún proyecto con más tareas, ha fallado algo en la consulta.");
+        }
+        return proyectos;
+    }
+
 }

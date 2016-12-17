@@ -1,4 +1,4 @@
-@(usuario: Usuario)
+@(usuario: Usuario, tareasUltimasFinalizadas: List[Tarea], proyectosConMasTareas: List[Proyecto])
 
 @main("Dashboard del usuario") {
 
@@ -105,25 +105,19 @@
         <!-- Panel de tareas (muestra tres) -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tareas a punto de finalizar</h3>
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tareas últimas por finalizar o finalizadas</h3>
             </div>
             <div class="panel-body">
                 <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        <span class="badge">just now</span>
-                        <i class="fa fa-fw fa-calendar"></i> Tarea 1
+                    @for(tarea <- tareasUltimasFinalizadas) {
+                    <a href="@routes.TareasController.detalleTarea(tarea.id, usuario.id)" class="list-group-item">
+                        <span class="badge">@tarea.tieneFechaFinalizacion()</span>
+                        <i class="fa fa-fw fa-thumb-tack"></i> @tarea.descripcion
                     </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">4 minutes ago</span>
-                        <i class="fa fa-fw fa-comment"></i> Tarea 2
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">23 minutes ago</span>
-                        <i class="fa fa-fw fa-truck"></i> Tarea 3
-                    </a>
+                    }
                 </div>
                 <div class="text-left">
-                    <a href="#">Ver todas las tareas <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="@routes.TareasController.listaTareas(usuario.id)">Ver todas las tareas <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -139,21 +133,15 @@
             </div>
             <div class="panel-body">
                 <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        <span class="badge">just now</span>
-                        <i class="fa fa-fw fa-calendar"></i> Proyecto 1
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">4 minutes ago</span>
-                        <i class="fa fa-fw fa-comment"></i> Proyecto 2
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">23 minutes ago</span>
-                        <i class="fa fa-fw fa-truck"></i> Proyecto 3
-                    </a>
+                    @for(proyecto <- proyectosConMasTareas) {
+                        <a href="@routes.ProyectosController.detalleProyecto(proyecto.id, usuario.id)" class="list-group-item">
+                            <span class="badge">@proyecto.tareas.size()</span>
+                            <i class="fa fa-fw fa-th-list"></i> @proyecto.nombre
+                        </a>
+                    }
                 </div>
                 <div class="text-left">
-                    <a href="#">Ver todos los proyectos <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="@routes.ProyectosController.listaProyectos(usuario.id)">Ver todos los proyectos <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

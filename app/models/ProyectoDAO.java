@@ -2,10 +2,14 @@ package models;
 
 import play.Logger;
 import play.db.jpa.JPA;
+import services.UsuariosService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.ObjDoubleConsumer;
 
 public class ProyectoDAO {
     public static Proyecto find(Integer idProyecto) {
@@ -66,5 +70,20 @@ public class ProyectoDAO {
         Tarea tarea = JPA.em().find(Tarea.class, idTarea);
         tarea.proyecto = null;
         return JPA.em().merge(tarea);
+    }
+
+    public static List<Proyecto> findProyectosConMasTareas(Integer idUsuario){
+        //Al realizar una consulta con dos tablas, no sirve enlazar por clave ajena para los tests (para el programa sí)
+        //Se realiza una "native query", con el formato utilizado en mysql estándar
+        //Hay que enlazar por objeto
+        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        String query = "select p.* from Tarea t, Proyecto p where t.proyectoId=p.id and p.usuarioId = :usuarioId group by proyectoId order by count(*) desc;";
+
+        try {
+            List<Proyecto> proyectos = JPA.em().createNativeQuery(query, Proyecto.class).setParameter("usuarioId", usuario.id).getResultList();
+            return proyectos;
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 }
