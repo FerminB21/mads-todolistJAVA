@@ -55,6 +55,7 @@ public class LoginController extends Controller {
                 Logger.debug("Logueado correctamente");
                 //Creamos sesión (es un string)
                 session().put("usuario" , usuarioExistente.login);
+                session().put("idUsuario" , String.valueOf(usuarioExistente.id)); //esto debería ser temporal -> hay que guardar el objeto usuario en la sesión y no datos sueltos
                 //Logger.debug("valor de la sesion  "+session().get("usuario"));
 
                 return redirect(controllers.routes.TareasController.listaTareas(usuarioExistente.id));

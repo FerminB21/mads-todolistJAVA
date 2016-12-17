@@ -102,6 +102,29 @@ public class UsuariosController extends Controller {
     }
 
     @Transactional
+    public Result dashboard(int id) {
+        String variable=session().get("usuario");
+        if (variable!=null){
+
+            Usuario usuario = UsuariosService.findUsuario(id);
+            if (usuario == null) {
+                //aqui hay que poner la ruta del Dashboard
+                ////////
+                return notFound("Usuario no encontrado");
+            } else if(!usuario.login.equals(variable)){
+
+                return notFound("No autorizado a acceder a zonas de otros usuarios");
+            }else {
+                return ok(dashboard.render(usuario));
+            }
+
+        }else{
+
+            return unauthorized("debes iniciar sesion");
+        }
+    }
+
+    @Transactional
     public Result detalleUsuarioPorLogin(String login) {
 
       String variable=session().get("usuario");
