@@ -30,6 +30,8 @@
         <div class="panel-body">
             <ul>
                 <li><span style="font-weight: bold;">Nombre: </span>@proyecto.nombre</li>
+                <li><span style="font-weight: bold;">Descripción: </span>@proyecto.descripcion</li>
+
                 <li><span style="font-weight: bold;">Nº Tareas: </span>
                     <a style="cursor: pointer"
                         href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">
