@@ -116,13 +116,13 @@ public class UsuariosController extends Controller {
             }else {
                 //Aquí "fabricamos" todos los datos para pasarle a la vista
 
-                //tic-9.2 - Avance de tareas últimas finalizadas (3)
+                //tic-9.2 - Avance de tareas últimas por finalizar o finalizadas (3)
                 List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "", "fechaFinTarea", "desc", 0, 3);
 
-                Logger.debug(""+tareasUltimasFinalizadas.size());
                 //tic-9.3 - Avance de proyectos con más tareas (3)
+                List<Proyecto> proyectosConMasTareas = ProyectosService.findProyectosConMasTareas(id);
 
-                return ok(dashboard.render(usuario, tareasUltimasFinalizadas));
+                return ok(dashboard.render(usuario, tareasUltimasFinalizadas, proyectosConMasTareas));
             }
 
         }else{

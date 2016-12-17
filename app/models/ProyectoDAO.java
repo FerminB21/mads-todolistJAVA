@@ -2,10 +2,12 @@ package models;
 
 import play.Logger;
 import play.db.jpa.JPA;
+import services.UsuariosService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class ProyectoDAO {
     public static Proyecto find(Integer idProyecto) {
@@ -66,5 +68,19 @@ public class ProyectoDAO {
         Tarea tarea = JPA.em().find(Tarea.class, idTarea);
         tarea.proyecto = null;
         return JPA.em().merge(tarea);
+    }
+
+    public static List<Proyecto> findProyectosConMasTareas(Integer idUsuario){
+        //Al realizar una consulta con dos tablas, no sirve enlazar por clave ajena (al menos no lo he conseguido)
+        //Hay que enlazar por objeto
+        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        TypedQuery<Proyecto> query = JPA.em().createQuery(
+                "select p from Tarea t, Proyecto p where  t=p and p.usuario = :usuarioId group by proyectoId order by count(*) desc", Proyecto.class);
+        try {
+            List<Proyecto> proyectos = query.setParameter("usuarioId", usuario).getResultList();
+            return proyectos;
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 }
