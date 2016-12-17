@@ -29,6 +29,13 @@ public class Usuario {
     public List<Proyecto> proyectos = new ArrayList<Proyecto>();
     @OneToMany(mappedBy="usuario")
     public List<Comentario> comentarios = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+        name="COL_PROJ",
+        joinColumns=@JoinColumn(name="COL_ID", referencedColumnName="id"),
+        inverseJoinColumns=@JoinColumn(name="PROJ_ID", referencedColumnName="id")
+    )
+    public List<Proyecto> colaboraciones = new ArrayList<Proyecto>();
 
     // Un constructor vacío necesario para JPA
     public Usuario() {

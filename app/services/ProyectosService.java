@@ -4,6 +4,9 @@ import models.*;
 import play.Logger;
 
 import java.util.List;
+import java.util.ArrayList;
+
+import org.springframework.util.Assert;
 
 public class ProyectosService {
 
@@ -63,16 +66,24 @@ public class ProyectosService {
      * Modifica el proyecto
      *
      * @param proyecto
+     * @param idColaborador
      * @return Proyecto
      */
-    public static Proyecto modificaProyectoUsuario(Proyecto proyecto) {
-        //Hay que comprobar su usuario, por si se ha asignado uno que no existe
+    public static Proyecto modificaProyectoUsuario( Proyecto proyecto, Integer idColaborador ) {
+        Assert.notNull( proyecto, "proyecto, no puede ser null"  );
 
-        Usuario existente = UsuarioDAO.find(proyecto.usuario.id);
-        if (existente == null) {
+        Usuario usuario = UsuarioDAO.find(proyecto.usuario.id);
+        if( usuario == null ) {
             Logger.debug("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
             throw new ServiceException("Usuario asociado al proyecto a editar no existe: " + proyecto.usuario.id);
         }
+
+        if( idColaborador != null ) {
+            Usuario colaborador = UsuariosService.findUsuario( idColaborador );
+            proyecto.colaboradores.add( colaborador );
+            colaborador.colaboraciones.add( proyecto );
+        }
+
         ProyectoDAO.update(proyecto);
         return proyecto;
     }
@@ -119,7 +130,22 @@ public class ProyectosService {
         List<Tarea> tareas = TareaDAO.findTareasNoAsignadas(iduser);
         return tareas;
 
+    }
 
+    public static List<Usuario> usuariosNoAsignados( Integer idProyecto ) {
+        Assert.notNull( idProyecto, "idProyecto, no puede ser null" );
+
+        List<Usuario> dev = new ArrayList<Usuario>();
+
+        Proyecto proyecto = ProyectosService.findProyectoUsuario( idProyecto );
+        List<Usuario> usuarios = UsuariosService.findAllUsuarios();
+        for( Usuario usuario: usuarios ) {
+            if( !proyecto.colaborador( usuario.id ) ) {
+                dev.add( usuario );
+            }
+        }
+
+        return dev;
     }
 
     public static boolean deleteTarea(int idUsuario, int idTarea, int idProyecto) {
