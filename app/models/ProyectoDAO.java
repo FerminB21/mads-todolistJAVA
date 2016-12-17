@@ -7,7 +7,9 @@ import services.UsuariosService;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ObjDoubleConsumer;
 
 public class ProyectoDAO {
     public static Proyecto find(Integer idProyecto) {
@@ -71,13 +73,14 @@ public class ProyectoDAO {
     }
 
     public static List<Proyecto> findProyectosConMasTareas(Integer idUsuario){
-        //Al realizar una consulta con dos tablas, no sirve enlazar por clave ajena (al menos no lo he conseguido)
+        //Al realizar una consulta con dos tablas, no sirve enlazar por clave ajena para los tests (para el programa sí)
+        //Se realiza una "native query", con el formato utilizado en mysql estándar
         //Hay que enlazar por objeto
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
-        TypedQuery<Proyecto> query = JPA.em().createQuery(
-                "select p from Tarea t, Proyecto p where  t=p and p.usuario = :usuarioId group by proyectoId order by count(*) desc", Proyecto.class);
+        String query = "select p.* from Tarea t, Proyecto p where t.proyectoId=p.id and p.usuarioId = :usuarioId group by proyectoId order by count(*) desc;";
+
         try {
-            List<Proyecto> proyectos = query.setParameter("usuarioId", usuario).getResultList();
+            List<Proyecto> proyectos = JPA.em().createNativeQuery(query, Proyecto.class).setParameter("usuarioId", usuario.id).getResultList();
             return proyectos;
         } catch (NoResultException ex) {
             return null;
