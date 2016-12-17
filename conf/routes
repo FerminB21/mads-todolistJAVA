@@ -65,5 +65,7 @@ GET     /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/:idComentario/edi
 POST    /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/modifica               controllers.ComentariosController.grabaComentarioModificado(idUsuario: Integer, idProyecto: Integer)
 DELETE  /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/:idComentario          controllers.ComentariosController.borraComentario(idUsuario: Integer, idProyecto: Integer, idComentario: Integer)
 
+DELETE  /colaborador/:idColaborador/proyectos/:idProyecto     controllers.ProyectosController.eliminarColaboradorProyecto(idColaborador: Integer, idProyecto: Integer)
+
 #Ruta acerca-de
 GET /acercade controllers.AcercaDeController.acercaDe()

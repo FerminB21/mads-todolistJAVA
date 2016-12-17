@@ -199,4 +199,20 @@ public class ProyectosService {
         return proyecto;
     }
 
+    public static boolean eliminarColaboradorProyecto( int idColaborador, int idProyecto ) {
+        Assert.notNull( idColaborador, "idColaborador, no puede ser null" );
+        Assert.notNull( idProyecto, "idProyecto, no puede ser null" );
+
+        Usuario colaborador = UsuarioDAO.find( idColaborador );
+        if( colaborador != null ) {
+            for( int i = 0; i < colaborador.colaboraciones.size(); i ++ ) {
+                Proyecto proyecto = colaborador.colaboraciones.get( i );
+                if( proyecto.id == idProyecto ) {
+                    colaborador.colaboraciones.remove( i );
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
