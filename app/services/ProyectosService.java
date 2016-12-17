@@ -81,7 +81,7 @@ public class ProyectosService {
         if( idColaborador != null ) {
             Usuario colaborador = UsuariosService.findUsuario( idColaborador );
             proyecto.colaboradores.add( colaborador );
-            usuario.colaboraciones.add( proyecto );
+            colaborador.colaboraciones.add( proyecto );
         }
 
         ProyectoDAO.update(proyecto);

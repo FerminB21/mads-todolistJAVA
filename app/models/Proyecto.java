@@ -32,11 +32,11 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public Boolean propietario( Integer idUsuario ) {
+    public Boolean propietario( int idUsuario ) {
         return usuario.id == idUsuario;
     }
 
-    public Boolean colaborador( Integer idUsuario ) {
+    public Boolean colaborador( int idUsuario ) {
         for( Usuario colaborador: colaboradores ) {
             if( colaborador.id == idUsuario ) {
                 return true;

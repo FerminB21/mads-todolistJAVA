@@ -22,6 +22,7 @@ public class ProyectosController extends Controller {
     List<Tarea> tareasProyecto = new ArrayList<Tarea>();
 
     List<Usuario> usuarios = new ArrayList<Usuario>();
+    List<Usuario> usuariosProyecto = new ArrayList<Usuario>();
 
     @Transactional(readOnly = true)
     // Devuelve una página con la lista de proyectos
@@ -89,7 +90,7 @@ public class ProyectosController extends Controller {
 
     @Transactional
     public Result formularioEditaProyecto(Integer idProyecto, Integer idUsuario) {
-      String variable=session().get("usuario");
+        String variable=session().get("usuario");
         if (variable!=null){
             //Cargamos vacío el form
             Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class);
@@ -100,12 +101,14 @@ public class ProyectosController extends Controller {
             proyectoForm = proyectoForm.fill(proyecto);
 
             usuarios = ProyectosService.usuariosNoAsignados( idProyecto );
+            usuariosProyecto = proyecto.colaboradores;
+            Logger.debug("Este proyecto tiene " + usuariosProyecto.size() + " colaboradores.");
 
             tareas = ProyectosService.tareasNoAsignadas(idUsuario);
             tareasProyecto = proyecto.tareas;
             ////
             //Retornamos a la vista los datos del usuario en el form
-            return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, idUsuario, ""));
+            return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, ""));
         } else {
            return unauthorized("hello, debes iniciar session");
 
@@ -118,7 +121,7 @@ public class ProyectosController extends Controller {
         Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class).bindFromRequest();
 
         if (proyectoForm.hasErrors()) {
-            return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, idUsuario, "Hay errores en el formulario"));
+            return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Hay errores en el formulario"));
         }
 
         //Recuperamos los datos de la proyecto
@@ -142,13 +145,13 @@ public class ProyectosController extends Controller {
 
                 String idColaborador = Form.form().bindFromRequest().get("usuarioDisponible");
 
-                proyecto = ProyectosService.modificaProyectoUsuario(proyecto, Integer.parseInt( idColaborador ) );
+                proyecto = ProyectosService.modificaProyectoUsuario(proyecto, idColaborador != null ? Integer.parseInt( idColaborador ) : null );
                 proyecto.nombre = Form.form().bindFromRequest().get("nombre");
                 flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
                 Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
                 return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
             } else {
-                return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+                return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
             }
         }
 
@@ -164,15 +167,15 @@ public class ProyectosController extends Controller {
     @Transactional
     public Result deleteTareaDeProyecto(int idUsuario, int idTarea, int idProyecto) {
 
-      String variable=session().get("usuario");
-        if (variable!=null){
+        String variable = session().get("usuario");
+        if( variable != null ) {
             //Si se ha borrado recargamos página
-            if (ProyectosService.deleteTarea(idUsuario, idTarea, idProyecto)) {
+            if( ProyectosService.deleteTarea( idUsuario, idTarea, idProyecto ) ) {
                 return ok("Tarea borrada con éxito.");
             } else { //Si no, devolvemos error
                 return badRequest("Tarea no se ha podido eliminar.");
             }
-        }else{
+        } else {
           return unauthorized("hello, debes iniciar session");
         }
 
