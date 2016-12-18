@@ -86,8 +86,7 @@ public class ProyectoDAO {
             return null;
         }
     }
-
-    public static List<Proyecto> findProyectoUsuarioColaborador(Integer usuarioId) {
+public static List<Proyecto> findProyectoUsuarioColaborador(Integer usuarioId) {
 
         TypedQuery<Proyecto> query = JPA.em().createQuery(
                 "select p.id,p.nombre,p.usuarioId from Proyecto p,COL_PROJ c  where p.id=c.PROJ_ID  and c.COL_ID = :usuarioId", Proyecto.class);
@@ -101,5 +100,4 @@ public class ProyectoDAO {
             return null;
         }
     }
-
 }

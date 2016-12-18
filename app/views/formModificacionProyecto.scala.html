@@ -61,6 +61,7 @@ function Asig(urlAsignar) {
     document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(x.length-16,x.length));
  }
 
+<<<<<<< HEAD
  function validateSelectProj() {
    var x, text;
     x = document.getElementById("asigCol").getAttribute('onclick');
@@ -76,6 +77,8 @@ function Asig(urlAsignar) {
 >>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
 
 
+=======
+>>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
  function validateSelect() {
    var x, text;
     x = document.getElementById("asigTarea").getAttribute('onclick');
@@ -83,7 +86,7 @@ function Asig(urlAsignar) {
     //alert(x.substr(x.length-16,x.length));
     text = document.getElementById("selec").value;
     document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(x.length-16,x.length));
- }
+}
 
  function validateSelectProj() {
    var x, text;
@@ -92,9 +95,13 @@ function Asig(urlAsignar) {
     //alert(x.substr(x.length-44,x.length));
     text = document.getElementById("selec2").value;
     document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(x.length-44,x.length));
+<<<<<<< HEAD
 
 <<<<<<< HEAD
  }
+=======
+}
+>>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 
 >>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 =======
@@ -155,6 +162,7 @@ function Asig(urlAsignar) {
   <p>Asignar tarea al proyecto</p>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   <select name="tareaDisponible">
 >>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
 =======
@@ -162,6 +170,9 @@ function Asig(urlAsignar) {
 
 >>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
   <select name="tareaDisponible" onchange="validateSelect()" id="selec">
+>>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
+=======
+<select name="tareaDisponible" onchange="validateSelect()" id="selec">
 >>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
       @for(tareaDisponible <- tareasDisponibles) {
       <option value="@tareaDisponible.id">@tareaDisponible.descripcion.toString()</option>
@@ -173,7 +184,10 @@ function Asig(urlAsignar) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 =======
 >>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 <a style="cursor: pointer" id="asigTarea"
