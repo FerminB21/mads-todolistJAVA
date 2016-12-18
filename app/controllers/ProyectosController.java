@@ -37,6 +37,9 @@ public class ProyectosController extends Controller {
 
                   return notFound("No autorizado a acceder a zonas de otros usuarios");
            } else {
+
+
+                //List<Proyecto> proyectos = ProyectosService.listaProyectosUsuarioColaborador(idUsuario);
                 List<Proyecto> proyectos = ProyectosService.listaProyectosUsuario(idUsuario);
                 return ok(listaProyectos.render(proyectos, usuario));
             }
@@ -101,7 +104,7 @@ public class ProyectosController extends Controller {
             //Cargamos en el form los datos del usuario
             proyectoForm = proyectoForm.fill(proyecto);
 
-            usuarios = ProyectosService.usuariosNoAsignados( idProyecto );
+            usuarios = ProyectosService.usuariosNoAsignados( idProyecto,idUsuario );
             usuariosProyecto = proyecto.colaboradores;
             Logger.debug("Este proyecto tiene " + usuariosProyecto.size() + " colaboradores.");
 
@@ -245,7 +248,7 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
         //String id = Form.form().bindFromRequest().get("tareaDisponible");
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
 
-        if (idTarea>0) {
+
 
             //Comprobamos que el usuario existe (evitamos problemas de referencias)
 
@@ -262,13 +265,10 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
                 flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
                 Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
                 return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
-            } else {
+            }
               return ok();
                 //return badRequest(formModificacionProyecto.render(proyectoForm,tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-            }
-        }
 
-return ok();
         //return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
 
         //return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));

@@ -52,6 +52,23 @@ function Asig(urlAsignar) {
    return true;
  }
 
+
+ function validateSelect() {
+   var x, text;
+    x = document.getElementById("asigTarea").getAttribute('onclick');
+    text = document.getElementById("selec").value;
+    document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(70,x.length));
+ }
+
+ function validateSelectProj() {
+   var x, text;
+    x = document.getElementById("asigCol").getAttribute('onclick');
+    //alert(x);
+    text = document.getElementById("selec2").value;
+    document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(25,x.length));
+
+ }
+
     </script>
 }
 @main("Modificar Proyecto",scripts) {
@@ -82,14 +99,14 @@ function Asig(urlAsignar) {
       <input type="hidden" name="id" value='@proyectoForm("id").value'>
   <br><br>
   <p>Asignar tarea al proyecto</p>
-  <select name="tareaDisponible">
+  <select name="tareaDisponible" onchange="validateSelect()" id="selec">
       @for(tareaDisponible <- tareasDisponibles) {
       <option value="@tareaDisponible.id">@tareaDisponible.descripcion.toString()</option>
       }
   </select>
   <br><br>
 @if(tareasDisponibles.size()>0){
-<a style="cursor: pointer"
+<a style="cursor: pointer" id="asigTarea"
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario,tareasDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
@@ -126,14 +143,14 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario
 
 
   <p>Asignar colaborador</p>
-<select name="usuarioDisponible">
+<select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
     @for(usuarioDisponible <- usuariosDisponibles) {
         <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
     }
 </select>
 <br><br>
 @if(usuariosDisponibles.size()>0){
-<a style="cursor: pointer"
+<a style="cursor: pointer" id="asigCol"
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usuariosDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
