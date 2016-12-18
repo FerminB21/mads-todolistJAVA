@@ -247,7 +247,7 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
         Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
         //String id = Form.form().bindFromRequest().get("tareaDisponible");
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
-            Tarea tarea = TareasService.findTareaUsuario(idTarea);
+          Tarea tarea = TareasService.findTareaUsuario(idTarea);
             Logger.debug("tareaaaaaaaaa: " + tarea);
             if (usuario != null) {
 
@@ -260,11 +260,10 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
                 flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
                 Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
                 return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
-
-            } else {
+          } else {
               return ok();
                 //return badRequest(formModificacionProyecto.render(proyectoForm,tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-            }
+          }
     }
 
 //asignar colaborador
