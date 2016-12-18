@@ -174,4 +174,13 @@ public class ProyectosService {
         return proyectos;
     }
 
+
+    //parte añadida
+    public static Proyecto modificaProyectoNombre( Proyecto proyecto ) {
+
+
+        ProyectoDAO.update(proyecto);
+        return proyecto;
+    }
+
 }

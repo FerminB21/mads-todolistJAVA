@@ -2,6 +2,7 @@
 tareasDisponibles: List[Tarea], tareasProyecto: List[Tarea],
 usuariosDisponibles: List[Usuario], usuariosProyecto: List[Usuario],
 idUsuario: Integer, mensaje: String)
+
 @scripts = {
     <script type="text/javascript">
 
@@ -28,6 +29,28 @@ idUsuario: Integer, mensaje: String)
          }
          else return false;
         }
+//asignar tarea a proyecto
+function Asig(urlAsignar) {
+   //alert(urlBorrar);
+
+ //Se añade confirmación de borrado
+
+   $.ajax({
+
+       url: urlAsignar,
+       type: 'POST',
+       success: function(results) {
+           //alert(results);
+           //refresh the page
+           location.reload();
+       },
+       error: function(results) {
+           alert("mal");
+           location.reload();
+       }
+   });
+   return true;
+ }
 
     </script>
 }
@@ -44,79 +67,106 @@ idUsuario: Integer, mensaje: String)
             <h3 class="panel-title">Tareas asociadas</h3>
         </div>
         <div class="panel-body">
-            @helper.form(action = routes.ProyectosController.grabaProyectoModificado(idUsuario)) {
+            @helper.form(action = routes.ProyectosController.nombreProyecto(idUsuario)) {
                 <input type="hidden" name="id" value='@proyectoForm("id").value'>
 
                 @helper.inputText( proyectoForm("nombre"), '_label -> "Nombre Proyecto" )
                 @helper.textarea( proyectoForm("descripcion"), args = 'rows -> 3, 'cols -> 50 )
 
-                <p>Asignar colaborador</p>
-                <select name="usuarioDisponible">
-                    @for(usuarioDisponible <- usuariosDisponibles) {
-                        <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
-                    }
-                </select>
-                <br><br>
-                <input type="submit" class="btn btn-success" value="Asignar">
-                <br>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>LOGIN</th>
-                            <th>NOMBRE Y APELLIDOS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for(usuario <- usuariosProyecto) {
-                            <tr>
-                                <td>@usuario.id</td>
-                                <td>@usuario.login</td>
-                                <td>@usuario.nombre @usuario.apellidos</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <input type="submit"
+                class="btn btn-success" value="Asignar">
 
-                <!-- El asignar tarea y la tabla de tareas se pasaran a la vista de detalles -->
-                <br><br>
-                <p>Asignar tarea al proyecto</p>
-                <select name="tareaDisponible">
-                    @for(tareaDisponible <- tareasDisponibles) {
-                    <option value="@tareaDisponible.id">@tareaDisponible.descripcion.toString()</option>
-                    }
-                </select>
-                <br><br>
-                <input type="submit" class="btn btn-success" value="Asignar">
-                <br>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th width="1%" />
-                        <th>ID</th>
-                        <th>Descripción</th>
-                        <th>ACCIÓN</th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    @for(tarea <- tareasProyecto) {
-                    <tr>
-                        <td style="background-color: #@tarea.color;">
-                        <td>@tarea.id</td>
-                        <td>@tarea.descripcion</td>
-                        <td>
-                            <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.deleteTareaDeProyecto(idUsuario,tarea.id, (proyectoForm("id").value).toInt)')"><span
-                                class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                        </td>
-                    </tr>
-                    }
-                    </tbody>
-                </table>
-                <p>
-                    <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(idUsuario)">Volver</a>
-                </p>
-            }
+<!------>
+
+      <input type="hidden" name="id" value='@proyectoForm("id").value'>
+  <br><br>
+  <p>Asignar tarea al proyecto</p>
+  <select name="tareaDisponible">
+      @for(tareaDisponible <- tareasDisponibles) {
+      <option value="@tareaDisponible.id">@tareaDisponible.descripcion.toString()</option>
+      }
+  </select>
+  <br><br>
+@if(tareasDisponibles.size()>0){
+<a style="cursor: pointer"
+onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario,tareasDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
+    class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+  }else{
+      <a style="cursor: pointer"
+      onclick="return false)"><span
+          class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+
+    }
+  <br>
+  <table class="table table-striped">
+      <thead>
+      <tr>
+          <th width="1%" />
+          <th>ID</th>
+          <th>Descripción</th>
+          <th>ACCIÓN</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      @for(tarea <- tareasProyecto) {
+      <tr>
+          <td style="background-color: #@tarea.color;">
+          <td>@tarea.id</td>
+          <td>@tarea.descripcion</td>
+          <td>
+              <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.deleteTareaDeProyecto(idUsuario,tarea.id, (proyectoForm("id").value).toInt)')"><span
+                  class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+          </td>
+      </tr>
+      }
+      </tbody>
+  </table>
+
+
+  <p>Asignar colaborador</p>
+<select name="usuarioDisponible">
+    @for(usuarioDisponible <- usuariosDisponibles) {
+        <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
+    }
+</select>
+<br><br>
+@if(usuariosDisponibles.size()>0){
+<a style="cursor: pointer"
+onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usuariosDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
+    class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+  }else{
+      <a style="cursor: pointer"
+      onclick="return false)"><span
+          class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+
+    }
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>LOGIN</th>
+            <th>NOMBRE Y APELLIDOS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(usuario <- usuariosProyecto) {
+            <tr>
+                <td>@usuario.id</td>
+                <td>@usuario.login</td>
+                <td>@usuario.nombre @usuario.apellidos</td>
+            </tr>
+        }
+    </tbody>
+</table>
+  <p>
+      <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(idUsuario)">Volver</a>
+  </p>
+}<!--final form-->
+
+<!------>
         </div>
     </div>
 }

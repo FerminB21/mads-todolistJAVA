@@ -1,0 +1,6 @@
+Tarea id: 7 - descripción: aaaaaccccc - estimación:  - estado:  - fechFinalizacion: 2016-12-12 -proyecto: Sin proyecto - color: FFFFFF
+Tarea id: 24 - descripción: adddddeu - estimación: Mediano - estado:  - fechFinalizacion: 2017-12-12 -proyecto: Sin proyecto - color: 8EB1FF
+Tarea id: 26 - descripción: ejemplo - estimación: Pequeño - estado: null - fechFinalizacion: null -proyecto: 3-ola - color: null
+Tarea id: 27 - descripción: tarea nueva - estimación: Mediano - estado: Iniciada - fechFinalizacion: 2019-12-12 -proyecto: Sin proyecto - color: 6989FF
+Tarea id: 53 - descripción: tarea con fecha valida - estimación: Pequeño - estado: Iniciada - fechFinalizacion: 2016-12-12 -proyecto: Sin proyecto - color: FFFFFF
+Tarea id: 54 - descripción: hola mundo - estimación: Mediano - estado: Sin Empezar - fechFinalizacion: 2016-12-12 -proyecto: Sin proyecto - color: 52FF49

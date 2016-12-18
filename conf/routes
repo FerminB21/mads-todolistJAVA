@@ -44,7 +44,16 @@ GET     /usuarios/:idUsuario/proyectos                                 controlle
 GET     /usuarios/:idUsuario/proyecto/nuevo                            controllers.ProyectosController.formularioNuevoProyecto(idUsuario: Integer)
 POST    /usuarios/:idUsuario/proyecto/nuevo                            controllers.ProyectosController.grabaNuevoProyecto(idUsuario: Integer)
 GET     /usuarios/:idUsuario/proyectos/:idProyecto/editar              controllers.ProyectosController.formularioEditaProyecto(idProyecto: Integer, idUsuario: Integer)
-POST    /usuarios/:idUsuario/proyectos/modifica                        controllers.ProyectosController.grabaProyectoModificado(idUsuario: Integer)
+#POST    /usuarios/:idUsuario/proyectos/modifica                        controllers.ProyectosController.grabaProyectoModificado(idUsuario: Integer)
+
+POST    /usuarios/:idUsuario/proyectos/modificaNombre                        controllers.ProyectosController.nombreProyecto(idUsuario: Integer)
+POST   /usuarios/:idColaborador/proyectos/modificaAsigTarea                        controllers.ProyectosController.ProyectoAsignarColaborador(idColaborador: Integer, idProyecto :Integer)
+POST    /usuarios/:idUsuario/proyectos/modificaAsigColaborador                        controllers.ProyectosController.ProyectoAsignarTarea(idUsuario: Integer, idTarea :Integer, idProyecto :Integer)
+
+
+
+
+
 DELETE  /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.borraProyecto(idProyecto: Integer, idUsuario: Integer)
 DELETE  /usuarios/:idUsuario/tarea/:idTarea/proyectos/:idProyecto      controllers.ProyectosController.deleteTareaDeProyecto(idUsuario: Integer, idTarea: Integer,idProyecto: Integer)
 GET     /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.detalleProyecto(idProyecto: Integer, idUsuario: Integer)
