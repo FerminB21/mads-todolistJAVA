@@ -13,6 +13,7 @@ public class Proyecto {
     public Integer id;
     @Constraints.Required
     public String nombre;
+    public String descripcion;
     @ManyToOne
     @JoinColumn(name = "usuarioId")
     public Usuario usuario;

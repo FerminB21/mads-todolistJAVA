@@ -47,7 +47,8 @@ idUsuario: Integer, mensaje: String)
             @helper.form(action = routes.ProyectosController.grabaProyectoModificado(idUsuario)) {
                 <input type="hidden" name="id" value='@proyectoForm("id").value'>
 
-                @helper.inputText(proyectoForm("nombre"), '_label -> "Nombre Proyecto")
+                @helper.inputText( proyectoForm("nombre"), '_label -> "Nombre Proyecto" )
+                @helper.textarea( proyectoForm("descripcion"), args = 'rows -> 3, 'cols -> 50 )
 
                 <p>Asignar colaborador</p>
                 <select name="usuarioDisponible">
