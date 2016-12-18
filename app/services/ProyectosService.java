@@ -23,8 +23,12 @@ public class ProyectosService {
 
     public static List<Proyecto> listaProyectosUsuario(Integer usuarioId) {
         Usuario usuario = UsuarioDAO.find(usuarioId);
+        List<Proyecto> lista1=new ArrayList<Proyecto>();
+        //List<Proyecto> lista2=new ArrayList<Proyecto>();
         if (usuario != null) {
-            return usuario.proyectos;
+           lista1.addAll(usuario.proyectos);
+           lista1.addAll(usuario.colaboraciones);
+            return lista1;
         } else {
             throw new ServiceException("Usuario no encontrado");
         }
