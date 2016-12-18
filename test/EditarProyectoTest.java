@@ -10,7 +10,6 @@ import org.dbunit.operation.*;
 import play.*;
 import play.mvc.*;
 
-
 import javax.persistence.*;
 import java.io.FileInputStream;
 
@@ -87,7 +86,6 @@ public class EditarProyectoTest {
         });
     }
 
-
     @Test
     public void editarProyectoDeUsuarioTest() {
         Integer proyectoId = jpa.withTransaction(() -> {
@@ -106,21 +104,18 @@ public class EditarProyectoTest {
         });
     }
 
-
     @Test
     public void editarProyectoDeUsuarioLanzaExcepcionTest() {
-         jpa.withTransaction(() -> {
-           try {
-                 Proyecto proyecto =ProyectosService.findProyectoPorUsuario(3, 100);
+        jpa.withTransaction(() -> {
+            try {
+              Proyecto proyecto =ProyectosService.findProyectoPorUsuario(3, 100);
                fail("No se ha lanzado excepción proyecto no pertenece a usuario"); //esperamos error
-           } catch (ServiceException ex) {
-           }
-
+            } catch (ServiceException ex) {
+            }
 
         });
 
     }
-
 
     @Test
     public void editarProyectoDAODeUsuarioNullTest() {
@@ -140,16 +135,15 @@ public class EditarProyectoTest {
         });
     }
 
-
     @Test
     public void editarProyectoDAODeUsuarioTest() {
-         jpa.withTransaction(() -> {
+        jpa.withTransaction(() -> {
 
-                 Proyecto proyecto =ProyectoDAO.findProyectoUsuario(2, 100);
-                 assertNull(proyecto);
-
+            Proyecto proyecto =ProyectoDAO.findProyectoUsuario(2, 100);
+            assertNull(proyecto);
 
         });
 
     }
+
 }

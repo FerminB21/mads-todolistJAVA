@@ -47,9 +47,12 @@ public class Proyecto {
     }
 
     public Proyecto copy() {
-        Proyecto nuevo = new Proyecto(this.nombre);
+        Proyecto nuevo = new Proyecto( this.nombre );
         nuevo.id = this.id;
-        nuevo.nombre = this.nombre;
+        nuevo.usuario = this.usuario;
+        nuevo.tareas = this.tareas;
+        nuevo.comentarios = this.comentarios;
+        nuevo.colaboradores = this.colaboradores;
         return nuevo;
     }
 
