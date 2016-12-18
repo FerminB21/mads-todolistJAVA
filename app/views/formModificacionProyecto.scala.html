@@ -51,8 +51,6 @@ function Asig(urlAsignar) {
    });
    return true;
  }
-
-
  function validateSelect() {
    var x, text;
     x = document.getElementById("asigTarea").getAttribute('onclick');
@@ -71,7 +69,6 @@ function Asig(urlAsignar) {
     document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(x.length-44,x.length));
 
  }
-
     </script>
 }
 @main("Modificar Proyecto",scripts) {
@@ -96,10 +93,6 @@ function Asig(urlAsignar) {
                 <input type="submit"
                 class="btn btn-success" value="Asignar">
 
-
-<!------>
-
-      <input type="hidden" name="id" value='@proyectoForm("id").value'>
   <br><br>
   <p>Asignar tarea al proyecto</p>
   <select name="tareaDisponible" onchange="validateSelect()" id="selec">
@@ -109,6 +102,7 @@ function Asig(urlAsignar) {
   </select>
   <br><br>
 @if(tareasDisponibles.size()>0){
+
 <a style="cursor: pointer" id="asigTarea"
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario,tareasDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
@@ -147,7 +141,7 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario
 
   <p>Asignar colaborador</p>
 <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
-    @for(usuarioDisponible <- usuariosDisponibles) {
+  @for(usuarioDisponible <- usuariosDisponibles) {
         <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
     }
 </select>
