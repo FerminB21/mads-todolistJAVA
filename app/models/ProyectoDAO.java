@@ -87,5 +87,22 @@ public class ProyectoDAO {
         }
     }
 
+<<<<<<< HEAD
+=======
+    public static List<Proyecto> findProyectoUsuarioColaborador(Integer usuarioId) {
+
+        TypedQuery<Proyecto> query = JPA.em().createQuery(
+                "select p.id,p.nombre,p.usuarioId from Proyecto p,COL_PROJ c  where p.id=c.PROJ_ID  and c.COL_ID = :usuarioId", Proyecto.class);
+
+        try {
+          query.setParameter("usuarioId", usuarioId);
+
+            List<Proyecto> proyectos = query.getResultList();
+            return proyectos;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+>>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 
 }
