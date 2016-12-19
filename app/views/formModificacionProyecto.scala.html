@@ -101,16 +101,19 @@ function Asig(urlAsignar) {
  function validateSelect() {
    var x, text;
     x = document.getElementById("asigTarea").getAttribute('onclick');
+    //alert(x);
+    //alert(x.substr(x.length-16,x.length));
     text = document.getElementById("selec").value;
-    document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(70,x.length));
+    document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(x.length-16,x.length));
  }
 
  function validateSelectProj() {
    var x, text;
     x = document.getElementById("asigCol").getAttribute('onclick');
     //alert(x);
+    //alert(x.substr(x.length-44,x.length));
     text = document.getElementById("selec2").value;
-    document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(25,x.length));
+    document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(x.length-44,x.length));
 
  }
 
