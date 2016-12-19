@@ -51,61 +51,6 @@ function Asig(urlAsignar) {
    });
    return true;
  }
-<<<<<<< HEAD
- function validateSelect() {
-   var x, text;
-    x = document.getElementById("asigTarea").getAttribute('onclick');
-    //alert(x);
-    //alert(x.substr(x.length-16,x.length));
-    text = document.getElementById("selec").value;
-    document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(x.length-16,x.length));
- }
-
-<<<<<<< HEAD
- function validateSelectProj() {
-   var x, text;
-    x = document.getElementById("asigCol").getAttribute('onclick');
-    //alert(x);
-    //alert(x.substr(x.length-44,x.length));
-    text = document.getElementById("selec2").value;
-    document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(x.length-44,x.length));
-
-<<<<<<< HEAD
- }
-=======
-=======
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-
-
-=======
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
- function validateSelect() {
-   var x, text;
-    x = document.getElementById("asigTarea").getAttribute('onclick');
-    //alert(x);
-    //alert(x.substr(x.length-16,x.length));
-    text = document.getElementById("selec").value;
-    document.getElementById("asigTarea").setAttribute('onclick',x.substr(0,68)+text+x.substr(x.length-16,x.length));
-}
-
- function validateSelectProj() {
-   var x, text;
-    x = document.getElementById("asigCol").getAttribute('onclick');
-    //alert(x);
-    //alert(x.substr(x.length-44,x.length));
-    text = document.getElementById("selec2").value;
-    document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(x.length-44,x.length));
-<<<<<<< HEAD
-
-<<<<<<< HEAD
- }
-=======
-}
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-=======
-
  function validateSelect() {
    var x, text;
     x = document.getElementById("asigTarea").getAttribute('onclick');
@@ -124,8 +69,6 @@ function Asig(urlAsignar) {
     document.getElementById("asigCol").setAttribute('onclick',x.substr(0,23)+text+x.substr(x.length-44,x.length));
 
  }
-
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
     </script>
 }
 @main("Modificar Proyecto",scripts) {
@@ -150,56 +93,16 @@ function Asig(urlAsignar) {
                 <input type="submit"
                 class="btn btn-success" value="Asignar">
 
-<<<<<<< HEAD
   <br><br>
   <p>Asignar tarea al proyecto</p>
   <select name="tareaDisponible" onchange="validateSelect()" id="selec">
-=======
-
-<!------>
-
-  <br><br>
-  <p>Asignar tarea al proyecto</p>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  <select name="tareaDisponible">
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-=======
-=======
-
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-  <select name="tareaDisponible" onchange="validateSelect()" id="selec">
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-=======
-<select name="tareaDisponible" onchange="validateSelect()" id="selec">
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
       @for(tareaDisponible <- tareasDisponibles) {
       <option value="@tareaDisponible.id">@tareaDisponible.descripcion.toString()</option>
       }
   </select>
   <br><br>
 @if(tareasDisponibles.size()>0){
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-=======
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 <a style="cursor: pointer" id="asigTarea"
-=======
-<a style="cursor: pointer"
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-=======
-=======
-
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-<a style="cursor: pointer" id="asigTarea"
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario,tareasDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
@@ -236,35 +139,16 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario
 
 
   <p>Asignar colaborador</p>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
-<<<<<<< HEAD
   @for(usuarioDisponible <- usuariosDisponibles) {
-=======
-    @for(usuarioDisponible <- usuariosDisponibles) {
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-=======
-<select name="usuarioDisponible">
-=======
-<select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-    @for(usuarioDisponible <- usuariosDisponibles) {
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-        <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
+    <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
     }
 </select>
 <br><br>
 @if(usuariosDisponibles.size()>0){
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 <a style="cursor: pointer" id="asigCol"
-=======
-<a style="cursor: pointer"
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-=======
-<a style="cursor: pointer" id="asigCol"
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usuariosDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
