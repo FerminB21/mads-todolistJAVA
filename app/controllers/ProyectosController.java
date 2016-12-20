@@ -247,6 +247,7 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
         Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
         //String id = Form.form().bindFromRequest().get("tareaDisponible");
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -265,6 +266,8 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
             //Comprobamos que el usuario existe (evitamos problemas de referencias)
 
 >>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
+=======
+>>>>>>> tic-5.2 reslover conflictos despues del rebase
             Tarea tarea = TareasService.findTareaUsuario(idTarea);
             Logger.debug("tareaaaaaaaaa: " + tarea);
             if (usuario != null) {
@@ -280,6 +283,7 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
                 return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
            }
               return ok();
 }
@@ -290,24 +294,12 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
             }
               return ok();
                 //return badRequest(formModificacionProyecto.render(proyectoForm,tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
+=======
+>>>>>>> tic-5.2 reslover conflictos despues del rebase
 
-=======
-            } else {
-=======
             }
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-              return ok();
+          return ok();
                 //return badRequest(formModificacionProyecto.render(proyectoForm,tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-
-<<<<<<< HEAD
-return ok();
->>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
-=======
->>>>>>> tic-5.2 añaddidos metodos de javascript, una vez el usuario elige una tarea o un colaborador para asignarlo al proyecto, el enlace se cambia con javascript, para tener los datos correctos, a la hora de asignar la tarea o el usuario elegido
-        //return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
-
-        //return badRequest(formModificacionProyecto.render(proyectoForm,tareas,tareasProyecto, idUsuario, "Error inesperado. Vuelva a intentarlo"));
-
     }
 >>>>>>> tic-5.2 modificacion de la parte de asignar tarea a un proyecto y asignar colaborador, ahora se hace con ajax
 
