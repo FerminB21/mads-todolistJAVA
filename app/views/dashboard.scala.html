@@ -1,4 +1,4 @@
-@(usuario: Usuario, tareasUltimasFinalizadas: List[Tarea], proyectosConMasTareas: List[Proyecto])
+@(usuario: Usuario, numeroTareasTotales: Integer, tareasAbiertas: List[Tarea], tareasAcabadas: List[Tarea], tareasUltimasFinalizadas: List[Tarea], proyectosConMasTareas: List[Proyecto], proyectosConMasComentarios: List[Proyecto], proyectosConMasColaboradores: List[Proyecto])
 
 @main("Dashboard del usuario") {
 
@@ -15,12 +15,12 @@
                         <i class="fa fa-thumb-tack fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span class="huge">25 </span><span class="hugeSub">(35%)</span>
+                        <span class="huge">@tareasAbiertas.size()  </span><span class="hugeSub">(@{BigDecimal(tareasAbiertas.size()*100/numeroTareasTotales.toDouble).setScale(1, BigDecimal.RoundingMode.HALF_UP)}%)</span>
                         <div>Tareas abiertas</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="@routes.TareasController.listaTareas(usuario.id)">
                 <div class="panel-footer">
                     <span class="pull-left">Ver todas</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -37,12 +37,12 @@
                         <i class="fa fa-trello fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span class="huge">25 </span><span class="hugeSub">(35%)</span>
+                        <span class="huge">@tareasAcabadas.size() </span><span class="hugeSub">(@{BigDecimal(tareasAcabadas.size()*100/numeroTareasTotales.toDouble).setScale(1, BigDecimal.RoundingMode.HALF_UP)}%)</span>
                         <div>Tareas acabadas</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+            <a href="@routes.TareasController.listaTareas(usuario.id)">
                 <div class="panel-footer">
                     <span class="pull-left">Ver todas</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -62,12 +62,24 @@
                         <i class="fa fa-comments fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">Proyecto1</div>
+                            @if(proyectosConMasComentarios.size() == 0) {
+                            <div class="huge">Sin comentarios</div>
+                            }
+                            @if(proyectosConMasComentarios.size() > 0){
+                            <div class="huge">@proyectosConMasComentarios.get(0).nombre</div>
+                            }
+
                         <div>Proyecto con más comentarios</div>
                     </div>
                 </div>
             </div>
+
+            @if(proyectosConMasComentarios.size() == 0) {
             <a href="#">
+            }
+            @if(proyectosConMasComentarios.size() > 0){
+            <a href="@routes.ProyectosController.detalleProyecto(proyectosConMasComentarios.get(0).id, usuario.id)">
+            }
                 <div class="panel-footer">
                     <span class="pull-left">Ver detalles</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -85,12 +97,22 @@
                         <i class="fa fa-child fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">Proyecto1</div>
+                        @if(proyectosConMasColaboradores.size() == 0) {
+                        <div class="huge">Sin comentarios</div>
+                        }
+                        @if(proyectosConMasColaboradores.size() > 0){
+                        <div class="huge">@proyectosConMasColaboradores.get(0).nombre</div>
+                        }
                         <div>Proyecto con más colaboradores</div>
                     </div>
                 </div>
             </div>
-            <a href="#">
+                @if(proyectosConMasColaboradores.size() == 0) {
+                <a href="#">
+                }
+                @if(proyectosConMasColaboradores.size() > 0){
+                <a href="@routes.ProyectosController.detalleProyecto(proyectosConMasColaboradores.get(0).id, usuario.id)">
+                    }
                 <div class="panel-footer">
                     <span class="pull-left">Ver detalles</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -105,13 +127,13 @@
         <!-- Panel de tareas (muestra tres) -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tareas últimas por finalizar o finalizadas</h3>
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tareas últimas finalizadas (por estado)</h3>
             </div>
             <div class="panel-body">
                 <div class="list-group">
                     @for(tarea <- tareasUltimasFinalizadas) {
                     <a href="@routes.TareasController.detalleTarea(tarea.id, usuario.id)" class="list-group-item">
-                        <span class="badge">@tarea.tieneFechaFinalizacion()</span>
+                        <span class="badge">Estado: @tarea.tareaTieneEstado()</span><span class="badge">Fecha fin:  @tarea.tieneFechaFinalizacion()</span>
                         <i class="fa fa-fw fa-thumb-tack"></i> @tarea.descripcion
                     </a>
                     }
@@ -135,7 +157,7 @@
                 <div class="list-group">
                     @for(proyecto <- proyectosConMasTareas) {
                         <a href="@routes.ProyectosController.detalleProyecto(proyecto.id, usuario.id)" class="list-group-item">
-                            <span class="badge">@proyecto.tareas.size()</span>
+                            <span class="badge">Núm. tareas: @proyecto.tareas.size()</span>
                             <i class="fa fa-fw fa-th-list"></i> @proyecto.nombre
                         </a>
                     }

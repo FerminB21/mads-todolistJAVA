@@ -102,4 +102,33 @@ public class ProyectoDAO {
         }
     }
 
-  }
+    public static List<Proyecto> findProyectosConMasComentarios(Integer idUsuario){
+        //Al realizar una consulta con dos tablas, no sirve enlazar por clave ajena para los tests (para el programa sí)
+        //Se realiza una "native query", con el formato utilizado en mysql estándar
+        //Hay que enlazar por objeto
+        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        String query = "select p.* from Comentario t, Proyecto p where t.proyectoId=p.id and p.usuarioId = :usuarioId group by proyectoId order by count(*) desc;";
+
+        try {
+            List<Proyecto> proyectos = JPA.em().createNativeQuery(query, Proyecto.class).setParameter("usuarioId", usuario.id).getResultList();
+            return proyectos;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    public static List<Proyecto> findProyectosConMasColaboradores(Integer idUsuario){
+        //Al realizar una consulta con dos tablas, no sirve enlazar por clave ajena para los tests (para el programa sí)
+        //Se realiza una "native query", con el formato utilizado en mysql estándar
+        //Hay que enlazar por objeto
+        Usuario usuario = UsuariosService.findUsuario(idUsuario);
+        String query = "select p.* from COL_PROJ t, Proyecto p where t.PROJ_ID=p.id and p.usuarioId = :usuarioId group by PROJ_ID order by count(*) desc;";
+
+        try {
+            List<Proyecto> proyectos = JPA.em().createNativeQuery(query, Proyecto.class).setParameter("usuarioId", usuario.id).getResultList();
+            return proyectos;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+}

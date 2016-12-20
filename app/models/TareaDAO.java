@@ -105,5 +105,29 @@ public class TareaDAO {
         }
     }
 
+    public static List<Tarea> findTareasAbiertas(Integer id) {
+
+        TypedQuery<Tarea> query = JPA.em().createQuery(
+                "select u from Tarea u where  usuarioId = :usuarioId and estado!=3", Tarea.class);
+        try {
+            List<Tarea> tareas = query.setParameter("usuarioId", id).getResultList();
+            return tareas;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    public static List<Tarea> findTareasAcabadas(Integer id) {
+
+        TypedQuery<Tarea> query = JPA.em().createQuery(
+                "select u from Tarea u where  usuarioId = :usuarioId and estado=3", Tarea.class);
+        try {
+            List<Tarea> tareas = query.setParameter("usuarioId", id).getResultList();
+            return tareas;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
 
 }

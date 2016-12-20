@@ -37,7 +37,7 @@ public class ProyectosService {
     /**
      * Guarda el proyecto asociada a un usuario, invoca a ProyectoDAO.create
      *
-     * @param descripcion, usuarioId
+     * @param proyecto, usuarioId
      * @return Proyecto
      */
     public static Proyecto crearProyectoUsuario(Proyecto proyecto, Integer usuarioId) {
@@ -193,7 +193,15 @@ public class ProyectosService {
     public static List<Proyecto> findProyectosConMasTareas(Integer idUsuario) {
         List<Proyecto> proyectos = ProyectoDAO.findProyectosConMasTareas(idUsuario);
         if(proyectos == null){
-            throw new ServiceException("No se devuelve ningún proyecto con más tareas, ha fallado algo en la consulta.");
+            return new ArrayList<Proyecto>();
+        }
+        return proyectos;
+    }
+
+    public static List<Proyecto> findProyectosConMasComentarios(Integer idUsuario) {
+        List<Proyecto> proyectos = ProyectoDAO.findProyectosConMasComentarios(idUsuario);
+        if(proyectos == null){
+            return new ArrayList<Proyecto>();
         }
         return proyectos;
     }
@@ -201,8 +209,6 @@ public class ProyectosService {
 
     //parte añadida
     public static Proyecto modificaProyectoNombre( Proyecto proyecto ) {
-
-
         ProyectoDAO.update(proyecto);
         return proyecto;
     }
@@ -222,5 +228,13 @@ public class ProyectosService {
             }
         }
         return false;
+    }
+
+    public static List<Proyecto> findProyectosConMasColaboradores(Integer idUsuario) {
+        List<Proyecto> proyectos = ProyectoDAO.findProyectosConMasColaboradores(idUsuario);
+        if(proyectos == null){
+            return new ArrayList<Proyecto>();
+        }
+        return proyectos;
     }
 }

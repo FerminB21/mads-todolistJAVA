@@ -105,4 +105,84 @@ public class DashboardTest {
 
         });
     }
+
+    /**
+     * Busca los proyectos con más comentarios. Devuelve lista de proyectos ordenados por nº de comentarios.
+     * Se utilizan las clases ProyectosService.
+     */
+    @Test
+    public void buscarProyectosConMasComentarios() {
+
+        jpa.withTransaction(() -> {
+            //Comprobamos que devuelve el nº de proyectos adecuados según el usuario pasado
+            List<Proyecto> proyectos = ProyectosService.findProyectosConMasComentarios(1);
+            assertEquals(proyectos.size(), 2);
+
+            // Comprobamos que se devuelven en el orden esperado
+            assertTrue(proyectos.get(0).comentarios.size() == 3);
+            assertTrue(proyectos.get(1).comentarios.size() == 1);
+
+        });
+    }
+
+    /**
+     * Busca las tareas abiertas. Devuelve una lista de tareas con estado != 3
+     * Se utilizan las clases TareaDAO y TareasService.
+     */
+    @Test
+    public void buscarTareasAbiertas() {
+
+        //Capa DAO
+        jpa.withTransaction(() -> {
+            //Comprobamos que devuelve el nº de tareas adecuadas según el usuario pasado
+            List<Tarea> tareas = TareaDAO.findTareasAbiertas(1);
+            assertEquals(tareas.size(), 1);
+
+            // Comprobamos que se devuelven en el orden esperado
+            assertTrue(tareas.get(0).estado != 3);
+        });
+
+        //Capa Service
+        jpa.withTransaction(() -> {
+            //Comprobamos que devuelve el nº de tareas adecuadas según el usuario pasado
+            List<Tarea> tareas = TareasService.findTareasAbiertas(1);
+            assertEquals(tareas.size(), 1);
+
+            // Comprobamos que se devuelven en el orden esperado
+            assertTrue(tareas.get(0).estado != 3);
+
+        });
+    }
+
+    /**
+     * Busca las tareas finalizadas. Devuelve una lista de tareas con estado = 3
+     * Se utilizan las clases TareaDAO y TareasService.
+     */
+    @Test
+    public void buscarTareasFinalizadas() {
+
+        //Capa Dao
+        jpa.withTransaction(() -> {
+            //Comprobamos que devuelve el nº de tareas adecuadas según el usuario pasado
+            List<Tarea> tareas = TareaDAO.findTareasAcabadas(1);
+            assertEquals(tareas.size(), 2);
+
+            // Comprobamos que se devuelven en el orden esperado
+            assertTrue(tareas.get(0).estado == 3);
+            assertTrue(tareas.get(1).estado == 3);
+
+        });
+
+        //Capa Service
+        jpa.withTransaction(() -> {
+            //Comprobamos que devuelve el nº de tareas adecuadas según el usuario pasado
+            List<Tarea> tareas = TareasService.findTareasAcabadas(1);
+            assertEquals(tareas.size(), 2);
+
+            // Comprobamos que se devuelven en el orden esperado
+            assertTrue(tareas.get(0).estado == 3);
+            assertTrue(tareas.get(1).estado == 3);
+
+        });
+    }
 }

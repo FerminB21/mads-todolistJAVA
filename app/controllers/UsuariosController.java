@@ -116,13 +116,29 @@ public class UsuariosController extends Controller {
             }else {
                 //Aquí "fabricamos" todos los datos para pasarle a la vista
 
+                //Número de tareas totales
+                int numeroTareasTotales = usuario.tareas.size();
+
                 //tic-9.2 - Avance de tareas últimas por finalizar o finalizadas (3)
-                List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "", "fechaFinTarea", "desc", 0, 3);
+                List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "Terminada", "fechaFinTarea", "desc", 0, 3);
 
-                //tic-9.3 - Avance de proyectos con más tareas (3)
-                List<Proyecto> proyectosConMasTareas = ProyectosService.findProyectosConMasTareas(id);
+                //tic-9.2 - Avance de proyectos con más tareas (3)
+                //tic-9.3 - Limitamos a 3 elementos
+                List<Proyecto> proyectosConMasTareas = ProyectosService.findProyectosConMasTareas(id).subList(0,3);
 
-                return ok(dashboard.render(usuario, tareasUltimasFinalizadas, proyectosConMasTareas));
+                //tic-9.3 - Tareas abiertas
+                List<Tarea> tareasAbiertas = TareasService.findTareasAbiertas(id);
+
+                //tic-9.3 - Tareas acabadas
+                List<Tarea> tareasAcabadas = TareasService.findTareasAcabadas(id);
+
+                //tic-9.3 - Proyecto con más comentarios
+                List<Proyecto> proyectosConMasComentarios = ProyectosService.findProyectosConMasComentarios(id);
+
+                //tic-9.3 - Proyecto con más colaboradores
+                List<Proyecto> proyectosConMasColaboradores = ProyectosService.findProyectosConMasColaboradores(id);
+
+                return ok(dashboard.render(usuario, numeroTareasTotales, tareasAbiertas, tareasAcabadas, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios, proyectosConMasColaboradores));
             }
 
         }else{
