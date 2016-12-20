@@ -124,7 +124,7 @@ public class UsuariosController extends Controller {
 
                 //tic-9.2 - Avance de proyectos con más tareas (3)
                 //tic-9.3 - Limitamos a 3 elementos
-                List<Proyecto> proyectosConMasTareas = ProyectosService.findProyectosConMasTareas(id).subList(0,3);
+                List<Proyecto> proyectosConMasTareas = ProyectosService.findProyectosConMasTareas(id);
 
                 //tic-9.3 - Tareas abiertas
                 List<Tarea> tareasAbiertas = TareasService.findTareasAbiertas(id);

@@ -15,7 +15,12 @@
                         <i class="fa fa-thumb-tack fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
+                        @if(numeroTareasTotales==0){
+                        <span class="huge">Sin tareas </span><span class="hugeSub"></span>
+                        }
+                        @if(numeroTareasTotales>0){
                         <span class="huge">@tareasAbiertas.size()  </span><span class="hugeSub">(@{BigDecimal(tareasAbiertas.size()*100/numeroTareasTotales.toDouble).setScale(1, BigDecimal.RoundingMode.HALF_UP)}%)</span>
+                        }
                         <div>Tareas abiertas</div>
                     </div>
                 </div>
@@ -37,7 +42,12 @@
                         <i class="fa fa-trello fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
+                        @if(numeroTareasTotales==0){
+                        <span class="huge">Sin tareas </span><span class="hugeSub"></span>
+                        }
+                        @if(numeroTareasTotales>0){
                         <span class="huge">@tareasAcabadas.size() </span><span class="hugeSub">(@{BigDecimal(tareasAcabadas.size()*100/numeroTareasTotales.toDouble).setScale(1, BigDecimal.RoundingMode.HALF_UP)}%)</span>
+                        }
                         <div>Tareas acabadas</div>
                     </div>
                 </div>
