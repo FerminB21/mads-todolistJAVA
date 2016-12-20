@@ -162,6 +162,7 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usu
             <th>ID</th>
             <th>LOGIN</th>
             <th>NOMBRE Y APELLIDOS</th>
+            <th>ACCIÓN</th>
         </tr>
     </thead>
     <tbody>
@@ -170,6 +171,11 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usu
                 <td>@usuario.id</td>
                 <td>@usuario.login</td>
                 <td>@usuario.nombre @usuario.apellidos</td>
+                <td>
+                    <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.eliminarColaboradorProyecto(usuario.id, (proyectoForm("id").value).toInt)')">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true" />
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

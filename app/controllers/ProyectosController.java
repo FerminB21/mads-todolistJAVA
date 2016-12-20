@@ -290,4 +290,21 @@ public Result ProyectoAsignarColaborador(Integer idColaborador, int  idProyecto)
        }
          return ok();
  }
+
+    @Transactional
+    public Result eliminarColaboradorProyecto( int idColaborador, int idProyecto ) {
+
+        String variable = session().get("usuario");
+        if( variable != null ) {
+            //Si se ha borrado recargamos página
+            if( ProyectosService.eliminarColaboradorProyecto( idColaborador, idProyecto ) ) {
+                return ok("colaborador borrado con éxito.");
+            } else { //Si no, devolvemos error
+                return badRequest("El colaborador no se ha podido eliminar.");
+            }
+        } else {
+            return unauthorized("hello, debes iniciar session");
+        }
+
+    }
 }
