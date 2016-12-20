@@ -78,4 +78,16 @@ public class UsuarioDAO {
             return null;
         }
     }
+
+    public static List<Usuario> findUsersToColaborate(int idUsuario) {
+        TypedQuery<Usuario> query = JPA.em().createQuery(
+                "select u from Usuario u where u.id != :idUsuario", Usuario.class);
+        try {
+               query.setParameter("idUsuario", idUsuario);
+               List<Usuario> usuarios=query.getResultList();
+            return usuarios;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
 }

@@ -10,10 +10,25 @@ import org.springframework.util.Assert;
 
 public class ProyectosService {
 
+
+  /*public static List<Proyecto> listaProyectosUsuarioColaborador(Integer usuarioId) {
+      List<Proyecto> proyectos = ProyectoDAO.findProyectoUsuarioColaborador(usuarioId);
+      if (proyectos != null) {
+          return proyectos;
+      } else {
+          //throw new ServiceException("Usuario sin");
+          return null;
+      }
+  }*/
+
     public static List<Proyecto> listaProyectosUsuario(Integer usuarioId) {
         Usuario usuario = UsuarioDAO.find(usuarioId);
+        List<Proyecto> lista1=new ArrayList<Proyecto>();
+        //List<Proyecto> lista2=new ArrayList<Proyecto>();
         if (usuario != null) {
-            return usuario.proyectos;
+           lista1.addAll(usuario.proyectos);
+           lista1.addAll(usuario.colaboraciones);
+            return lista1;
         } else {
             throw new ServiceException("Usuario no encontrado");
         }
@@ -132,13 +147,14 @@ public class ProyectosService {
 
     }
 
-    public static List<Usuario> usuariosNoAsignados( Integer idProyecto ) {
+    public static List<Usuario> usuariosNoAsignados( Integer idProyecto,Integer idUsuario ) {
         Assert.notNull( idProyecto, "idProyecto, no puede ser null" );
 
         List<Usuario> dev = new ArrayList<Usuario>();
 
         Proyecto proyecto = ProyectosService.findProyectoUsuario( idProyecto );
-        List<Usuario> usuarios = UsuariosService.findAllUsuarios();
+        //List<Usuario> usuarios = UsuariosService.findAllUsuarios();
+        List<Usuario> usuarios=UsuarioDAO.findUsersToColaborate(idUsuario);
         for( Usuario usuario: usuarios ) {
             if( !proyecto.colaborador( usuario.id ) ) {
                 dev.add( usuario );
@@ -172,6 +188,15 @@ public class ProyectosService {
             throw new ServiceException("No se devuelve ningún proyecto con más tareas, ha fallado algo en la consulta.");
         }
         return proyectos;
+    }
+
+
+    //parte añadida
+    public static Proyecto modificaProyectoNombre( Proyecto proyecto ) {
+
+
+        ProyectoDAO.update(proyecto);
+        return proyecto;
     }
 
 }

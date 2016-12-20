@@ -23,7 +23,7 @@ public class ProyectoDAO {
      * @return Usuario
      */
     public static Proyecto findProyectoUsuario(Integer proyectoId,Integer usuarioId) {
-    //  Logger.debug("Se obtiene proyecto Test: hhhhhhhhhhhh " + proyectoId+" "+usuarioId);
+    //  Logger.debug("Se obtiene proyecto Test: " + proyectoId+" "+usuarioId);
         TypedQuery<Proyecto> query = JPA.em().createQuery(
                 "select u from Proyecto u where  usuarioId = :usuarioId and id = :proyectoId", Proyecto.class);
         try {
@@ -86,4 +86,20 @@ public class ProyectoDAO {
             return null;
         }
     }
-}
+
+    public static List<Proyecto> findProyectoUsuarioColaborador(Integer usuarioId) {
+
+        TypedQuery<Proyecto> query = JPA.em().createQuery(
+                "select p.id,p.nombre,p.usuarioId from Proyecto p,COL_PROJ c  where p.id=c.PROJ_ID  and c.COL_ID = :usuarioId", Proyecto.class);
+
+        try {
+          query.setParameter("usuarioId", usuarioId);
+
+            List<Proyecto> proyectos = query.getResultList();
+            return proyectos;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+  }
