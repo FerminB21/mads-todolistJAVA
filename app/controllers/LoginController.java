@@ -58,7 +58,7 @@ public class LoginController extends Controller {
                 session().put("idUsuario" , String.valueOf(usuarioExistente.id)); //esto debería ser temporal -> hay que guardar el objeto usuario en la sesión y no datos sueltos
                 //Logger.debug("valor de la sesion  "+session().get("usuario"));
 
-                return redirect(controllers.routes.TareasController.listaTareas(usuarioExistente.id));
+                return redirect(controllers.routes.UsuariosController.dashboard(usuarioExistente.id));
             } else if (usuarioExistente.password == null) { //Si es el mismo usuario pero no tiene contraseña (introducido por administrador)
                 Logger.debug("Necesario activar el usuario");
                 return badRequest(formLogueoRegistro.render(usuarioForm, "Usuario no activo. Necesario registrarse para activarlo.", "logueo"));
@@ -104,7 +104,12 @@ public class LoginController extends Controller {
             Logger.debug("No existe ninguno con ese login, se registra");
             Logger.debug("Usuario a grabar (registro): " + usuario.toString());
             Logger.debug("Usuario guardado correctamente: " + usuario.toString());
-            return redirect(controllers.routes.HomeController.portada());
+
+            //Nuevo - tic-9.4 dashboard como usuario principal
+            //Al registrarse el usuario ahora también iniciará sesión en vez de redirigir a la página de portada
+            session().put("usuario" , usuario.login);
+            session().put("idUsuario" , String.valueOf(usuario.id));
+            return redirect(controllers.routes.UsuariosController.dashboard(usuario.id));
         }
     }
     public static Session session() {
