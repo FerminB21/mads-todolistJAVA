@@ -120,7 +120,7 @@ public class UsuariosController extends Controller {
                 int numeroTareasTotales = usuario.tareas.size();
 
                 //tic-9.2 - Avance de tareas últimas por finalizar o finalizadas (3)
-                List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "", "fechaFinTarea", "desc", 0, 3);
+                List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "Terminada", "fechaFinTarea", "desc", 0, 3);
 
                 //tic-9.2 - Avance de proyectos con más tareas (3)
                 //tic-9.3 - Limitamos a 3 elementos
