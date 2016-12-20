@@ -127,6 +127,7 @@ public class UsuariosController extends Controller {
                 List<Proyecto> proyectosConMasTareas = ProyectosService.findProyectosConMasTareas(id).subList(0,3);
 
                 //tic-9.3 - Tareas abiertas
+                List<Tarea> tareasAbiertas = TareasService.findTareasAbiertas(id);
 
                 //tic-9.3 - Tareas acabadas
                 List<Tarea> tareasAcabadas = TareasService.findTareasAcabadas(id);
@@ -137,7 +138,7 @@ public class UsuariosController extends Controller {
                 //tic-9.3 - Proyecto con más colaboradores
                 List<Proyecto> proyectosConMasColaboradores = ProyectosService.findProyectosConMasColaboradores(id);
 
-                return ok(dashboard.render(usuario, numeroTareasTotales, tareasAcabadas, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios, proyectosConMasColaboradores));
+                return ok(dashboard.render(usuario, numeroTareasTotales, tareasAbiertas, tareasAcabadas, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios, proyectosConMasColaboradores));
             }
 
         }else{

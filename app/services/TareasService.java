@@ -119,6 +119,14 @@ public class TareasService {
         }
     }
 
+    public static List<Tarea> findTareasAbiertas(Integer idUsuario) {
+        List<Tarea> tareas = TareaDAO.findTareasAbiertas(idUsuario);
+        if(tareas == null){
+            return new ArrayList<Tarea>();
+        }
+        return tareas;
+    }
+
     public static List<Tarea> findTareasAcabadas(Integer idUsuario) {
         List<Tarea> tareas = TareaDAO.findTareasAcabadas(idUsuario);
         if(tareas == null){

@@ -1,4 +1,4 @@
-@(usuario: Usuario, numeroTareasTotales: Integer, tareasAcabadas: List[Tarea], tareasUltimasFinalizadas: List[Tarea], proyectosConMasTareas: List[Proyecto], proyectosConMasComentarios: List[Proyecto], proyectosConMasColaboradores: List[Proyecto])
+@(usuario: Usuario, numeroTareasTotales: Integer, tareasAbiertas: List[Tarea], tareasAcabadas: List[Tarea], tareasUltimasFinalizadas: List[Tarea], proyectosConMasTareas: List[Proyecto], proyectosConMasComentarios: List[Proyecto], proyectosConMasColaboradores: List[Proyecto])
 
 @main("Dashboard del usuario") {
 
@@ -15,7 +15,7 @@
                         <i class="fa fa-thumb-tack fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span class="huge">25 </span><span class="hugeSub">(35%)</span>
+                        <span class="huge">@tareasAbiertas.size()  </span><span class="hugeSub">(@{tareasAbiertas.size()*100/numeroTareasTotales}%)</span>
                         <div>Tareas abiertas</div>
                     </div>
                 </div>
