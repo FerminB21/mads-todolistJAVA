@@ -15,7 +15,7 @@
                         <i class="fa fa-thumb-tack fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span class="huge">@tareasAbiertas.size()  </span><span class="hugeSub">(@{tareasAbiertas.size()*100/numeroTareasTotales}%)</span>
+                        <span class="huge">@tareasAbiertas.size()  </span><span class="hugeSub">(@{tareasAbiertas.size()*100/numeroTareasTotales.toDouble}%)</span>
                         <div>Tareas abiertas</div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                         <i class="fa fa-trello fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <span class="huge">@tareasAcabadas.size() </span><span class="hugeSub">(@{tareasAcabadas.size()*100/numeroTareasTotales}%)</span>
+                        <span class="huge">@tareasAcabadas.size() </span><span class="hugeSub">(@{tareasAcabadas.size()*100/numeroTareasTotales.toDouble}%)</span>
                         <div>Tareas acabadas</div>
                     </div>
                 </div>
