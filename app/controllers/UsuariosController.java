@@ -131,8 +131,9 @@ public class UsuariosController extends Controller {
                 List<Proyecto> proyectosConMasComentarios = ProyectosService.findProyectosConMasComentarios(id);
 
                 //tic-9.3 - Proyecto con más colaboradores
+                List<Proyecto> proyectosConMasColaboradores = ProyectosService.findProyectosConMasColaboradores(id);
 
-                return ok(dashboard.render(usuario, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios));
+                return ok(dashboard.render(usuario, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios, proyectosConMasColaboradores));
             }
 
         }else{

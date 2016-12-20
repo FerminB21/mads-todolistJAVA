@@ -209,8 +209,6 @@ public class ProyectosService {
 
     //parte añadida
     public static Proyecto modificaProyectoNombre( Proyecto proyecto ) {
-
-
         ProyectoDAO.update(proyecto);
         return proyecto;
     }
@@ -230,5 +228,13 @@ public class ProyectosService {
             }
         }
         return false;
+    }
+
+    public static List<Proyecto> findProyectosConMasColaboradores(Integer idUsuario) {
+        List<Proyecto> proyectos = ProyectoDAO.findProyectosConMasColaboradores(idUsuario);
+        if(proyectos == null){
+            return new ArrayList<Proyecto>();
+        }
+        return proyectos;
     }
 }
