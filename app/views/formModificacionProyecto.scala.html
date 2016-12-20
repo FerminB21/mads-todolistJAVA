@@ -147,26 +147,24 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(proyecto.
 
 
   <p>Asignar colaborador</p>
-
-
-@if(usuariosDisponibles.size()>0 && proyecto.propietario(idUsuario)){
+@if(proyecto.propietario(idUsuario)){
   <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
+  }else{
+    <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2" disabled="disabled">
+  }
     @for(usuarioDisponible <- usuariosDisponibles) {
       <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
       }
   </select>
   <br><br>
+
+@if(usuariosDisponibles.size()>0 && proyecto.propietario(idUsuario)){
+
 <a style="cursor: pointer" id="asigCol"
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usuariosDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
-    
-    <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2" disabled="disabled">
-      @for(usuarioDisponible <- usuariosDisponibles) {
-        <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
-        }
-    </select>
-    <br><br>
+
       <a style="cursor: pointer"
       onclick="return false)"><span
           class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
@@ -189,9 +187,11 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usu
                 <td>@usuario.login</td>
                 <td>@usuario.nombre @usuario.apellidos</td>
                 <td>
+                  @if(proyecto.propietario(idUsuario)){
                     <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.eliminarColaboradorProyecto(usuario.id, (proyectoForm("id").value).toInt)')">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true" />
                     </a>
+                  }
                 </td>
             </tr>
         }
