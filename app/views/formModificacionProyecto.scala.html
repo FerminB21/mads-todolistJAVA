@@ -177,7 +177,9 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usu
             <th>ID</th>
             <th>LOGIN</th>
             <th>NOMBRE Y APELLIDOS</th>
+          @if(proyecto.propietario(idUsuario)){
             <th>ACCIÓN</th>
+          }
         </tr>
     </thead>
     <tbody>
