@@ -105,5 +105,17 @@ public class TareaDAO {
         }
     }
 
+    public static List<Tarea> findTareasAcabadas(Integer id) {
+
+        TypedQuery<Tarea> query = JPA.em().createQuery(
+                "select u from Tarea u where  usuarioId = :usuarioId and fechaFinTarea is not null and fechaFinTarea!='0000-00-00'", Tarea.class);
+        try {
+            List<Tarea> tareas = query.setParameter("usuarioId", id).getResultList();
+            return tareas;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
 
 }

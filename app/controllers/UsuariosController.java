@@ -116,6 +116,9 @@ public class UsuariosController extends Controller {
             }else {
                 //Aquí "fabricamos" todos los datos para pasarle a la vista
 
+                //Número de tareas totales
+                int numeroTareasTotales = usuario.tareas.size();
+
                 //tic-9.2 - Avance de tareas últimas por finalizar o finalizadas (3)
                 List<Tarea> tareasUltimasFinalizadas = TareasService.busquedaTareasUsuario(id, "", "fechaFinTarea", "desc", 0, 3);
 
@@ -126,6 +129,7 @@ public class UsuariosController extends Controller {
                 //tic-9.3 - Tareas abiertas
 
                 //tic-9.3 - Tareas acabadas
+                List<Tarea> tareasAcabadas = TareasService.findTareasAcabadas(id);
 
                 //tic-9.3 - Proyecto con más comentarios
                 List<Proyecto> proyectosConMasComentarios = ProyectosService.findProyectosConMasComentarios(id);
@@ -133,7 +137,7 @@ public class UsuariosController extends Controller {
                 //tic-9.3 - Proyecto con más colaboradores
                 List<Proyecto> proyectosConMasColaboradores = ProyectosService.findProyectosConMasColaboradores(id);
 
-                return ok(dashboard.render(usuario, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios, proyectosConMasColaboradores));
+                return ok(dashboard.render(usuario, numeroTareasTotales, tareasAcabadas, tareasUltimasFinalizadas, proyectosConMasTareas, proyectosConMasComentarios, proyectosConMasColaboradores));
             }
 
         }else{

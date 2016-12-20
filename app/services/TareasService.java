@@ -3,6 +3,7 @@ package services;
 import models.*;
 import play.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TareasService {
@@ -116,5 +117,13 @@ public class TareasService {
         } else {
             throw new ServiceException("Usuario no encontrado");
         }
+    }
+
+    public static List<Tarea> findTareasAcabadas(Integer idUsuario) {
+        List<Tarea> tareas = TareaDAO.findTareasAcabadas(idUsuario);
+        if(tareas == null){
+            return new ArrayList<Tarea>();
+        }
+        return tareas;
     }
 }
