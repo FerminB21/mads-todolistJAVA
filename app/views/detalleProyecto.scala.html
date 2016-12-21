@@ -1,4 +1,4 @@
-@(proyecto: Proyecto, idUsuario: Integer)
+@(proyecto: Proyecto, idUsuario: Integer, idUserSesion: Integer)
 @scripts = {
     <script type="text/javascript">
         function del( urlBorrar ) {
@@ -76,7 +76,7 @@
             <br>
             <a class="btn btn-primary"
                href="@routes.ProyectosController.formularioEditaProyecto(proyecto.id, proyecto.usuario.id)">Editar</a>
-            <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(proyecto.usuario.id)">Volver</a>
+            <a class="btn btn-primary" href="@routes.ProyectosController.listaProyectos(idUserSesion)">Volver</a>
         </div>
     </div>
 }

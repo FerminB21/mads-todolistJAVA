@@ -44,6 +44,7 @@ public class Tarea {
         nueva.estimacion = this.estimacion;
         nueva.estado=this.estado;
         nueva.color = this.color;
+        nueva.usuario=this.usuario;
         return nueva;
     }
 

@@ -1,4 +1,4 @@
-@(proyectoForm: Form[Proyecto],
+@(proyectoForm: Form[Proyecto],proyecto: Proyecto,
 tareasDisponibles: List[Tarea], tareasProyecto: List[Tarea],
 usuariosDisponibles: List[Usuario], usuariosProyecto: List[Usuario],
 idUsuario: Integer, mensaje: String)
@@ -84,12 +84,22 @@ function Asig(urlAsignar) {
         <div class="panel-body">
             @helper.form(action = routes.ProyectosController.nombreProyecto(idUsuario)) {
                 <input type="hidden" name="id" value='@proyectoForm("id").value'>
-
-                @helper.inputText( proyectoForm("nombre"), '_label -> "Nombre Proyecto" )
+              @if(proyecto.propietario(idUsuario)){
+                @helper.inputText( proyectoForm("nombre"), '_label -> "Nombre Proyecto"  )
                 @helper.textarea( proyectoForm("descripcion"), args = 'rows -> 3, 'cols -> 50 )
 
                 <input type="submit"
                 class="btn btn-success" value="Asignar">
+              }
+              @if(!proyecto.propietario(idUsuario)){
+                @helper.inputText( proyectoForm("nombre"), '_label -> "Nombre Proyecto", 'readonly -> "readonly",
+    '_help -> " This is read only")
+                @helper.textarea( proyectoForm("descripcion"), args = 'rows -> 3, 'cols -> 50 , 'readonly -> "readonly",
+    '_help -> " This is read only")
+
+                <input type="submit"
+                class="btn btn-success" value="Asignar" disabled="disabled">
+              }
 
   <br><br>
   <p>Asignar tarea al proyecto</p>
@@ -101,7 +111,7 @@ function Asig(urlAsignar) {
   <br><br>
 @if(tareasDisponibles.size()>0){
 <a style="cursor: pointer" id="asigTarea"
-onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario,tareasDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
+onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(proyecto.usuario.id,tareasDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
       <a style="cursor: pointer"
@@ -137,19 +147,24 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarTarea(idUsuario
 
 
   <p>Asignar colaborador</p>
+@if(proyecto.propietario(idUsuario)){
+  <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
+  }else{
+    <select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2" disabled="disabled">
+  }
+    @for(usuarioDisponible <- usuariosDisponibles) {
+      <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
+      }
+  </select>
+  <br><br>
 
-<select name="usuarioDisponible" onchange="validateSelectProj()" id="selec2">
-  @for(usuarioDisponible <- usuariosDisponibles) {
-    <option value="@usuarioDisponible.id">@usuarioDisponible.login.toString()</option>
-    }
-</select>
-<br><br>
-@if(usuariosDisponibles.size()>0){
+@if(usuariosDisponibles.size()>0 && proyecto.propietario(idUsuario)){
 
 <a style="cursor: pointer" id="asigCol"
 onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usuariosDisponibles.get(0).id.toInt,(proyectoForm("id").value).toInt)')"><span
     class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   }else{
+
       <a style="cursor: pointer"
       onclick="return false)"><span
           class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
@@ -162,7 +177,9 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usu
             <th>ID</th>
             <th>LOGIN</th>
             <th>NOMBRE Y APELLIDOS</th>
+          @if(proyecto.propietario(idUsuario)){
             <th>ACCIÓN</th>
+          }
         </tr>
     </thead>
     <tbody>
@@ -172,9 +189,11 @@ onclick="return Asig('@routes.ProyectosController.ProyectoAsignarColaborador(usu
                 <td>@usuario.login</td>
                 <td>@usuario.nombre @usuario.apellidos</td>
                 <td>
+                  @if(proyecto.propietario(idUsuario)){
                     <a style="cursor: pointer" onclick="return del('@routes.ProyectosController.eliminarColaboradorProyecto(usuario.id, (proyectoForm("id").value).toInt)')">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true" />
                     </a>
+                  }
                 </td>
             </tr>
         }

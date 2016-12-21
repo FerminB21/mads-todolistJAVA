@@ -108,11 +108,13 @@ public class ProyectosController extends Controller {
             usuariosProyecto = proyecto.colaboradores;
             Logger.debug("Este proyecto tiene " + usuariosProyecto.size() + " colaboradores.");
 
-            tareas = ProyectosService.tareasNoAsignadas(idUsuario);
+            //tareas = ProyectosService.tareasNoAsignadas(idUsuario);
+            Usuario user=UsuariosService.findByLogin(variable);
+            tareas = ProyectosService.tareasNoAsignadas(user.id);
             tareasProyecto = proyecto.tareas;
             ////
             //Retornamos a la vista los datos del usuario en el form
-            return ok(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, ""));
+            return ok(formModificacionProyecto.render(proyectoForm,proyecto, tareas, tareasProyecto, usuarios, usuariosProyecto, user.id, ""));
         } else {
            return unauthorized("hello, debes iniciar session");
 
@@ -206,9 +208,10 @@ public class ProyectosController extends Controller {
     @Transactional
     public Result detalleProyecto(int idProyecto, int idUsuario) {
         String variable=session().get("usuario");
+        Usuario user=UsuariosService.findByLogin(variable);
         if( variable != null ) {
             Proyecto proyecto = ProyectosService.findProyectoPorUsuario( idProyecto, idUsuario );
-            return ok( detalleProyecto.render( proyecto, idUsuario ) );
+            return ok( detalleProyecto.render( proyecto, idUsuario,user.id ) );
         } else {
             return unauthorized("hello, debes iniciar session");
         }
@@ -219,10 +222,11 @@ public class ProyectosController extends Controller {
 
     @Transactional
     public Result nombreProyecto(Integer idUsuario) {
+        String variable=session().get("usuario");
         Form<Proyecto> proyectoForm = formFactory.form(Proyecto.class).bindFromRequest();
-Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
+        Usuario user=UsuariosService.findByLogin(variable);
         if (proyectoForm.hasErrors()) {
-            return badRequest(formModificacionProyecto.render(proyectoForm, tareas, tareasProyecto, usuarios, usuariosProyecto, idUsuario, "Hay errores en el formulario"));
+            return badRequest(formModificacionProyecto.render(proyectoForm,proyectoForm.get(), tareas, tareasProyecto, usuarios, usuariosProyecto, user.id, "Hay errores en el formulario"));
         }
         //Recuperamos los datos de la proyecto
         Proyecto proyecto = proyectoForm.get();
@@ -245,21 +249,27 @@ Form<Proyecto> tareaForm = tareaFactory.form(Proyecto.class).bindFromRequest();
 
         //Recuperamos los datos de la proyecto
         Proyecto proyecto = ProyectosService.findProyectoUsuario(idProyecto);
+        Proyecto proyectoAux=proyecto.copy();
         //String id = Form.form().bindFromRequest().get("tareaDisponible");
         Usuario usuario = UsuariosService.findUsuario(idUsuario);
         Tarea tarea = TareasService.findTareaUsuario(idTarea);
+        Tarea tareaAux=tarea.copy();
             Logger.debug("tareaaaaaaaaa: " + tarea);
             if (usuario != null) {
 
-                proyecto.usuario = usuario;
-                tarea.proyecto = proyecto;
+                proyectoAux.usuario = usuario;
+                tareaAux.proyecto = proyectoAux;
+                tareaAux=TareasService.modificaTareaUsuario(tareaAux);
                 //proyectoForm.get().tareaDisponible.value;
                 Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-                proyecto.tareas.add(tarea);
+                proyectoAux.tareas.add(tarea);
+                //este metodo lo utilizo cuando se modifica el nombre del proyecto, aqui tambien aprovecho
+                //y lo utilizo para asignar el usuario al rpoyecto
+                proyectoAux=ProyectosService.modificaProyectoNombre(proyectoAux);
 
                 flash("gestionaproyecto", "La proyecto se ha modificado correctamente (modificar)");
                 Logger.debug("proyecto guardada correctamente (modificar): " + proyecto.toString());
-                return redirect(routes.ProyectosController.formularioEditaProyecto(proyecto.id, idUsuario));
+                return redirect(routes.ProyectosController.formularioEditaProyecto(proyectoAux.id, idUsuario));
            }
               return ok();
 }
