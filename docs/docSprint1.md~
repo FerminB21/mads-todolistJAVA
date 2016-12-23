@@ -4,7 +4,7 @@ En este documento se especifica todo lo referente a la práctica 4. NO se han act
 
 ### - Release v1.2
 
-* #### Historias de usuario originales vs implementadas
+* ##### Historias de usuario originales vs implementadas
 
 Al tamaño L se le asignan 4 puntos, al tamaño M, 2 y al tamaño S, 1.
 En los tamaños L y M es necesraio descomponer la historia en varias tareas (tickets).
@@ -402,7 +402,7 @@ Si tenemos en cuenta el tamaño en puntos de cada ticket (se detalla al principio
     - ***FT-9 (L) (4 puntos)***
     - ***FT-12 (S) (1 punto)***
 
-* #### Capturas de la web
+* ##### Capturas de la web
 
 Se muestran algunas capturas de las secciones desarroladas y/o mejoradas en este sprint.
 
@@ -440,7 +440,7 @@ Un usuario puede, mediante la vista de edición del proyecto, asignar tareas prop
 
 ![GitHub Logo](/docs/asignarColaborador.png)
 
-* #### Metodología seguida
+* ##### Metodología seguida
 
 La metodología seguida en este sprint ha sido la de reunirnos o presencialmente o por Slack los tres componentes del grupo.
 
@@ -454,7 +454,7 @@ Cuando la rama necesita mezclarse, se añade a "En desarrollo - Done" y posterior
 
 Una vez se mezcla el pull request en la rama master, se añade el ticket al tablero "Integración - Done". Posteriormente, al tablero "Pruebas funcionales". Lo ideal sería que cuando está en este estado "Pruebas funcionales", todos los componentes implicados en la aceptación del pull request (en concreto, 2 según hemos establecido) prueben el, pull request que acaba de mezclarse para probarlo en la misma aplicación. Esto no ha sido siempre así, si no que se ha optado por un modelo algo más "en cascada" en este punto. Se ha aceptado todo pull request (con una mínima revisión) y si alguien en algún momento ha detectado un error con un pull request antiguo, se le ha comentado al responsable del ticket, para que lo tenga en cuenta y lo solucione posteriormente, aunque fuera con otro commit y estando desarrollando otra tarea.
 
-* #### Informes reuniones scrum
+* ##### Informes reuniones scrum
 
 Los componentes del grupo hemos simulado dos reuniones en scrum (se han hecho más, pero documentadas solo éstas).
 
@@ -523,7 +523,7 @@ Los proyectos en los que es colaborador en la columna ACCIONES sólo debe aparece
 	    
     - ¿Qué voy a hacer?: Quedan dos últimos tickets de la FT-9 Dashboard. Mostrarán más información en la vista como el nº de tareas abiertas y cerradas, los proyectos con más comentarios o más colaboradores. También intentaré hacer para mañana que el dashboard sea la página de inicio, que es el ticket 9.4.
 
-* #### Retrospectiva y conclusiones del sprint
+* ##### Retrospectiva y conclusiones del sprint
 
 Echamos la vista atrás para analizar todo lo ocurrido en este sprint y enumeramos algunos puntos que han ido bien y otros que se podrían mejorar en siguientes sprints.
 * **Detalles que sí han funcionado**
