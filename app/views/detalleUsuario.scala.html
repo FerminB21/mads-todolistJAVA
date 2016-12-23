@@ -42,10 +42,11 @@
         </ul>
         <a class="btn btn-primary" href="@routes.UsuariosController.editaUsuario(usuario.id)">Editar</a>
 
-        @if(session.get("usuarioSesion") == null) {
+      @if(session().get("usuario").equals("admin")) {
+
         <a class="btn btn-primary" href="@routes.UsuariosController.listaUsuarios()">Volver</a></p>
 
-        }
+      }
 
     </div>
 </div>

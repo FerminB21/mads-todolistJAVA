@@ -20,28 +20,52 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /usuarios/nuevo             controllers.UsuariosController.formularioNuevoUsuario()
 GET     /usuarios                   controllers.UsuariosController.listaUsuarios()
 GET     /usuarios/:id               controllers.UsuariosController.detalleUsuario(id: Integer)
+GET     /usuarios/login/:login      controllers.UsuariosController.detalleUsuarioPorLogin(login: String)
 GET     /usuarios/:id/editar        controllers.UsuariosController.editaUsuario(id: Integer)
+GET     /usuarios/:id/dashboard     controllers.UsuariosController.dashboard(id: Integer)
 POST    /usuarios/nuevo             controllers.UsuariosController.grabaNuevoUsuario()
 POST    /usuarios/modifica          controllers.UsuariosController.grabaUsuarioModificado()
 DELETE  /usuarios/:id               controllers.UsuariosController.borraUsuario(id: Integer)
 
 #Rutas de tareas
+GET     /usuarios/:idUsuario/tareas/exportar            controllers.TareasController.exportarTareas(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/buscar              controllers.TareasController.busquedaTareas(idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/:idTarea/exportar   controllers.TareasController.exportarTarea(idTarea: Integer, idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.formularioNuevaTarea(idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas                     controllers.TareasController.listaTareas(idUsuario: Integer)
 POST    /usuarios/:idUsuario/tareas/nueva               controllers.TareasController.grabaNuevaTarea(idUsuario: Integer)
 GET     /usuarios/:idUsuario/tareas/:idTarea/editar     controllers.TareasController.formularioEditaTarea(idTarea: Integer, idUsuario: Integer)
 POST    /usuarios/:idUsuario/tareas/modifica            controllers.TareasController.grabaTareaModificada(idUsuario: Integer)
 DELETE  /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.borraTarea(idTarea: Integer, idUsuario: Integer)
+GET     /usuarios/:idUsuario/tareas/:idTarea            controllers.TareasController.detalleTarea(idTarea: Integer, idUsuario: Integer)
 
 #Rutas de proyectos
 GET     /usuarios/:idUsuario/proyectos                                 controllers.ProyectosController.listaProyectos(idUsuario: Integer)
 GET     /usuarios/:idUsuario/proyecto/nuevo                            controllers.ProyectosController.formularioNuevoProyecto(idUsuario: Integer)
 POST    /usuarios/:idUsuario/proyecto/nuevo                            controllers.ProyectosController.grabaNuevoProyecto(idUsuario: Integer)
 GET     /usuarios/:idUsuario/proyectos/:idProyecto/editar              controllers.ProyectosController.formularioEditaProyecto(idProyecto: Integer, idUsuario: Integer)
-POST    /usuarios/:idUsuario/proyectos/modifica                        controllers.ProyectosController.grabaProyectoModificado(idUsuario: Integer)
+#POST    /usuarios/:idUsuario/proyectos/modifica                        controllers.ProyectosController.grabaProyectoModificado(idUsuario: Integer)
+
+POST    /usuarios/:idUsuario/proyectos/modificaNombre                        controllers.ProyectosController.nombreProyecto(idUsuario: Integer)
+POST   /usuarios/:idColaborador/proyectos/modificaAsigTarea                        controllers.ProyectosController.ProyectoAsignarColaborador(idColaborador: Integer, idProyecto :Integer)
+POST    /usuarios/:idUsuario/proyectos/modificaAsigColaborador                        controllers.ProyectosController.ProyectoAsignarTarea(idUsuario: Integer, idTarea :Integer, idProyecto :Integer)
+
+
+
+
+
 DELETE  /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.borraProyecto(idProyecto: Integer, idUsuario: Integer)
 DELETE  /usuarios/:idUsuario/tarea/:idTarea/proyectos/:idProyecto      controllers.ProyectosController.deleteTareaDeProyecto(idUsuario: Integer, idTarea: Integer,idProyecto: Integer)
 GET     /usuarios/:idUsuario/proyectos/:idProyecto                     controllers.ProyectosController.detalleProyecto(idProyecto: Integer, idUsuario: Integer)
+
+#Rutas de comentarios
+GET     /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/nuevo                  controllers.ComentariosController.formularioNuevoComentario(idUsuario: Integer, idProyecto: Integer)
+POST    /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/nuevo                  controllers.ComentariosController.grabaNuevoComentario(idUsuario: Integer, idProyecto: Integer)
+GET     /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/:idComentario/editar   controllers.ComentariosController.formularioEditaComentario(idUsuario: Integer, idProyecto: Integer, idComentario: Integer)
+POST    /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/modifica               controllers.ComentariosController.grabaComentarioModificado(idUsuario: Integer, idProyecto: Integer)
+DELETE  /usuarios/:idUsuario/proyectos/:idProyecto/comentarios/:idComentario          controllers.ComentariosController.borraComentario(idUsuario: Integer, idProyecto: Integer, idComentario: Integer)
+
+DELETE  /colaborador/:idColaborador/proyectos/:idProyecto     controllers.ProyectosController.eliminarColaboradorProyecto(idColaborador: Integer, idProyecto: Integer)
 
 #Ruta acerca-de
 GET /acercade controllers.AcercaDeController.acercaDe()

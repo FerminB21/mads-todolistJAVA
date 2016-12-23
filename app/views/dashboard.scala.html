@@ -1,0 +1,183 @@
+@(usuario: Usuario, numeroTareasTotales: Integer, tareasAbiertas: List[Tarea], tareasAcabadas: List[Tarea], tareasUltimasFinalizadas: List[Tarea], proyectosConMasTareas: List[Proyecto], proyectosConMasComentarios: List[Proyecto], proyectosConMasColaboradores: List[Proyecto])
+
+@main("Dashboard del usuario") {
+
+<h1>Dashboard</h1>
+<!-- Datos tareas -->
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+
+        <!-- Datos estadísticos -->
+        <div class="panel panel-primary bordeCaja1">
+            <div class="panel-heading fondoCaja1 bordeCaja1">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-thumb-tack fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        @if(numeroTareasTotales==0){
+                        <span class="huge">Sin tareas </span><span class="hugeSub"></span>
+                        }
+                        @if(numeroTareasTotales>0){
+                        <span class="huge">@tareasAbiertas.size()  </span><span class="hugeSub">(@{BigDecimal(tareasAbiertas.size()*100/numeroTareasTotales.toDouble).setScale(1, BigDecimal.RoundingMode.HALF_UP)}%)</span>
+                        }
+                        <div>Tareas abiertas</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@routes.TareasController.listaTareas(usuario.id)">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver todas</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-primary bordeCaja2">
+            <div class="panel-heading fondoCaja2 bordeCaja2">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-trello fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        @if(numeroTareasTotales==0){
+                        <span class="huge">Sin tareas </span><span class="hugeSub"></span>
+                        }
+                        @if(numeroTareasTotales>0){
+                        <span class="huge">@tareasAcabadas.size() </span><span class="hugeSub">(@{BigDecimal(tareasAcabadas.size()*100/numeroTareasTotales.toDouble).setScale(1, BigDecimal.RoundingMode.HALF_UP)}%)</span>
+                        }
+                        <div>Tareas acabadas</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@routes.TareasController.listaTareas(usuario.id)">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver todas</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <!-- Datos estadísticos -->
+        <div class="panel panel-primary bordeCaja3">
+            <div class="panel-heading fondoCaja3 bordeCaja3">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                            @if(proyectosConMasComentarios.size() == 0) {
+                            <div class="huge">Sin comentarios</div>
+                            }
+                            @if(proyectosConMasComentarios.size() > 0){
+                            <div class="huge">@proyectosConMasComentarios.get(0).nombre</div>
+                            }
+
+                        <div>Proyecto con más comentarios</div>
+                    </div>
+                </div>
+            </div>
+
+            @if(proyectosConMasComentarios.size() == 0) {
+            <a href="#">
+            }
+            @if(proyectosConMasComentarios.size() > 0){
+            <a href="@routes.ProyectosController.detalleProyecto(proyectosConMasComentarios.get(0).id, usuario.id)">
+            }
+                <div class="panel-footer">
+                    <span class="pull-left">Ver detalles</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-primary bordeCaja4">
+            <div class="panel-heading fondoCaja4 bordeCaja4">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-child fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        @if(proyectosConMasColaboradores.size() == 0) {
+                        <div class="huge">Sin comentarios</div>
+                        }
+                        @if(proyectosConMasColaboradores.size() > 0){
+                        <div class="huge">@proyectosConMasColaboradores.get(0).nombre</div>
+                        }
+                        <div>Proyecto con más colaboradores</div>
+                    </div>
+                </div>
+            </div>
+            @if(proyectosConMasColaboradores.size() == 0) {
+            <a href="#">
+                }
+                @if(proyectosConMasColaboradores.size() > 0){
+                <a href="@routes.ProyectosController.detalleProyecto(proyectosConMasColaboradores.get(0).id, usuario.id)">
+                    }
+                <div class="panel-footer">
+                    <span class="pull-left">Ver detalles</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <!-- Panel de tareas (muestra tres) -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tareas últimas finalizadas (por estado)</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    @for(tarea <- tareasUltimasFinalizadas) {
+                    <a href="@routes.TareasController.detalleTarea(tarea.id, usuario.id)" class="list-group-item">
+                        <span class="badge">Estado: @tarea.tareaTieneEstado()</span><span class="badge">Fecha fin:  @tarea.tieneFechaFinalizacion()</span>
+                        <i class="fa fa-fw fa-thumb-tack"></i> @tarea.descripcion
+                    </a>
+                    }
+                </div>
+                <div class="text-left">
+                    <a href="@routes.TareasController.listaTareas(usuario.id)">Ver todas las tareas <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Panel de tareas -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <!-- Panel de proyectos (muestra tres) -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Proyectos con más tareas</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    @for(proyecto <- proyectosConMasTareas) {
+                        <a href="@routes.ProyectosController.detalleProyecto(proyecto.id, usuario.id)" class="list-group-item">
+                            <span class="badge">Núm. tareas: @proyecto.tareas.size()</span>
+                            <i class="fa fa-fw fa-th-list"></i> @proyecto.nombre
+                        </a>
+                    }
+                </div>
+                <div class="text-left">
+                    <a href="@routes.ProyectosController.listaProyectos(usuario.id)">Ver todos los proyectos <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Panel de proyectos -->
+    </div>
+</div>
+}

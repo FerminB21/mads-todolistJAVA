@@ -1,10 +1,10 @@
 package services;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import models.*;
 import play.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TareasService {
 
@@ -13,7 +13,7 @@ public class TareasService {
         if (usuario != null) {
             return usuario.tareas;
         } else {
-            throw new UsuariosException("Usuario no encontrado");
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 
@@ -30,7 +30,7 @@ public class TareasService {
             Logger.debug("Se crea tarea: " + tarea + " asociada al usuario " + usuarioId);
             return TareaDAO.create(tarea); //se le pasa ya con el usuario metido
         } else {
-            throw new UsuariosException("Usuario no encontrado");
+            throw new ServiceException("Usuario no encontrado");
         }
     }
 
@@ -46,7 +46,7 @@ public class TareasService {
         Usuario existente = UsuarioDAO.find(tarea.usuario.id);
         if (existente == null) {
             Logger.debug("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
-            throw new UsuariosException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
+            throw new ServiceException("Usuario asociado a la tarea a editar no existe: " + tarea.usuario.id);
         }
         TareaDAO.update(tarea);
         return tarea;
@@ -92,5 +92,46 @@ public class TareasService {
             Logger.debug("No existe, es un intento de burla");
             return false;
         }
+    }
+    //metodo añadido
+    public static Tarea findTareaPorUsuario(Integer idTarea, Integer idUsuario) {
+        Tarea tarea = TareaDAO.findTareaUsuario(idTarea, idUsuario);
+        Logger.debug("Se obtiene Tarea: " + idTarea);
+        if(tarea!=null){
+           return tarea;
+
+        }else{
+          throw new ServiceException("Los datos no son correctos");
+        }
+    }
+
+    //metodo añadido
+    public static List<Tarea> busquedaTareasUsuario(Integer idUsuario, String filtro, String sortBy, String order, Integer inicio, Integer tamanoPagina) {
+        Usuario usuario = UsuarioDAO.find(idUsuario);
+        if (usuario != null) {
+
+            List<Tarea> tareas = TareaDAO.busquedaTareasUsuario(idUsuario, filtro, sortBy, order, inicio, tamanoPagina);
+
+            return tareas;
+
+        } else {
+            throw new ServiceException("Usuario no encontrado");
+        }
+    }
+
+    public static List<Tarea> findTareasAbiertas(Integer idUsuario) {
+        List<Tarea> tareas = TareaDAO.findTareasAbiertas(idUsuario);
+        if(tareas == null){
+            return new ArrayList<Tarea>();
+        }
+        return tareas;
+    }
+
+    public static List<Tarea> findTareasAcabadas(Integer idUsuario) {
+        List<Tarea> tareas = TareaDAO.findTareasAcabadas(idUsuario);
+        if(tareas == null){
+            return new ArrayList<Tarea>();
+        }
+        return tareas;
     }
 }

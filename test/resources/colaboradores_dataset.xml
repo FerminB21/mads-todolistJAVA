@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <Usuario id="10" login="juan" nombre="Juan" apellidos="Gutierrez"
+             eMail="juan.gutierrez@gmail.com" fechaNacimiento="1993-12-10"/>
+    <Usuario id="20" login="anabel" nombre="Anabel" eMail="anabel.perez@gmail.com"/>
+    <Proyecto id="10" usuarioId="10" nombre="Preparar el trabajo del tema 1 de biología" />
+    <Proyecto id="20" usuarioId="10" nombre="Estudiar el parcial de matemáticas" />
+    <Proyecto id="30" usuarioId="10" nombre="Leer el libro de inglés" />
+    <Proyecto id="40" usuarioId="20" nombre="Salir a correr" />
+</dataset>

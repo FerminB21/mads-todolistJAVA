@@ -6,4 +6,8 @@ Se sube el código correspondiente a la aplicación desarrollada en Play Framewo
 
 - Enlace a la documentación técnica (directorio 'docs')':
     - Práct1: [aquí](https://github.com/manugm1/mads-todolist/blob/master/docs/acerca_caracteristicas_anteriores.md)
-    - Práct3 y posteriores: [aquí](https://github.com/manugm1/mads-todolist/blob/master/docs/docTecnica.md)
+    - Práct3: [aquí](https://github.com/manugm1/mads-todolist/blob/master/docs/docTecnica.md)
+
+- Enlace a la documentación de la práctica 4 (directorio 'docs')':
+    - Doc: [aquí](https://github.com/manugm1/mads-todolist/blob/master/docs/docSprint1.md)
+    - Presentación - Revisión: [aquí](https://github.com/manugm1/mads-todolist/blob/master/docs/docSprint1Presentacion.pptx)

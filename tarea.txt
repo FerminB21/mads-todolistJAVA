@@ -1,0 +1,1 @@
+Tarea id: 20 - descripción: bbbb - estimación:  - estado:  - fechFinalizacion: null -proyecto: Sin proyecto - color: null

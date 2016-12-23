@@ -1,23 +1,22 @@
+import models.Proyecto;
+import models.ProyectoDAO;
+import models.Usuario;
+import models.UsuarioDAO;
+import org.dbunit.JndiDatabaseTester;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
+import org.junit.*;
 import play.db.Database;
 import play.db.Databases;
-import play.db.jpa.*;
-import org.junit.*;
-import org.dbunit.*;
-import org.dbunit.dataset.*;
-import org.dbunit.dataset.xml.*;
-import org.dbunit.operation.*;
+import play.db.jpa.JPA;
+import play.db.jpa.JPAApi;
+import services.ProyectosService;
+import services.ServiceException;
 
 import java.io.FileInputStream;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import models.*;
-import services.*;
 
 public class CrearProyectoTest {
 
@@ -116,7 +115,7 @@ public class CrearProyectoTest {
                 Proyecto proyecto = new Proyecto("Resolver los ejercicios de programación");
                 ProyectosService.crearProyectoUsuario(proyecto, 20);
                 fail("Debería haberse lanzado la excepción. No se puede crear proyecto con usuario que no existe");
-            } catch (UsuariosException ex) {
+            } catch (ServiceException ex) {
             }
         });
     }

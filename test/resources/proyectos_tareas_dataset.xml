@@ -8,8 +8,13 @@
     <Proyecto id="3" usuarioId="1" nombre="Leer el libro de inglés" />
     <Proyecto id="4" usuarioId="2" nombre="Salir a correr" />
 
-    <Tarea id="1" usuarioId="1" descripcion="Preparar el trabajo del tema 1 de biología" />
-    <Tarea id="2" usuarioId="1" descripcion="Estudiar el parcial de matemáticas" />
-    <Tarea id="3" usuarioId="1" descripcion="Leer el libro de inglés" />
-    <Tarea id="4" usuarioId="2" descripcion="Salir a correr" />
+    <Tarea id="1" usuarioId="1" descripcion="Preparar el trabajo del tema 1 de biología" proyectoId="1" estado="3"/>
+    <Tarea id="2" usuarioId="1" descripcion="Estudiar el parcial de matemáticas" proyectoId="2" estado="2"/>
+    <Tarea id="3" usuarioId="1" descripcion="Leer el libro de inglés" proyectoId="2" estado="3"/>
+    <Tarea id="4" usuarioId="2" descripcion="Salir a correr" proyectoId="4" />
+
+    <Comentario id="1" usuarioId="1" proyectoId="1" comentario="Trabajo preparado" />
+    <Comentario id="2" usuarioId="1" proyectoId="1" comentario="Es muy fácil..." />
+    <Comentario id="3" usuarioId="1" proyectoId="1" comentario="Me gusta el trabajo..." />
+    <Comentario id="4" usuarioId="1" proyectoId="2" comentario="Eres un crack..." />
 </dataset>

@@ -1,14 +1,10 @@
 package services;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import models.Usuario;
+import models.UsuarioDAO;
+import play.Logger;
 
 import java.util.List;
-import java.util.Date;
-import java.util.ArrayList;
-
-import models.*;
 
 public class UsuariosService {
 
@@ -33,7 +29,7 @@ public class UsuariosService {
     public static Usuario modificaUsuario(Usuario usuario) {
         Usuario existente = UsuarioDAO.findByLogin(usuario.login);
         if (existente != null && existente.id != usuario.id)
-            throw new UsuariosException("Login ya existente: " + usuario.login);
+            throw new ServiceException("Login ya existente: " + usuario.login);
         UsuarioDAO.update(usuario);
         return usuario;
     }
@@ -50,7 +46,20 @@ public class UsuariosService {
         Usuario usuario = UsuarioDAO.find(id);
         Logger.debug("Se obtiene usuario: " + id);
         return usuario;
+
     }
+
+
+
+    /*public static Usuario findUsuarioPorLogin(String login) {
+        Usuario usuario = UsuarioDAO.findByLogin(login);
+        Logger.debug("Se obtiene usuario: " + login);
+        if(usuario!=null)
+          return usuario;
+
+          throw new UsuariosException("Usuario no esta en la base de datos");
+    }*/
+
 
     /**
      * Mejora:

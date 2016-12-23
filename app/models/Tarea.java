@@ -1,10 +1,11 @@
 package models;
 
-import java.util.Date;
-import javax.persistence.*;
-
 import play.data.validation.Constraints;
-import play.data.format.*;
+import java.util.*;
+import java.text.*;
+import javax.persistence.*;
+import java.util.Date;
+import play.data.format.Formats;
 
 @Entity
 public class Tarea {
@@ -17,9 +18,16 @@ public class Tarea {
     @JoinColumn(name = "usuarioId")
     public Usuario usuario;
     public Integer estimacion;
+    public Integer estado;
+    ////añadir fecha de finalizacion
+    @Formats.DateTime(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
+    public Date fechaFinTarea;
+    ///
     @ManyToOne
     @JoinColumn(name = "proyectoId")
     public Proyecto proyecto;
+    public String color;
 
     // Un constructor vacío necesario para JPA
     public Tarea() {
@@ -34,6 +42,9 @@ public class Tarea {
         Tarea nueva = new Tarea(this.descripcion);
         nueva.id = this.id;
         nueva.estimacion = this.estimacion;
+        nueva.estado=this.estado;
+        nueva.color = this.color;
+        nueva.usuario=this.usuario;
         return nueva;
     }
 
@@ -61,8 +72,40 @@ public class Tarea {
         return true;
     }
 
+    /**
+     * Comprueba si la tarea está asignada a un proyecto.
+     * Si no está devuelve "Sin proyecto"
+     * Si está, devuelve: Id - NombreProyecto
+     * @return String
+     */
+    public String esAsignadaProyecto(){
+        String asignadaAProyecto="Sin proyecto";
+        if(proyecto != null){
+            asignadaAProyecto = proyecto.id+"-"+proyecto.nombre;
+        }
+        return asignadaAProyecto;
+    }
+
+    public String tieneFechaFinalizacion(){
+        String tieneFecha="Sin fecha";
+        if(fechaFinTarea != null){
+            String myDate=new SimpleDateFormat("dd-MM-yyyy").format(fechaFinTarea);
+            tieneFecha = myDate.toString();
+            //return fechaFinTarea;
+        }
+        return tieneFecha;
+    }
+
+    public String tareaTieneEstado(){
+        String tareaEstado="Sin Empezar";
+        if( estado != null && estado != 0){
+            return  EstadoTareaEnum.getById(estado).toString();
+        }
+        return tareaEstado;
+    }
+
     public String toString() {
-        return String.format("Tarea id: %s descripcion: %s estimacion: %s", id, descripcion, estimacion);
+        return String.format("Tarea id: %s - descripción: %s - estimación: %s - estado: %s - fechFinalizacion: %s -proyecto: %s - color: %s", id, descripcion, EstimacionTareaEnum.getById(estimacion),EstadoTareaEnum.getById(estado),fechaFinTarea, esAsignadaProyecto(), color);
     }
 
 }

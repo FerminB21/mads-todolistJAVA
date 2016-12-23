@@ -1,0 +1,23 @@
+@(comentarioForm: Form[Comentario], idUsuario: Integer, idProyecto: Integer, mensaje: String)
+@main("Nuevo comentario") {
+    @if(mensaje != "") {
+        <div class="alert alert-danger">
+            @mensaje
+        </div>
+    }
+    <h1>Crear comentario</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Nuevo comentario</h3>
+        </div>
+        <div class="panel-body">
+            @helper.form( action = routes.ComentariosController.grabaNuevoComentario( idUsuario, idProyecto ) ) {
+                @helper.textarea( comentarioForm("comentario"), args = 'rows -> 3, 'cols -> 50 )
+                <p>
+                    <input type="submit" class="btn btn-success" value="Guardar">
+                    <a class="btn btn-danger" href="@routes.ProyectosController.detalleProyecto( idProyecto, idUsuario )">Cancelar</a>
+                </p>
+            }
+        </div>
+    </div>
+}

@@ -94,3 +94,39 @@
 	background-color: #1CA347;
 	border-color: #1CA347;
 }
+
+.fondoCaja1{
+    background-color: #CD5860 !important;
+}
+
+.bordeCaja1{
+    border-color: #CD5860 !important;
+}
+
+.fondoCaja2{
+    background-color: #85CD76 !important;
+}
+
+.bordeCaja2{
+    border-color: #85CD76 !important;
+}
+
+.fondoCaja3{
+    background-color: #CD8D4D !important;
+}
+
+.bordeCaja3{
+    border-color: #CD8D4D !important;
+}
+
+.fondoCaja4{
+    background-color: #4DC0CD !important;
+}
+
+.bordeCaja4{
+    border-color: #4DC0CD !important;
+}
+
+.badge {
+    background-color: #ae2121;
+}

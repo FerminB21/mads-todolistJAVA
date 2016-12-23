@@ -1,12 +1,12 @@
 package models;
 
-import play.*;
-import play.mvc.*;
-import play.db.jpa.*;
+import play.Logger;
+import play.db.jpa.JPA;
 
-import javax.persistence.*;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Date;
 
 public class UsuarioDAO {
     public static Usuario create(Usuario usuario) {
@@ -61,13 +61,31 @@ public class UsuarioDAO {
                 "select u from Usuario u ORDER BY id", Usuario.class);
         return query.getResultList();
     }
-
+    /**
+     *
+     * se busca un usuario por login
+     *
+     * @param login
+     * @return Usuario
+     */
     public static Usuario findByLogin(String login) {
         TypedQuery<Usuario> query = JPA.em().createQuery(
                 "select u from Usuario u where u.login = :login", Usuario.class);
         try {
             Usuario usuario = query.setParameter("login", login).getSingleResult();
             return usuario;
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    public static List<Usuario> findUsersToColaborate(int idUsuario) {
+        TypedQuery<Usuario> query = JPA.em().createQuery(
+                "select u from Usuario u where u.id != :idUsuario", Usuario.class);
+        try {
+               query.setParameter("idUsuario", idUsuario);
+               List<Usuario> usuarios=query.getResultList();
+            return usuarios;
         } catch (NoResultException ex) {
             return null;
         }

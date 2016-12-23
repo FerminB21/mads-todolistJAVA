@@ -1,0 +1,40 @@
+@(tarea: Tarea)
+@main("Detalle de Tarea") {
+
+<h1>Detalles de la tarea @tarea.id - <a class="btn exportar"
+                                        href="@routes.TareasController.exportarTarea(tarea.id, tarea.usuario.id)" title="Exportar tarea a un fichero .txt">Exportar tarea</a></h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Detalle</h3>
+    </div>
+    <div class="panel-body">
+        <ul>
+            <li><span style="font-weight: bold;">Descripción: </span>
+                @tarea.descripcion
+            </li>
+            <li><span style="font-weight: bold;">Estimación: </span>
+                @EstimacionTareaEnum.getById(tarea.estimacion)
+            </li>
+
+            <li><span style="font-weight: bold;">Estado: </span>
+              @tarea.tareaTieneEstado()
+            </li>
+
+            <li><span style="font-weight: bold;">Fecha fin de tarea: </span>
+            <span  style="font-weight: bold; font-size: 150%;">  @tarea.tieneFechaFinalizacion()</span>
+
+            </li>
+            
+            <li><span style="font-weight: bold;">Asignada a proyecto: </span>
+                @tarea.esAsignadaProyecto()
+            </li>
+            <li><span style="font-weight: bold;">Color: </span>
+                <label style="color: #@tarea.color">@tarea.color</label>
+            </li>
+        </ul>
+        <a class="btn btn-primary"
+           href="@routes.TareasController.formularioEditaTarea(tarea.id, tarea.usuario.id)">Editar</a>
+        <a class="btn btn-primary" href="@routes.TareasController.listaTareas(tarea.usuario.id)">Volver</a></p>
+    </div>
+</div>
+}

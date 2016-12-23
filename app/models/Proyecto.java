@@ -1,11 +1,10 @@
 package models;
 
-import javax.persistence.*;
-
 import play.data.validation.Constraints;
 
-import java.util.List;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Proyecto {
@@ -14,25 +13,46 @@ public class Proyecto {
     public Integer id;
     @Constraints.Required
     public String nombre;
+    public String descripcion;
     @ManyToOne
     @JoinColumn(name = "usuarioId")
     public Usuario usuario;
     @OneToMany(mappedBy = "proyecto")
     public List<Tarea> tareas = new ArrayList<Tarea>();
+    @OneToMany(mappedBy="proyecto")
+    public List<Comentario> comentarios = new ArrayList<Comentario>();
+    @ManyToMany(mappedBy="colaboraciones")
+    public List<Usuario> colaboradores = new ArrayList<Usuario>();
 
     // Un constructor vacío necesario para JPA
     public Proyecto() {
     }
 
     // Un constructor a partir del nombre
-    public Proyecto(String nombre) {
+    public Proyecto( String nombre ) {
         this.nombre = nombre;
     }
 
+    public Boolean propietario( int idUsuario ) {
+        return usuario.id == idUsuario;
+    }
+
+    public Boolean colaborador( int idUsuario ) {
+        for( Usuario colaborador: colaboradores ) {
+            if( colaborador.id == idUsuario ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Proyecto copy() {
-        Proyecto nuevo = new Proyecto(this.nombre);
+        Proyecto nuevo = new Proyecto( this.nombre );
         nuevo.id = this.id;
-        nuevo.nombre = this.nombre;
+        nuevo.usuario = this.usuario;
+        nuevo.tareas = this.tareas;
+        nuevo.comentarios = this.comentarios;
+        nuevo.colaboradores = this.colaboradores;
         return nuevo;
     }
 
